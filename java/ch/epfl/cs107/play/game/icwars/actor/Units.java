@@ -37,22 +37,29 @@ abstract public class Units extends ICWarsActor{
 
     public Units(Area area, DiscreteCoordinates position, Faction faction, int repair, int radius, int hp, int maxHP) {
         super(area, position, faction);
+        this.maxHP = maxHP;
         this.radius = radius;
         this.setHp(hp);
         this.repair = repair;
-        this.maxHP = maxHP;
+
     }
 
     /**
-     * @param hp the hp the unt has
+     * @param HP the hp the unt has
      * if the HP are given negative, they are set to 0
      * if they are given above maxHP, they are set to maxHP
      * else they are set to the given @param hp
      */
-    public void setHp(int hp) {
-        if(hp<0) this.hp = 0;
-        else if(hp>maxHP) this.hp=maxHP;
-        else this.hp =hp;
+    public void setHp(int HP) {
+        if(HP<0) {
+            this.hp = 0;
+        }
+        else if(HP>maxHP) {
+            this.hp=maxHP;
+        }
+        else {
+            this.hp =HP;
+        }
     }
 
     @Override

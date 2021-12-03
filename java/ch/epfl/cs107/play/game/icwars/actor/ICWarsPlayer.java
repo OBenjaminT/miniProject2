@@ -28,8 +28,7 @@ abstract class ICWarsPlayer extends ICWarsActor{
      */
     private void RegisterUnitsAsActors (){
         for(Units unit : units){
-            //this.getOwnerArea().registerActor(unit);
-            unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates(0,5));
+            unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates( (int)unit.getPosition().x, (int)unit.getPosition().y));
         }
     }
 
@@ -46,19 +45,18 @@ abstract class ICWarsPlayer extends ICWarsActor{
             Units unit = units.get(i);
             if(!unit.isAlive()){
                 units.remove(unit);
-                this.getOwnerArea().unregisterActor(unit);
-                //unit.leaveArea();
+                unit.leaveArea();
             }
         }
     }
 
-    @Override
+/*    @Override
     public void leaveArea() {
         for(Units unit: units) {
-            this.getOwnerArea().unregisterActor(unit);
+            unit.leaveArea();
         }
         super.leaveArea();
-    }
+    }*/
 
     public void centerCamera() {
         getOwnerArea().setViewCandidate(this);
