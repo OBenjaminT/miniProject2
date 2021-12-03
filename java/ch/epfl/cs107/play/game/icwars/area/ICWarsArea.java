@@ -1,13 +1,17 @@
 package ch.epfl.cs107.play.game.icwars.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.icwars.actor.Units;
 import ch.epfl.cs107.play.game.tutosSolution.Tuto2;
 import ch.epfl.cs107.play.game.tutosSolution.Tuto2Behavior;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayList;
+
 public abstract class ICWarsArea extends Area {
+    private ArrayList<Units> units = new ArrayList<>();
     private final float cameraScaleFactor=10.f;
     private Tuto2Behavior behavior;
 
@@ -18,7 +22,6 @@ public abstract class ICWarsArea extends Area {
      */
     protected abstract void createArea();
 
-    /// EnigmeArea extends Area
 
     @Override
     public final float getCameraScaleFactor() {
