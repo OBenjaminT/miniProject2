@@ -33,8 +33,8 @@ public class Play {
 
         // Create a demo game and initialize corresponding texts
 		//XMLTexts.initialize(fileSystem, "strings/icmon_fr.xml"); // example of dialog strings
+		
 		final Game game = new ICWars();
-		//final Game game = new Tuto2();
 
 		// Use Swing display
 

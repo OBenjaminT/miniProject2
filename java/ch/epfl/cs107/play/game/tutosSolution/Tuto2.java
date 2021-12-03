@@ -2,6 +2,10 @@ package ch.epfl.cs107.play.game.tutosSolution;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
+import ch.epfl.cs107.play.game.icwars.actor.Soldier;
+import ch.epfl.cs107.play.game.icwars.actor.Tank;
 import ch.epfl.cs107.play.game.tutosSolution.actor.GhostPlayer;
 import ch.epfl.cs107.play.game.tutosSolution.area.Tuto2Area;
 import ch.epfl.cs107.play.game.tutosSolution.area.tuto2.Ferme;
@@ -16,7 +20,10 @@ public class Tuto2 extends AreaGame {
 
 	private GhostPlayer player;
 	private final String[] areas = {"zelda/Ferme", "zelda/Village"};
-	
+	private RealPlayer playerBis;
+	private Tank tank;
+	private Soldier soldier;
+
 	private int areaIndex;
 	/**
 	 * Add all the areas
@@ -48,6 +55,10 @@ public class Tuto2 extends AreaGame {
 		  player = new GhostPlayer(area, Orientation.DOWN, coords,"ghost.1");
 		  player.enterArea(area, coords);
 	      player.centerCamera();
+		  tank = new Tank(area, coords, ICWarsActor.Faction.ALLY, 5, 10);
+		  soldier = new Soldier(area, coords, ICWarsActor.Faction.ALLY, 5, 10);
+		  playerBis = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
+		  playerBis.enterArea(area, coords);
 		 
 	 }
 	@Override
