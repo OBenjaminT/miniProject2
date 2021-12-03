@@ -41,7 +41,6 @@ abstract public class ICWarsActor extends MovableAreaEntity {
         area.registerActor(this);
         setOwnerArea(area);
         setCurrentPosition(position.toVector());
-        resetMotion();
     }
     public void leaveArea(){
         getOwnerArea().unregisterActor(this);

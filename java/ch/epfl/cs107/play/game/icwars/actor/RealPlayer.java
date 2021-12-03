@@ -16,8 +16,7 @@ public class RealPlayer extends ICWarsPlayer{
 
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction, units);
-        this.sprite = new Sprite(this.getName() , 1.5f, 1.5f, this , null , new
-                Vector(-0.25f, -0.25f));
+        this.sprite = new Sprite(this.getName() , 1.5f, 1.5f, this , null , new Vector(-0.25f, -0.25f));
     }
 
     /**

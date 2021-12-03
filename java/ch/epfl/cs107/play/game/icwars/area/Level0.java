@@ -13,11 +13,21 @@ public class Level0 extends ICWarsArea{
     protected void createArea() {
         // Base
         registerActor(new Background(this));
-        registerActor(new Foreground(this));
     }
 
-/*    @Override
-    public DiscreteCoordinates getPlayerSpawnPosition() {
-        return null;
-    }*/
+    @Override
+    public DiscreteCoordinates getRealPlayerSpawnPosition() {
+        return new DiscreteCoordinates(0,0);
+    }
+
+    @Override
+    public DiscreteCoordinates getTankSpawnPosition() {
+        return new DiscreteCoordinates(2,5);
+    }
+
+    @Override
+    public DiscreteCoordinates getSoldierSpawnPosition() {
+        return new DiscreteCoordinates(3,5);
+    }
+
 }

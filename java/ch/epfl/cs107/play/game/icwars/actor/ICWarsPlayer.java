@@ -6,8 +6,8 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
-
 import java.util.ArrayList;
+
 
 
 abstract class ICWarsPlayer extends ICWarsActor{
@@ -28,7 +28,8 @@ abstract class ICWarsPlayer extends ICWarsActor{
      */
     private void RegisterUnitsAsActors (){
         for(Units unit : units){
-            this.getOwnerArea().registerActor(unit);
+            //this.getOwnerArea().registerActor(unit);
+            unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates(0,5));
         }
     }
 
@@ -46,6 +47,7 @@ abstract class ICWarsPlayer extends ICWarsActor{
             if(!unit.isAlive()){
                 units.remove(unit);
                 this.getOwnerArea().unregisterActor(unit);
+                //unit.leaveArea();
             }
         }
     }

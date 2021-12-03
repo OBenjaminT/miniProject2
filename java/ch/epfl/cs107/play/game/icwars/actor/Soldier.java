@@ -17,11 +17,10 @@ public class Soldier extends Units{
      * @param faction  faction to which the units belong (eiter ALLY or ENNEMY
      * @param repair   the amount that the unit can increase its HP
      * @param hp       the number of HP a unit has
-     * @param name     the name of the unit
      *the sprite of the soldier is also initiated
      */
 
-    public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp, String name) {
+    public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
         super(area, position, faction, repair, SoldierRadius, hp, SoldierMaxHP);
         this.sprite = new Sprite(this.getName() , 1.5f, 1.5f, this , null , new
                 Vector(-0.25f, -0.25f));

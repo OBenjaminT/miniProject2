@@ -11,9 +11,9 @@ import ch.epfl.cs107.play.window.Window;
 import java.util.ArrayList;
 
 public abstract class ICWarsArea extends Area {
-    private ArrayList<Units> units = new ArrayList<>();
+    //private ArrayList<Units> units = new ArrayList<>();
     private final float cameraScaleFactor=10.f;
-    private Tuto2Behavior behavior;
+    private ICWarsBehavior behavior;
 
     /**
      * Create the area by adding it all actors
@@ -21,6 +21,13 @@ public abstract class ICWarsArea extends Area {
      * Note it set the Behavior as needed !
      */
     protected abstract void createArea();
+
+    /**return player spawn position in this specific area*/
+    abstract public DiscreteCoordinates getRealPlayerSpawnPosition();
+    /**return tank spawn position in this specific area*/
+    abstract public DiscreteCoordinates getTankSpawnPosition();
+    /**return soldier spawn position in this specific area*/
+    abstract public DiscreteCoordinates getSoldierSpawnPosition();
 
 
     @Override
@@ -36,7 +43,7 @@ public abstract class ICWarsArea extends Area {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
-            behavior = new Tuto2Behavior(window, getTitle());
+            behavior = new ICWarsBehavior(window, getTitle());
             setBehavior(behavior);
             createArea();
             return true;
