@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.math;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 
@@ -8,7 +9,8 @@ import java.io.Serializable;
  * A RegionOfInterest is a rectangle defined by its top left corner and either dimension (width and height) or bottom right corner
  */
 public final class RegionOfInterest implements Serializable{
-	private static final long serialVersionUID = 1;
+	@Serial
+    private static final long serialVersionUID = 1;
 
     /// Top left corner coordinates, width and height of the RoI
     public int x, y, w, h;
@@ -69,10 +71,7 @@ public final class RegionOfInterest implements Serializable{
 
     @Override
     public boolean equals(Object object) {
-        if (object == null || !(object instanceof RegionOfInterest))
-            return false;
-        RegionOfInterest other = (RegionOfInterest) object;
-        return x == other.x && y == other.y && h==other.h && w == other.w;
+        return (object instanceof RegionOfInterest other) && (x == other.x) && (y == other.y) && (h == other.h) && (w == other.w);
     }
 
     @Override

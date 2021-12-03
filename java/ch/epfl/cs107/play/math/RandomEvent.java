@@ -7,11 +7,11 @@ package ch.epfl.cs107.play.math;
 public final class RandomEvent {
 
     // Probability of success of the Bernoulli experiment
-    private float p;
+    private final float p;
     // Indicate if the experiment already happened at least once
     private boolean happened;
     // Indicate if the experiment can happen only once (i.e always fails after first success)
-    private boolean onlyOnce;
+    private final boolean onlyOnce;
 
 
     /**

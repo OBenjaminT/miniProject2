@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.math;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -7,7 +8,8 @@ import java.io.Serializable;
  */
 public final class Vector implements Serializable {
 
-	private static final long serialVersionUID = 1;
+	@Serial
+    private static final long serialVersionUID = 1;
     /** Small value for double precision in vector comparison */
     public static final double EPSILON = 10E-6;
 
@@ -20,7 +22,7 @@ public final class Vector implements Serializable {
 
     public final float x;
     public final float y;
-    
+
     /**
      * Creates a new vector.
      * @param x (float): abscissa
@@ -30,7 +32,7 @@ public final class Vector implements Serializable {
         this.x = x;
         this.y = y;
     }
-    
+
     /** @return (float): abscissa */
     public float getX() {
         return x;
@@ -40,22 +42,22 @@ public final class Vector implements Serializable {
     public float getY() {
         return y;
     }
-    
+
     /** @return (float): euclidian length */
     public float getLength() {
         return (float)Math.sqrt(x * x + y * y);
     }
-    
+
     /** @return (float): angle in standard trigonometrical system, in radians */
     public float getAngle() {
         return (float)Math.atan2(y, x);
     }
-    
+
     /** @return (Vector): negated vector */
     public Vector opposite() {
         return new Vector(-x, -y);
     }
-    
+
     /**
      * @param other (Vector): right-hand operand, not null
      * @return (Vector): sum, not null
@@ -63,7 +65,7 @@ public final class Vector implements Serializable {
     public Vector add(Vector other) {
         return new Vector(x + other.x, y + other.y);
     }
-    
+
     /**
      * @param x (float): right-hand abcissa
      * @param y (float): right-hand ordinate
@@ -72,7 +74,7 @@ public final class Vector implements Serializable {
     public Vector add(float x, float y) {
         return new Vector(this.x + x, this.y + y);
     }
-    
+
     /**
      * @param other (Vector): right-hand operand, not null
      * @return (Vector): difference, not null
@@ -80,7 +82,7 @@ public final class Vector implements Serializable {
     public Vector sub(Vector other) {
         return new Vector(x - other.x, y - other.y);
     }
-    
+
     /**
      * @param x (float): right-hand abcissa
      * @param y (float): right-hand ordinate
@@ -106,7 +108,7 @@ public final class Vector implements Serializable {
     public Vector mul(float x, float y) {
         return new Vector(this.x * x, this.y * y);
     }
-    
+
     /**
      * @param s (float): right-hand operand
      * @return (Vector): scaled vector, not null
@@ -114,7 +116,7 @@ public final class Vector implements Serializable {
     public Vector mul(float s) {
         return new Vector(this.x * s, this.y * s);
     }
-    
+
     /**
      * @param other (Vector): right-hand operand, not null
      * @return (Vector): component-wise division, not null
@@ -131,7 +133,7 @@ public final class Vector implements Serializable {
     public Vector div(float x, float y) {
         return new Vector(this.x / x, this.y / y);
     }
-    
+
     /**
      * @param s (float): right-hand operand
      * @return  (Vector):scaled vector, not null
@@ -139,7 +141,7 @@ public final class Vector implements Serializable {
     public Vector div(float s) {
         return new Vector(this.x / s, this.y / s);
     }
-    
+
     /**
      * @param other (Vector): right-hand operand, not null
      * @return (Vector): dot product
@@ -147,7 +149,7 @@ public final class Vector implements Serializable {
     public float dot(Vector other) {
         return x * other.x + y * other.y;
     }
-    
+
     /**
      * @param other (Vector): right-hand operand, not null
      * @return (Vector): component-wise minimum, not null
@@ -155,12 +157,12 @@ public final class Vector implements Serializable {
     public Vector min(Vector other) {
         return new Vector(Math.min(x, other.x), Math.min(y, other.y));
     }
-    
+
     /** @return (float): smallest component */
     public float min() {
         return Math.min(x, y);
     }
-    
+
     /**
      * @param other (Vector): right-hand operand, not null
      * @return (Vector): component-wise maximum, not null
@@ -168,7 +170,7 @@ public final class Vector implements Serializable {
     public Vector max(Vector other) {
         return new Vector(Math.max(x, other.x), Math.max(y, other.y));
     }
-    
+
     /** @return (float): largest component */
     public float max() {
         return Math.max(x, y);
@@ -184,7 +186,7 @@ public final class Vector implements Serializable {
             return div(length);
         return Vector.X;
     }
-    
+
     /**
      * Resizes vector to specified length, or (<code>length</code>, 0) if zero.
      * @param length (float): new length
@@ -193,7 +195,7 @@ public final class Vector implements Serializable {
     public Vector resized(float length) {
         return normalized().mul(length);
     }
-    
+
     /**
      * Computes mirrored vector, with respect to specified normal.
      * @param normal (Vector): vector perpendicular to the symmetry plane, not null
@@ -203,7 +205,7 @@ public final class Vector implements Serializable {
         normal = normal.normalized();
         return sub(normal.mul(2.0f * dot(normal)));
     }
-	
+
     /**
      * Computes rotated vector, in a counter-clockwise manner.
      * @param angle (double): rotation, in radians
@@ -214,12 +216,12 @@ public final class Vector implements Serializable {
         float s = (float)Math.sin(angle);
         return new Vector(x * c - y * s, x * s + y * c);
     }
-    
+
     /** @return (Vector): vector rotated by -90°, not null */
     public Vector clockwise() {
         return new Vector(-y, x);
     }
-    
+
     /** @return (Vector): vector rotated by 90°, not null */
     public Vector counterClockwise() {
         return new Vector(y, -x);
@@ -251,15 +253,12 @@ public final class Vector implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (object == null || !(object instanceof Vector))
-            return false;
-        Vector other = (Vector)object;
-        return Math.abs((x-other.x) + (y-other.y)) < EPSILON;
+        return (object instanceof Vector other) && (Math.abs((x - other.x) + (y - other.y)) < EPSILON);
     }
 
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";
     }
-    
+
 }

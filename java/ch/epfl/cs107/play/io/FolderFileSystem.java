@@ -12,8 +12,8 @@ import java.io.OutputStream;
  */
 public class FolderFileSystem implements FileSystem {
 
-    private FileSystem fallback;
-    private File folder;
+    private final FileSystem fallback;
+    private final File folder;
 
     /**
      * Creates a new file system using specified folder.

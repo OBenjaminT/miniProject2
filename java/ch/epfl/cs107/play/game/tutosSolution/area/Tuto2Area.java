@@ -8,8 +8,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public abstract class Tuto2Area extends Area {
-	
-	private Tuto2Behavior behavior;
 
     /**
      * Create the area by adding it all actors
@@ -33,7 +31,7 @@ public abstract class Tuto2Area extends Area {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
-        	behavior = new Tuto2Behavior(window, getTitle());
+            Tuto2Behavior behavior = new Tuto2Behavior(window, getTitle());
             setBehavior(behavior);
             createArea();
             return true;

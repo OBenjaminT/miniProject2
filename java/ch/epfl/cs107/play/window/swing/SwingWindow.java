@@ -24,13 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
@@ -325,7 +319,7 @@ public final class SwingWindow extends Node implements Window {
 	}
 
 	@Override
-	public void dispose() {
+	public void close() {
 		playSound(null, false,0.0f, false, false, true);
 		frame.dispose();
 	}
@@ -334,21 +328,13 @@ public final class SwingWindow extends Node implements Window {
 	public SwingImage getImage(String name, RegionOfInterest roi, boolean removeBackground) {
 		SwingImage image = images.get(name+roi);
 		if (image == null) {
-			InputStream input = null;
-			try {
-				input = fileSystem.read(name);
+			try (InputStream input = fileSystem.read(name)) {
 				image = new SwingImage(input, roi, removeBackground);
 			} catch (IOException e) {
 				// Empty on purpose, will return null as an error
-				System.out.println("File :"+ name +" not found");
-			} finally {
-				try {
-					if (input != null)
-						input.close();
-				} catch (IOException e) {
-					// Empty on purpose
-				}
+				System.out.println("File :" + name + " not found");
 			}
+			// Empty on purpose
 			images.put(name+roi, image);
 			// TODO maybe need to free memory at some point?
 		}
@@ -390,9 +376,10 @@ public final class SwingWindow extends Node implements Window {
 		try {
 			ClassLoader loader = SwingWindow.class.getClassLoader();
 			URL url = loader.getResource(directoryName);
+			assert url != null;
 			String path = new URI(url.toString()).getPath();
 			File directory = new File(path);
-			for(File fontFile : directory.listFiles()) {
+			for(File fontFile : Objects.requireNonNull(directory.listFiles())) {
 				if(fontFile.isDirectory())
 					registerFonts(fontFile.getName());
 				else {
@@ -422,21 +409,13 @@ public final class SwingWindow extends Node implements Window {
 
 		SwingSound sound = sounds.get(name);
 		if (sound == null) {
-			InputStream input = null;
-			try {
-				input = fileSystem.read(name);
+			try (InputStream input = fileSystem.read(name)) {
 				sound = new SwingSound(input);
 			} catch (IOException | UnsupportedAudioFileException e) {
 				// Empty on purpose, will return null as an error
-				System.out.println("File :"+ name +" not found or not readable");
-			} finally {
-				try {
-					if (input != null)
-						input.close();
-				} catch (IOException e) {
-					// Empty on purpose
-				}
+				System.out.println("File :" + name + " not found or not readable");
 			}
+			// Empty on purpose
 			sounds.put(name, sound);
 		}
 		return sound;
@@ -490,8 +469,7 @@ public final class SwingWindow extends Node implements Window {
 		final Vector pointInViewPixelCoord = new Vector(x, y);
 		if(canvas.isShowing()) {
 			final Point canvasLocationInScreen = canvas.getLocationOnScreen();
-			final Vector pointInScreen = pointInViewPixelCoord.add(canvasLocationInScreen.x, canvasLocationInScreen.y);
-			return pointInScreen;
+			return pointInViewPixelCoord.add(canvasLocationInScreen.x, canvasLocationInScreen.y);
 		}
 		return null;
 	}

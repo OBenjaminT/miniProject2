@@ -4,11 +4,11 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 
-public interface Playable extends Updatable{
+public interface Playable extends Updatable {
 
     /**
      * Initialises game state : display and controls
-     * Note: Need to be Override
+     * Note: Need to be Overridden
      * @param window (Window): display context. Not null
      * @param fileSystem (FileSystem): given file system. Not null
      * @return (boolean): whether the game was successfully started

@@ -2,7 +2,6 @@ package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
-import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -50,9 +49,7 @@ abstract public class Units extends ICWarsActor{
      * else they are set to the given @param hp
      */
     public void setHp(int hp) {
-        if(hp<0) this.hp = 0;
-        else if(hp>maxHP) this.hp=maxHP;
-        else this.hp =hp;
+        this.hp = hp < 0 ? 0 : Math.min(hp, maxHP);
     }
 
     @Override
@@ -74,10 +71,11 @@ abstract public class Units extends ICWarsActor{
         return this.name;
     }
 
-    @Override
+
     /**
      * a unit doesn't take spaceCellSpace
      */
+    @Override
     public boolean takeCellSpace() {
         return false;
     }

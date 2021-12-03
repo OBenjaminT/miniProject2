@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.math;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,8 @@ import java.util.List;
  */
 public final class DiscreteCoordinates implements Serializable {
 
-	private static final long serialVersionUID = 1;
+	@Serial
+    private static final long serialVersionUID = 1;
     public static DiscreteCoordinates ORIGIN = new DiscreteCoordinates(0, 0);
     /// A coordinate pair is defined by the x and y graduation
     public final int x, y;
@@ -56,7 +58,7 @@ public final class DiscreteCoordinates implements Serializable {
      * @return (float): the neighbours
      */
     public List<DiscreteCoordinates> getNeighbours(){
-    	List<DiscreteCoordinates> result = new ArrayList<DiscreteCoordinates>();
+    	List<DiscreteCoordinates> result = new ArrayList<>();
     	result.add(left());
     	result.add(up());
     	result.add(right());
@@ -128,12 +130,7 @@ public final class DiscreteCoordinates implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (object == null || !(object instanceof DiscreteCoordinates))
-            return false;
-        else {
-            DiscreteCoordinates other = (DiscreteCoordinates)object;
-            return x == other.x && y == other.y;
-        }
+        return (object instanceof DiscreteCoordinates other) && (x == other.x) && (y == other.y);
     }
 
     @Override

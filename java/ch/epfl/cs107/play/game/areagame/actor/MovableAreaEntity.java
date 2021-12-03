@@ -171,7 +171,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
     		nextCells.add(coord.jump(getOrientation().toVector()));
     	}
 
-    	leavingCells.removeAll(getNextCurrentCells());
+    	getNextCurrentCells().forEach(leavingCells::remove);
     	
     	return new ArrayList<>(leavingCells);
     }
@@ -180,7 +180,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
     private List<DiscreteCoordinates> getEnteringCells(){
     	Set<DiscreteCoordinates> enteringCells = new HashSet<>(getNextCurrentCells());
     	
-    	enteringCells.removeAll(getCurrentCells());
+    	getCurrentCells().forEach(enteringCells::remove);
     	
     	return new ArrayList<>(enteringCells);
     }

@@ -25,8 +25,8 @@ public class TextGraphics extends Node implements Attachable, Graphics {
     private Vector anchor;
 	private float alpha;
 	private float depth;
-    private TextAlign.Horizontal hAlign;
-    private TextAlign.Vertical vAlign;
+    private final TextAlign.Horizontal hAlign;
+    private final TextAlign.Vertical vAlign;
     
     private final static String DEFAULT_FONT = "Kenney Pixel";
 

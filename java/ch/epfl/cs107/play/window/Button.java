@@ -1,12 +1,14 @@
 package ch.epfl.cs107.play.window;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * Contains the current and previous states of a button.
  */
 public final class Button implements Serializable {
-	private static final long serialVersionUID = 1;
+	@Serial
+    private static final long serialVersionUID = 1;
 	private final boolean previous, current, isLastPressed;
 
     /**
@@ -94,10 +96,7 @@ public final class Button implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (object == null || !(object instanceof Button))
-            return false;
-        Button other = (Button)object;
-        return previous == other.previous && current == other.current;
+        return (object instanceof Button other) && (previous == other.previous) && (current == other.current);
     }
 
     @Override

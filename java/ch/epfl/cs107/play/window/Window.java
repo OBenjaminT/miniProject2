@@ -6,7 +6,7 @@ import ch.epfl.cs107.play.math.Attachable;
  * Represents a context frame, which can act as a canvas.
  * Moreover, the camera can be attached to any positionable entity.
  */
-public interface Window extends Canvas, Audio, Attachable {
+public interface Window extends Canvas, Audio, Attachable, AutoCloseable {
     
     /** @return (Button): whether the windows is active */
     Button getFocus();
@@ -24,7 +24,4 @@ public interface Window extends Canvas, Audio, Attachable {
     
     // TODO this may require delta time, e.g. for mouse interpolation
     void update();
-    
-    /** Destroys and closes the window */
-    void dispose();
 }

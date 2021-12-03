@@ -81,10 +81,9 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
         boolean errorHappen = false;
 
-        if(a instanceof Interactor)
-            errorHappen = !interactors.add((Interactor) a);
+        if(a instanceof Interactor) interactors.add((Interactor) a);
         if(a instanceof Interactable)
-            errorHappen = errorHappen || !enterAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
+            errorHappen = !enterAreaCells((Interactable) a, ((Interactable) a).getCurrentCells());
         errorHappen = errorHappen || !actors.add(a);
 
         if(errorHappen && !safeMode) {
@@ -183,8 +182,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     /** @return the mouse coordinates relatively to the area and the cells */
     public DiscreteCoordinates getRelativeMouseCoordinates() {
     	Vector mousePosition = getRelativeMousePosition();
-    	DiscreteCoordinates mouseCoordinate = new DiscreteCoordinates((int)Math.floor(mousePosition.x), (int)Math.floor(mousePosition.y));
-    	return mouseCoordinate;
+        return new DiscreteCoordinates((int)Math.floor(mousePosition.x), (int)Math.floor(mousePosition.y));
     }
     
     /** @return (boolean): true if the method begin already called once. You can use resume() instead*/

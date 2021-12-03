@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.stream.IntStream;
 
 import ch.epfl.cs107.play.math.RandomGenerator;
 import ch.epfl.cs107.play.math.Vector;
@@ -18,15 +19,12 @@ import ch.epfl.cs107.play.window.Mouse;
 import ch.epfl.cs107.play.window.Window;
 
 public class Recorder{
-	private Keyboard keyboard;
-	private Mouse mouse;
+	private final Keyboard keyboard;
+	private final Mouse mouse;
 	private long startTime;
 	private Record record;
 	private Vector lastMousePosition;
-	
-	private static int KEYBOARD_MAX_KEYCODE = KeyEvent.KEY_LAST;
-	private static int MOUSE_BUTTON_MAX_KEYCODE = 2;
-	
+
 	public static String RECORD_DIRECTORY = "records";
 	
 	public Recorder(Window window) {
@@ -63,21 +61,22 @@ public class Recorder{
 		
 		long time = System.currentTimeMillis() - startTime;
 
-		for(int key = 0; key <= KEYBOARD_MAX_KEYCODE; ++key) {
+		int KEYBOARD_MAX_KEYCODE = KeyEvent.KEY_LAST;
+		IntStream.rangeClosed(0, KEYBOARD_MAX_KEYCODE).forEach(key -> {
 			Button button = keyboard.get(key);
-			
-			if(button.isPressed())
+			if (button.isPressed())
 				record.addEntry(new KeyboardPressedRecordEntry(time, key));
-			if(button.isReleased())
+			if (button.isReleased())
 				record.addEntry(new KeyboardReleasedRecordEntry(time, key));
-		}
-		for(int key = 0; key <= MOUSE_BUTTON_MAX_KEYCODE; ++key) {
-			Button button = mouse.getButton(key);			
-			if(button.isPressed())
+		});
+		int MOUSE_BUTTON_MAX_KEYCODE = 2;
+		IntStream.rangeClosed(0, MOUSE_BUTTON_MAX_KEYCODE).forEach(key -> {
+			Button button = mouse.getButton(key);
+			if (button.isPressed())
 				record.addEntry(new MouseButtonPressedRecordEntry(time, key));
-			if(button.isReleased())
+			if (button.isReleased())
 				record.addEntry(new MouseButtonReleasedRecordEntry(time, key));
-		}
+		});
 		final Vector mousePosition = mouse.getPosition();
 		if(!mousePosition.equals(lastMousePosition)) {
 			lastMousePosition = mousePosition;

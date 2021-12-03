@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICWarsBehavior extends AreaBehavior{
@@ -59,8 +58,6 @@ public class ICWarsBehavior extends AreaBehavior{
      * Cell adapted to the Tuto2 game
      */
     public class ICWarsCell extends AreaBehavior.Cell {
-        /// Type of the cell following the enum
-        private final ICWarsBehavior.ICWarsCellType type;
 
         /**
          * Default Tuto2Cell Constructor
@@ -70,7 +67,7 @@ public class ICWarsBehavior extends AreaBehavior{
          */
         public  ICWarsCell(int x, int y, ICWarsBehavior.ICWarsCellType type){
             super(x, y);
-            this.type = type;
+            /// Type of the cell following the enum
         }
 
         @Override

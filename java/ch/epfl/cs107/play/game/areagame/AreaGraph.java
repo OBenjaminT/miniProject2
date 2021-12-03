@@ -241,6 +241,6 @@ public class AreaGraph {
         }
         */
 
-        return new LinkedList<Orientation>(totalPath);
+        return new LinkedList<>(totalPath);
     }
 }

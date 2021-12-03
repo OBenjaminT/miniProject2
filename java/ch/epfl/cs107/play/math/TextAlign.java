@@ -8,7 +8,7 @@ public abstract class TextAlign {
         /// The anchor point is in the center of the text
         CENTER,
         /// The anchor point is aligned with the right bound of the text
-        RIGHT;
+        RIGHT
     }
 
     public enum Vertical{
@@ -17,6 +17,6 @@ public abstract class TextAlign {
         /// The anchor point is in the middle of the text
         MIDDLE,
         /// The anchor point is at the bottom of the text
-        BOTTOM;
+        BOTTOM
     }
 }

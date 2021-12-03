@@ -3,11 +3,11 @@ package ch.epfl.cs107.play.game.icwars.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 abstract class ICWarsPlayer extends ICWarsActor{
@@ -16,9 +16,7 @@ abstract class ICWarsPlayer extends ICWarsActor{
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
-        for(Units unit: units){
-            this.units.add(unit);
-        }
+        this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
     }
 
@@ -62,10 +60,11 @@ abstract class ICWarsPlayer extends ICWarsActor{
         getOwnerArea().setViewCandidate(this);
     }
 
-    @Override
+
     /**
      * a unit doesn't take spaceCellSpace
      */
+    @Override
     public boolean takeCellSpace() {
         return false;
     }

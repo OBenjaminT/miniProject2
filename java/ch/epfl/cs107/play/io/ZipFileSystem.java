@@ -11,8 +11,8 @@ import java.util.zip.ZipFile;
  */
 public class ZipFileSystem implements FileSystem {
 
-    private FileSystem fallback;
-    private ZipFile zip;
+    private final FileSystem fallback;
+    private final ZipFile zip;
 
     /**
      * Creates a new ZIP file system.

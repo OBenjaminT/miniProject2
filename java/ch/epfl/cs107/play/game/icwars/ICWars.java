@@ -18,7 +18,6 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICWars extends AreaGame {
 
-    private int areaIndex;
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
 
     private void createAreas(){
@@ -31,7 +30,7 @@ public class ICWars extends AreaGame {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             createAreas();
-            areaIndex = 0;
+            int areaIndex = 0;
             initArea(areas[areaIndex]);
             return true;
         }
@@ -49,7 +48,7 @@ public class ICWars extends AreaGame {
     }
 
     private void initArea(String areaKey) {
-        ICWarsArea area = (ICWarsArea)setCurrentArea(areaKey, true);
+        setCurrentArea(areaKey, true);
     }
 
     @Override

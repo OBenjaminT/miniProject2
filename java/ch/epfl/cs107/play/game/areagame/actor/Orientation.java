@@ -57,14 +57,14 @@ public enum Orientation {
      * @return the orientation
      */
     public static Orientation fromInt(int index) {
-		switch(index) {
-			case 0: return Orientation.UP;
-			case 1: return Orientation.RIGHT;
-			case 2: return Orientation.DOWN;
-			case 3: return Orientation.LEFT;
-		}
-		return null;
-	}
+        return switch (index) {
+            case 0 -> Orientation.UP;
+            case 1 -> Orientation.RIGHT;
+            case 2 -> Orientation.DOWN;
+            case 3 -> Orientation.LEFT;
+            default -> null;
+        };
+    }
     
     /**
      * Convert a vector into an orientation

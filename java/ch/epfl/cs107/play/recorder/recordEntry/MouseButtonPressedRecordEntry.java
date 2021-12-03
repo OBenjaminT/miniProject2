@@ -2,12 +2,14 @@ package ch.epfl.cs107.play.recorder.recordEntry;
 
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.io.Serial;
 
 import ch.epfl.cs107.play.window.Window;
 
 public class MouseButtonPressedRecordEntry extends RecordEntry{
+	@Serial
 	private static final long serialVersionUID = 1;
-	private int keycode;
+	private final int keycode;
 	
 	public MouseButtonPressedRecordEntry(long time, int keycode) {
 		super(time);

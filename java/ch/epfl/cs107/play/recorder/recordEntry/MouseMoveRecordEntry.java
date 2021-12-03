@@ -1,14 +1,16 @@
 package ch.epfl.cs107.play.recorder.recordEntry;
 
 import java.awt.Robot;
+import java.io.Serial;
 
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Window;
 
 public class MouseMoveRecordEntry extends RecordEntry{
+	@Serial
 	private static final long serialVersionUID = 1;
-	private float x;
-	private float y;
+	private final float x;
+	private final float y;
 	
 	public MouseMoveRecordEntry(long time, float x, float y) {
 		super(time);

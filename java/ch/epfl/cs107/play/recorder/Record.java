@@ -1,13 +1,15 @@
 package ch.epfl.cs107.play.recorder;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.cs107.play.recorder.recordEntry.RecordEntry;
 
 public class Record implements java.io.Serializable{
+	@Serial
 	private static final long serialVersionUID = 1;
-	private List<RecordEntry> entries = new ArrayList<>();
+	private final List<RecordEntry> entries = new ArrayList<>();
 	private long randomSeed;
 
 	public void addEntry(RecordEntry entry) {

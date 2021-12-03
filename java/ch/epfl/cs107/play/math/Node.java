@@ -41,10 +41,7 @@ public class Node implements Attachable {
     @Override
     public Transform getTransform() {
         Transform relative = getRelativeTransform();
-        if (parent == null)
-            return relative;
-        Transform absolute = relative.transformed(parent.getTransform());
-        return absolute;
+        return parent == null ? relative : relative.transformed(parent.getTransform());
     }
 
     @Override

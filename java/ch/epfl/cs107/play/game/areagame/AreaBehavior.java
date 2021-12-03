@@ -134,7 +134,7 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      * Each AreaGame will have its own Cell extension.
      * At minimum a cell is linked to its content
      */
-    public abstract class Cell implements Interactable{
+    public abstract static class Cell implements Interactable{
 
         /// Content of the cell as a set of Interactable
         protected Set<Interactable> entities;
@@ -153,21 +153,15 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
 
         /**
          * Do the given draggableAreaEntity interacts with all Droppable sharing the same cell
-         * @param interactor (Interactor), not null
+         * // @param interactor (Interactor), not null
          */
         private void dropInteractionOf(Draggable draggable) {
-        	for(Interactable interactable : entities){
-                if(interactable instanceof Droppable) {
-                	Droppable droppable = (Droppable)interactable;
-                	if(droppable.canDrop())
-                		droppable.receiveDropFrom(draggable);
-                }
-            }
-        	if(this instanceof Droppable) {
-            	Droppable droppable = (Droppable)this;
-            	if(droppable.canDrop())
-            		droppable.receiveDropFrom(draggable);
-        	}
+            entities.stream()
+                .filter(interactable -> (interactable instanceof Droppable droppable) && droppable.canDrop())
+                .map(Droppable.class::cast)
+                .forEach(droppable -> droppable.receiveDropFrom(draggable));
+            if ((this instanceof Droppable droppable) && droppable.canDrop())
+                droppable.receiveDropFrom(draggable);
         		
         }
         

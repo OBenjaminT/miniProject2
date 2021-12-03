@@ -9,8 +9,8 @@ import java.io.OutputStream;
  */
 public class ResourceFileSystem implements FileSystem {
 
-    private FileSystem fallback;
-    private ClassLoader loader;
+    private final FileSystem fallback;
+    private final ClassLoader loader;
 
     /**
      * Creates a new resource file system using specified binaries.
