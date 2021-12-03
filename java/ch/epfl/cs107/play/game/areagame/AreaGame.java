@@ -110,7 +110,6 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         return true;
     }
 
-
     @Override
     public void update(float deltaTime) {
 
@@ -121,11 +120,6 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
             currentArea.update(deltaTime);
         }
         paused = requestPause;
-    }
-
-    @Override
-    public void end() {
-        // TODO save the game states somewhere
     }
 
     @Override

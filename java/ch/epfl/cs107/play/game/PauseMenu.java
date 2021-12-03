@@ -81,7 +81,7 @@ public abstract class PauseMenu implements Playable, Acoustics{
     }
 
     @Override
-    public void end() {}
+    public void close() {}
 
     @Override
     public String getTitle() {

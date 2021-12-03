@@ -4,7 +4,7 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 
-public interface Playable extends Updatable {
+public interface Playable extends Updatable, AutoCloseable {
 
     /**
      * Initialises game state : display and controls
@@ -14,11 +14,6 @@ public interface Playable extends Updatable {
      * @return (boolean): whether the game was successfully started
      */
     boolean begin(Window window, FileSystem fileSystem);
-
-    /** Cleans up things, called even if initialisation failed.
-     * Note: Need to be Override
-     */
-    void end();
 
     /**
      * Getter for game title

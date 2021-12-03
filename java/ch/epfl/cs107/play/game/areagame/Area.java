@@ -353,7 +353,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
 
     @Override
-    public void end() {
+    public void close() {
         // TODO save the AreaState somewhere
     }
 

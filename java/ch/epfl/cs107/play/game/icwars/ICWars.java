@@ -1,8 +1,6 @@
 package ch.epfl.cs107.play.game.icwars;
 
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.Soldier;
@@ -10,14 +8,8 @@ import ch.epfl.cs107.play.game.icwars.actor.Tank;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
-import ch.epfl.cs107.play.game.tutosSolution.actor.GhostPlayer;
-import ch.epfl.cs107.play.game.tutosSolution.actor.SimpleGhost;
-import ch.epfl.cs107.play.game.tutosSolution.area.Tuto2Area;
-import ch.epfl.cs107.play.game.tutosSolution.area.tuto2.Ferme;
-import ch.epfl.cs107.play.game.tutosSolution.area.tuto2.Village;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICWars extends AreaGame {
@@ -33,7 +25,6 @@ public class ICWars extends AreaGame {
     private void createAreas(){
         addArea(new Level0());
         addArea(new Level1());
-
     }
 
     @Override
@@ -48,15 +39,13 @@ public class ICWars extends AreaGame {
     }
 
     private void initArea(String areaKey) {
-
-        ICWarsArea area = (ICWarsArea)setCurrentArea(areaKey, true);
+        ICWarsArea area = (ICWarsArea) setCurrentArea(areaKey, true);
         DiscreteCoordinates coords = area.getRealPlayerSpawnPosition();
         tank = new Tank(area, area.getTankSpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
         soldier = new Soldier(area, area.getSoldierSpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
         player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
         player.enterArea(area, coords);
         player.centerCamera();
-
     }
 
     @Override
@@ -69,11 +58,7 @@ public class ICWars extends AreaGame {
         return "ICWars";
     }
 
-    private void initArea(String areaKey) {
-        setCurrentArea(areaKey, true);
-    }
-
     @Override
-    public void end() {
+    public void close() {
     }
 }
