@@ -5,51 +5,52 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
-abstract public class Units extends ICWarsActor{
+abstract public class Units extends ICWarsActor {
 
-    protected int hp;
-
+    // data
+    protected int current_HP;
     protected int maxHP;
-
+    protected int repair;
+    protected int radius;
+    // ui
     protected String name;
-
     protected Sprite sprite;
 
-
-    protected abstract int getDammage();
-
-    protected int repair;
-
-    protected int radius;
-
-
-
     /**
-     * @param area the area in yhich the unit is
-     * @param position position of the unit in the area
-     * @param faction faction to which the units belong (eiter ALLY or ENNEMY
-     * @param repair the amount that the unit can increase its HP
-     * @param radius the maximum distance for moving
-     * @param hp the number of HP a unit has
-     * @param maxHP the maximum HP the unit has
+     * @param area       the area in yhich the unit is
+     * @param position   position of the unit in the area
+     * @param faction    faction to which the units belong (eiter ALLY or ENNEMY
+     * @param repair     the amount that the unit can increase its HP
+     * @param radius     the maximum distance for moving
+     * @param current_HP the number of HP a unit has
+     * @param maxHP      the maximum HP the unit has
      */
-
-    public Units(Area area, DiscreteCoordinates position, Faction faction, int repair, int radius, int hp, int maxHP) {
+    public Units(Area area, DiscreteCoordinates position, Faction faction, int repair, int radius, int current_HP, int maxHP) {
         super(area, position, faction);
         this.maxHP = maxHP;
         this.radius = radius;
-        this.setHp(hp);
+        this.setHp(current_HP);
         this.repair = repair;
     }
 
+    protected abstract int getDammage();
+
     /**
-     * @param HP the hp the unt has
      * if the HP are given negative, they are set to 0
      * if they are given above maxHP, they are set to maxHP
      * else they are set to the given @param hp
+     *
+     * @param HP the hp the unit has
      */
     public void setHp(int HP) {
-        this.hp = HP < 0 ? 0 : Math.min(HP, maxHP);
+        this.current_HP = HP < 0 ? 0 : Math.min(HP, maxHP);
+    }
+
+    /**
+     * @return true if the unit's hp are positive
+     */
+    public boolean isAlive() {
+        return this.current_HP > 0;
     }
 
     @Override
@@ -58,16 +59,9 @@ abstract public class Units extends ICWarsActor{
     }
 
     /**
-     * @return true if the unit's hp are positive
-     */
-    public boolean isAlive (){
-        return this.hp>0;
-    }
-
-    /**
      * @return unit name
      */
-    protected String getName (){
+    protected String getName() {
         return this.name;
     }
 

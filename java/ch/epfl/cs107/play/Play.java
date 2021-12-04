@@ -83,7 +83,5 @@ public class Play {
             }
             //recorder.stop("zelda.xml");
         }
-        // Release resources
     }
-
 }

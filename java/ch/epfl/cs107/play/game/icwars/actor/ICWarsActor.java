@@ -9,45 +9,45 @@ import java.util.Collections;
 import java.util.List;
 
 abstract public class ICWarsActor extends MovableAreaEntity {
+    public Faction faction;
+
     /**
      * Default MovableAreaEntity constructor
      *
-     * @param area        (Area): Owner area. Not null
-     * @param orientation (Orientation): Initial orientation of the entity. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area     (Area): Owner area. Not null
+     * @param faction  (Orientation): Initial orientation of the entity. Not null
+     * @param position (Coordinate): Initial position of the entity. Not null
      */
-
-    Faction faction;
-
     public ICWarsActor(Area area, DiscreteCoordinates position, Faction faction) {
         super(area, Orientation.UP, position);
         this.faction = faction;
     }
 
-    //faction ally is associated to boolean true, ennemy to false
-    public enum Faction {
-        ALLY(true),
-        ENNEMY(false),
-        ;
-        final boolean isAlly;
-
-        Faction(boolean isAlly) {
-            this.isAlly = isAlly;
-        }
-
-    }
-
-    public void enterArea(Area area, DiscreteCoordinates position){
+    public void enterArea(Area area, DiscreteCoordinates position) {
         area.registerActor(this);
         setOwnerArea(area);
         setCurrentPosition(position.toVector());
     }
-    public void leaveArea(){
+
+    public void leaveArea() {
         getOwnerArea().unregisterActor(this);
     }
 
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
+    }
+
+    // faction aly is associated to boolean true, enemy to false
+    public enum Faction {
+        ALLY(true),
+        ENEMY(false),
+        ;
+
+        final boolean isAlly;
+
+        Faction(boolean isAlly) {
+            this.isAlly = isAlly;
+        }
     }
 
 }

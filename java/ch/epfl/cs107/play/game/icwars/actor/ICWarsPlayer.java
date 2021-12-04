@@ -5,12 +5,12 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-
-abstract class ICWarsPlayer extends ICWarsActor{
+abstract class ICWarsPlayer extends ICWarsActor {
     protected ArrayList<Units> units = new ArrayList<>();
     protected Sprite sprite;
 
@@ -22,11 +22,10 @@ abstract class ICWarsPlayer extends ICWarsActor{
 
     /**
      * register all the units of the player in the player's ownerArea
-     *
      */
-    private void RegisterUnitsAsActors (){
-        for(Units unit : units){
-            unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates( (int)unit.getPosition().x, (int)unit.getPosition().y));
+    private void RegisterUnitsAsActors() {
+        for (Units unit : units) {
+            unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y));
         }
     }
 
@@ -39,9 +38,9 @@ abstract class ICWarsPlayer extends ICWarsActor{
     public void update(float deltaTime) {
         super.update(deltaTime);
         //remoing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
-        for(int i =0; i<this.units.size();++i){
+        for (int i = 0; i < this.units.size(); ++i) {
             Units unit = units.get(i);
-            if(!unit.isAlive()){
+            if (!unit.isAlive()) {
                 units.remove(unit);
                 unit.leaveArea();
             }
@@ -88,7 +87,7 @@ abstract class ICWarsPlayer extends ICWarsActor{
     /**
      * @return true if the arraylist of units is empty
      */
-    public boolean isDefeated (){
+    public boolean isDefeated() {
         return this.units.isEmpty();
     }
 

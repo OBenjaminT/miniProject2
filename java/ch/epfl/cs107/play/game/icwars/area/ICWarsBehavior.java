@@ -5,30 +5,46 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
-public class ICWarsBehavior extends AreaBehavior{
-    public enum ICWarsCellType{
-        //https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
-        NONE(0,0), // Should never be used except
-        // in the toType method
-        ROAD(-16777216, 0), // the second value is the number
-        // of defense stars
-        PLAIN(-14112955, 1),
-        WOOD(-65536, 3),
-        RIVER(-16776961, 0),
-        MOUNTAIN(-256, 4),
-        CITY(-1,2);
+public class ICWarsBehavior extends AreaBehavior {
+    /**
+     * Default Tuto2Behavior Constructor
+     *
+     * @param window (Window), not null
+     * @param name   (String): Name of the Behavior, not null
+     */
+    public ICWarsBehavior(Window window, String name) {
+        super(window, name);
+        int height = getHeight();
+        int width = getWidth();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                ICWarsBehavior.ICWarsCellType type = ICWarsBehavior.ICWarsCellType.toType(getRGB(height - 1 - y, x));
+                setCell(x, y, new ICWarsCell(x, y, type));
+            }
+        }
+    }
+
+    public enum ICWarsCellType {
+        // https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
+        NONE(0x0, 0), // Should never be used except in the toType method
+        ROAD(0xff_00_00_00, 0), // the second value is the number of defense stars
+        PLAIN(0xff_28_a7_45, 1),
+        WOOD(0xff_ff_00_00, 3),
+        RIVER(0xff_00_00_ff, 0),
+        MOUNTAIN(0xff_ff_ff_00, 4),
+        CITY(0xff_ff_ff_ff, 2);
 
         final int type;
         final int numberOfStars;
 
-        ICWarsCellType(int type, int numberOfStars){
+        ICWarsCellType(int type, int numberOfStars) {
             this.type = type;
             this.numberOfStars = numberOfStars;
         }
 
-        public static ICWarsBehavior.ICWarsCellType toType(int type){
-            for(ICWarsBehavior.ICWarsCellType ict : ICWarsBehavior.ICWarsCellType.values()){
-                if(ict.type == type)
+        public static ICWarsBehavior.ICWarsCellType toType(int type) {
+            for (ICWarsBehavior.ICWarsCellType ict : ICWarsBehavior.ICWarsCellType.values()) {
+                if (ict.type == type)
                     return ict;
             }
             // When you add a new color, you can print the int value here before assign it to a type
@@ -38,34 +54,18 @@ public class ICWarsBehavior extends AreaBehavior{
     }
 
     /**
-     * Default Tuto2Behavior Constructor
-     * @param window (Window), not null
-     * @param name (String): Name of the Behavior, not null
-     */
-    public ICWarsBehavior(Window window, String name){
-        super(window, name);
-        int height = getHeight();
-        int width = getWidth();
-        for(int y = 0; y < height; y++) {
-            for (int x = 0; x < width ; x++) {
-                ICWarsBehavior.ICWarsCellType type = ICWarsBehavior.ICWarsCellType.toType(getRGB(height-1-y, x));
-                setCell(x,y, new ICWarsBehavior.ICWarsCell(x,y,type));
-            }
-        }
-    }
-
-    /**
      * Cell adapted to the Tuto2 game
      */
-    public class ICWarsCell extends AreaBehavior.Cell {
+    public static class ICWarsCell extends AreaBehavior.Cell {
 
         /**
          * Default Tuto2Cell Constructor
-         * @param x (int): x coordinate of the cell
-         * @param y (int): y coordinate of the cell
+         *
+         * @param x    (int): x coordinate of the cell
+         * @param y    (int): y coordinate of the cell
          * @param type (EnigmeCellType), not null
          */
-        public  ICWarsCell(int x, int y, ICWarsBehavior.ICWarsCellType type){
+        public ICWarsCell(int x, int y, ICWarsBehavior.ICWarsCellType type) {
             super(x, y);
             /// Type of the cell following the enum
         }
