@@ -14,8 +14,9 @@ public class ResourceFileSystem implements FileSystem {
 
     /**
      * Creates a new resource file system using specified binaries.
+     *
      * @param fallback (FileSystem): secondary file system used on error, not null
-     * @param loader (ClassLoader): specific binary to use, not null
+     * @param loader   (ClassLoader): specific binary to use, not null
      */
     public ResourceFileSystem(FileSystem fallback, ClassLoader loader) {
         if (fallback == null || loader == null)
@@ -26,12 +27,13 @@ public class ResourceFileSystem implements FileSystem {
 
     /**
      * Creates a new resource file system using core binaires.
+     *
      * @param fallback (FileSystem): secondary file system used on error, not null
      */
     public ResourceFileSystem(FileSystem fallback) {
         this(fallback, FileSystem.class.getClassLoader());
     }
-    
+
     @Override
     public InputStream read(String name) throws IOException {
         InputStream input = loader.getResourceAsStream(name);
@@ -45,5 +47,5 @@ public class ResourceFileSystem implements FileSystem {
     public OutputStream write(String name) throws IOException {
         return fallback.write(name);
     }
-    
+
 }

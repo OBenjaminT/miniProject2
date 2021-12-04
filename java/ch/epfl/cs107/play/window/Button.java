@@ -7,14 +7,15 @@ import java.io.Serializable;
  * Contains the current and previous states of a button.
  */
 public final class Button implements Serializable {
-	@Serial
+    @Serial
     private static final long serialVersionUID = 1;
-	private final boolean previous, current, isLastPressed;
+    private final boolean previous, current, isLastPressed;
 
     /**
      * Creates a new button state.
-     * @param previous (boolean): previous state
-     * @param current (boolean): current state
+     *
+     * @param previous      (boolean): previous state
+     * @param current       (boolean): current state
      * @param isLastPressed (boolean): indicate if the button is the last button pressed
      */
     public Button(boolean previous, boolean current, boolean isLastPressed) {
@@ -25,7 +26,8 @@ public final class Button implements Serializable {
 
     /**
      * Creates a new button state.
-     * @param previous (boolean): previous state
+     *
+     * @param previous          (boolean): previous state
      * @param current(boolean): current state
      */
     public Button(boolean previous, boolean current) {
@@ -36,6 +38,7 @@ public final class Button implements Serializable {
 
     /**
      * Creates a new button state.
+     *
      * @param current (boolean): previous and current state
      */
     public Button(boolean current) {
@@ -43,42 +46,59 @@ public final class Button implements Serializable {
         this.current = current;
         this.isLastPressed = false;
     }
-    
-    /** @return (boolean): whether the button is currently pressed */
+
+    /**
+     * @return (boolean): whether the button is currently pressed
+     */
     public boolean isDown() {
         return current;
     }
-    
-    /** @return (boolean): whether the button is currently released */
+
+    /**
+     * @return (boolean): whether the button is currently released
+     */
     public boolean isUp() {
         return !current;
     }
-    
-    /** @return (boolean): whether the button was released, regardless of current state */
+
+    /**
+     * @return (boolean): whether the button was released, regardless of current state
+     */
     public boolean wasDown() {
         return previous;
     }
-    
-    /** @return (boolean): whether the button was pressed, regardless of current state */
+
+    /**
+     * @return (boolean): whether the button was pressed, regardless of current state
+     */
     public boolean wasUp() {
         return !previous;
     }
-    
-    /** @return (boolean): whether the button was just pressed */
+
+    /**
+     * @return (boolean): whether the button was just pressed
+     */
     public boolean isPressed() {
         return !previous && current;
     }
 
-    /**@return (boolean): whether the button is the last button pressed */
-    public boolean isLastPressed(){return isLastPressed; }
+    /**
+     * @return (boolean): whether the button is the last button pressed
+     */
+    public boolean isLastPressed() {
+        return isLastPressed;
+    }
 
-    /** @return (boolean): whether the button was just released */
+    /**
+     * @return (boolean): whether the button was just released
+     */
     public boolean isReleased() {
         return previous && !current;
     }
-    
+
     /**
      * Creates an new state, given this state.
+     *
      * @param next (boolean): the new state, used to compute new transition
      * @return (Button) a new button state, not null
      */
@@ -86,7 +106,7 @@ public final class Button implements Serializable {
         return new Button(current, next);
     }
 
-    
+
     /// Implements Serializable
 
     @Override

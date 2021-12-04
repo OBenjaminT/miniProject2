@@ -9,6 +9,7 @@ public final class Xor extends LogicGate {
 
     /**
      * Default constructor of logical Xor
+     *
      * @param signal1 (Logic): first signal. Not null
      * @param signal2 (Logic): second signal. Not null
      */

@@ -41,6 +41,7 @@ public interface Keyboard {
 
     /**
      * Getter for the button corresponding to the given code
+     *
      * @param code (int): the given code
      * @return (Button): state of the button for the given code
      */

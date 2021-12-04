@@ -9,7 +9,8 @@ public interface Playable extends Updatable, AutoCloseable {
     /**
      * Initialises game state : display and controls
      * Note: Need to be Overridden
-     * @param window (Window): display context. Not null
+     *
+     * @param window     (Window): display context. Not null
      * @param fileSystem (FileSystem): given file system. Not null
      * @return (boolean): whether the game was successfully started
      */
@@ -18,6 +19,7 @@ public interface Playable extends Updatable, AutoCloseable {
     /**
      * Getter for game title
      * Note: Need to be Override
+     *
      * @return (String) the game title
      */
     String getTitle();

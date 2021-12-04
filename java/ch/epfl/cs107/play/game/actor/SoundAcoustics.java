@@ -17,11 +17,12 @@ public class SoundAcoustics implements Acoustics {
 
     /**
      * Default sound Acoustics constructor
-     * @param name (String): name of the sound without path and extension. May be bull
-     * @param volume (float): 0.0f no sound, 1.0f full audio
-     * @param fadeIn (boolean): indicate if the song fade in until reaching its max volume
-     * @param randomFirstStart (boolean): indicate if the first start is random in the sound
-     * @param loop (boolean): indicate if the sound must loop on self ending
+     *
+     * @param name              (String): name of the sound without path and extension. May be bull
+     * @param volume            (float): 0.0f no sound, 1.0f full audio
+     * @param fadeIn            (boolean): indicate if the song fade in until reaching its max volume
+     * @param randomFirstStart  (boolean): indicate if the first start is random in the sound
+     * @param loop              (boolean): indicate if the sound must loop on self ending
      * @param stopOthersOnStart (boolean): indicate if all other sound are stopped on given sound's start
      */
     public SoundAcoustics(String name, float volume, boolean fadeIn, boolean randomFirstStart, boolean loop, boolean stopOthersOnStart) {
@@ -36,18 +37,32 @@ public class SoundAcoustics implements Acoustics {
 
     /**
      * Alternative sound Acoustics constructor
+     *
      * @param name (String): name of the sound without path and extension. May be null
      */
     public SoundAcoustics(String name) {
-        this(name, 1.0f, false,false,false, false);
+        this(name, 1.0f, false, false, false, false);
     }
 
-    /** Set the "should be started" flag to true*/
-    public void shouldBeStarted(){
-        this.shouldBeStarted = true;
+    /**
+     * Stop all sounds from given audio context by sending a null sound that stop others on starts
+     *
+     * @param audio (Audio): given audio context. Not null
+     */
+    public static void stopAllSounds(Audio audio) {
+        audio.playSound(null, false, 0.0f, false, false, true);
     }
 
     /// SoundAcoustics implements Acoustics
+
+    /**
+     * Set the "should be started" flag to true
+     */
+    public void shouldBeStarted() {
+        this.shouldBeStarted = true;
+    }
+
+    /// SoundAcoustics propose static tool
 
     @Override
     public void bip(Audio audio) {
@@ -56,15 +71,5 @@ public class SoundAcoustics implements Acoustics {
             audio.playSound(sound, randomFirstStart, volume, fadeIn, loop, stopOthersOnStart);
             shouldBeStarted = false;
         }
-    }
-
-    /// SoundAcoustics propose static tool
-
-    /**
-     * Stop all sounds from given audio context by sending a null sound that stop others on starts
-     * @param audio (Audio): given audio context. Not null
-     */
-    public static void  stopAllSounds(Audio audio){
-        audio.playSound(null, false, 0.0f, false,false, true);
     }
 }

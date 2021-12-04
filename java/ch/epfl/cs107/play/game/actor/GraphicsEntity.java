@@ -7,13 +7,14 @@ import ch.epfl.cs107.play.window.Canvas;
 /**
  * GraphicEntity useful to link a single Specific Graphic type to a space point
  */
-public class GraphicsEntity extends Entity{
+public class GraphicsEntity extends Entity {
 
     private final Graphics graphics;
 
     /**
      * Default GraphicsEntity constructor
      * Notice: it is private
+     *
      * @param position (Vector): Initial position of the entity. Not null
      * @param graphics (Graphics): graphics to display at position. Not null
      */
@@ -24,6 +25,7 @@ public class GraphicsEntity extends Entity{
 
     /**
      * Alternative GraphicsEntity Constructor
+     *
      * @param position (Vector): initial Position. Not null
      * @param graphics (ImageGraphics): graphics to display at position. Not null
      */
@@ -34,6 +36,7 @@ public class GraphicsEntity extends Entity{
 
     /**
      * Alternative GraphicsEntity Constructor
+     *
      * @param position (Vector): initial Position. Not null
      * @param graphics (TextGraphics): graphics to display at position. Not null
      */
@@ -44,6 +47,7 @@ public class GraphicsEntity extends Entity{
 
     /**
      * Alternative GraphicsEntity Constructor
+     *
      * @param position (Vector): initial Position. Not null
      * @param graphics (ShapeGraphics): graphics to display at position. Not null
      */
@@ -53,16 +57,19 @@ public class GraphicsEntity extends Entity{
     }
 
 
-    /** @return (Graphics): The graphics of the entity*/
+    /**
+     * @return (Graphics): The graphics of the entity
+     */
     public Graphics getGraphics() {
         return graphics;
     }
 
     /**
      * Set the current position. Make public the protected method of super class
+     *
      * @param position (Vector): new Position. Not null
      */
-    public void setCurrentPosition(Vector position){
+    public void setCurrentPosition(Vector position) {
         super.setCurrentPosition(position);
     }
 
@@ -70,7 +77,7 @@ public class GraphicsEntity extends Entity{
 
     @Override
     public void draw(Canvas canvas) {
-        if(graphics!= null) {
+        if (graphics != null) {
             graphics.draw(canvas);
         }
     }

@@ -1,18 +1,10 @@
 package ch.epfl.cs107.play.game.areagame;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
+
+import java.util.*;
 
 
 /**
@@ -31,7 +23,7 @@ public class AreaGraph {
     /**
      * Default AreaGraph Constructor
      */
-    public AreaGraph(){
+    public AreaGraph() {
         nodes = new HashMap<>();
     }
 
@@ -41,13 +33,14 @@ public class AreaGraph {
      * Create a new Node and put it in the nodes map at given coordinates key.
      * Note: DiscreteCoordinate are serializable reimplementing hashCode() and equals() making the keys dependant only from
      * the DiscreteCoordinate x and y values and not from the object itself.
-     * @param coordinates (DiscreteCoordinate): Position in the graph of the node to add, used as key for the map, not null
-     * @param hasLeftEdge (boolean): indicate if directed edge to the left direction exists
-     * @param hasUpEdge (boolean): indicate if directed edge to the up direction exists
+     *
+     * @param coordinates  (DiscreteCoordinate): Position in the graph of the node to add, used as key for the map, not null
+     * @param hasLeftEdge  (boolean): indicate if directed edge to the left direction exists
+     * @param hasUpEdge    (boolean): indicate if directed edge to the up direction exists
      * @param hasRightEdge (boolean): indicate if directed edge to the right direction exists
-     * @param hasDownEdge (boolean): indicate if directed edge to the down direction exists
+     * @param hasDownEdge  (boolean): indicate if directed edge to the down direction exists
      */
-    public void addNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge){
+    public void addNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
         nodes.putIfAbsent(coordinates, new AreaNode(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge));
     }
 
@@ -58,122 +51,33 @@ public class AreaGraph {
 
     /**
      * Return if a node exists in the graph
+     *
      * @param coordinates (DiscreteCoordinates): may be null
      * @return (boolean): true if the given node exists in the graph
      */
-    public boolean nodeExists(DiscreteCoordinates coordinates){
+    public boolean nodeExists(DiscreteCoordinates coordinates) {
         return nodes.containsKey(coordinates);
     }
 
     public void setSignal(DiscreteCoordinates coordinates, Logic signal) {
-    	if(!nodes.containsKey(coordinates))
-    		throw new IllegalArgumentException("The node do not exist");
-    	nodes.get(coordinates).setSignal(signal);
+        if (!nodes.containsKey(coordinates))
+            throw new IllegalArgumentException("The node do not exist");
+        nodes.get(coordinates).setSignal(signal);
     }
-
-    protected class AreaNode{
-        /// Position of the node into the graph, used as key for the map
-        private final DiscreteCoordinates coordinates;
-        /// a List of the connectedNode. May be null if getConnectedNodes is never called
-        private List<AreaNode> connectedNodes;
-        /// Flag: true if a directed edge between this and indicated direction (left, up, right, down) exists
-        private final boolean hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge;
-        // Signal indicating it the node is active
-        private Logic isActive;
-
-        /**
-         * Default AreaNode Constructor
-         * @param coordinates (DiscreteCoordinate): Position in the graph of the node to add, used as key for the map, not null
-         * @param hasLeftEdge (boolean): indicate if directed edge to the left direction exists
-         * @param hasUpEdge (boolean): indicate if directed edge to the up direction exists
-         * @param hasRightEdge (boolean): indicate if directed edge to the right direction exists
-         * @param hasDownEdge (boolean): indicate if directed edge to the down direction exists
-         */
-        protected AreaNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge){
-            this.coordinates = coordinates;
-            this.hasLeftEdge = hasLeftEdge;
-            this.hasUpEdge = hasUpEdge;
-            this.hasRightEdge = hasRightEdge;
-            this.hasDownEdge = hasDownEdge;
-            
-            isActive = Logic.TRUE;
-        }
-
-        /**
-         * Neighbors getter
-         *  see method addNeighbor()
-         *  @return (Array of AreaNode): the array of four neighbor Nodes. Elements may be null if no connection exists
-         */
-        List<AreaNode> getConnectedNodes() {
-            if(connectedNodes == null){
-                connectedNodes = new ArrayList<>();
-
-                addNeighbor("Left", hasLeftEdge, new DiscreteCoordinates(coordinates.x-1, coordinates.y));
-                addNeighbor("Up", hasUpEdge, new DiscreteCoordinates(coordinates.x, coordinates.y+1));
-                addNeighbor("Right", hasRightEdge, new DiscreteCoordinates(coordinates.x+1, coordinates.y));
-                addNeighbor("Down", hasDownEdge, new DiscreteCoordinates(coordinates.x, coordinates.y-1));
-            }
-
-            return connectedNodes;
-        }
-
-        private void addNeighbor(String neighborString, boolean hasNeighbor, DiscreteCoordinates c) {
-
-            if(hasNeighbor){
-                if(nodes.containsKey(c)){
-                    connectedNodes.add(nodes.get(c));
-                }else{
-                    // TODO throw exception
-                    System.out.println(neighborString + " neighbor for "+ coordinates.toString() + " Node does not exists");
-                }
-            }
-        }
-
-
-        /**
-         * Indicate the orientation we need to follow to reach previous node from this one
-         * Assume the previous node is a neighbor node
-         * @param previous (AreaNode), not null
-         * @return (Orientation)
-         */
-        Orientation getOrientation(AreaNode previous){
-
-            if(previous.coordinates.x < coordinates.x)
-                return Orientation.LEFT;
-            if(previous.coordinates.y > coordinates.y)
-                return Orientation.UP;
-            if(previous.coordinates.x > coordinates.x)
-                return Orientation.RIGHT;
-            if(previous.coordinates.y < coordinates.y)
-                return Orientation.DOWN;
-
-            System.out.println("Should never print");
-            return null;
-        }
-
-        public void setSignal(Logic signal) {
-        	isActive = signal;
-        }
-        
-        public boolean isActive() {
-        	return isActive.isOn();
-        }
-        
-    }
-
 
     /**
      * Compute the shortest path in this AreaGraph from given DiscreteCoordinate to given DiscreteCoordinates
+     *
      * @param from (DiscreteCoordinates): source node of the desired path, not null
-     * @param to (DiscreteCoordinates): sink node of the desired path, not null
+     * @param to   (DiscreteCoordinates): sink node of the desired path, not null
      * @return (Iterator of Orientation): return an iterator containing the shortest path from source to sink, or null if the path does not exists !
      */
-    public Queue<Orientation> shortestPath(DiscreteCoordinates from, DiscreteCoordinates to){
+    public Queue<Orientation> shortestPath(DiscreteCoordinates from, DiscreteCoordinates to) {
 
         AreaNode start = nodes.get(from);
         AreaNode goal = nodes.get(to);
 
-        if( goal == null || start == null || start == goal)
+        if (goal == null || start == null || start == goal)
             return null;
 
         //System.out.println("Looking for path from: " + start.coordinates.toString() + " to : "+ goal.coordinates.toString());
@@ -205,9 +109,9 @@ public class AreaGraph {
                 if (visitedSet.contains(neighbor))
                     // Ignore the neighbor which is already evaluated.
                     continue;
-                if(!neighbor.isActive())
-                	// Ignore inactive neighbors
-                	continue;
+                if (!neighbor.isActive())
+                    // Ignore inactive neighbors
+                    continue;
 
                 toVisitSet.add(neighbor);
 
@@ -242,5 +146,98 @@ public class AreaGraph {
         */
 
         return new LinkedList<>(totalPath);
+    }
+
+    protected class AreaNode {
+        /// Position of the node into the graph, used as key for the map
+        private final DiscreteCoordinates coordinates;
+        /// Flag: true if a directed edge between this and indicated direction (left, up, right, down) exists
+        private final boolean hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge;
+        /// a List of the connectedNode. May be null if getConnectedNodes is never called
+        private List<AreaNode> connectedNodes;
+        // Signal indicating it the node is active
+        private Logic isActive;
+
+        /**
+         * Default AreaNode Constructor
+         *
+         * @param coordinates  (DiscreteCoordinate): Position in the graph of the node to add, used as key for the map, not null
+         * @param hasLeftEdge  (boolean): indicate if directed edge to the left direction exists
+         * @param hasUpEdge    (boolean): indicate if directed edge to the up direction exists
+         * @param hasRightEdge (boolean): indicate if directed edge to the right direction exists
+         * @param hasDownEdge  (boolean): indicate if directed edge to the down direction exists
+         */
+        protected AreaNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
+            this.coordinates = coordinates;
+            this.hasLeftEdge = hasLeftEdge;
+            this.hasUpEdge = hasUpEdge;
+            this.hasRightEdge = hasRightEdge;
+            this.hasDownEdge = hasDownEdge;
+
+            isActive = Logic.TRUE;
+        }
+
+        /**
+         * Neighbors getter
+         * see method addNeighbor()
+         *
+         * @return (Array of AreaNode): the array of four neighbor Nodes. Elements may be null if no connection exists
+         */
+        List<AreaNode> getConnectedNodes() {
+            if (connectedNodes == null) {
+                connectedNodes = new ArrayList<>();
+
+                addNeighbor("Left", hasLeftEdge, new DiscreteCoordinates(coordinates.x - 1, coordinates.y));
+                addNeighbor("Up", hasUpEdge, new DiscreteCoordinates(coordinates.x, coordinates.y + 1));
+                addNeighbor("Right", hasRightEdge, new DiscreteCoordinates(coordinates.x + 1, coordinates.y));
+                addNeighbor("Down", hasDownEdge, new DiscreteCoordinates(coordinates.x, coordinates.y - 1));
+            }
+
+            return connectedNodes;
+        }
+
+        private void addNeighbor(String neighborString, boolean hasNeighbor, DiscreteCoordinates c) {
+
+            if (hasNeighbor) {
+                if (nodes.containsKey(c)) {
+                    connectedNodes.add(nodes.get(c));
+                } else {
+                    // TODO throw exception
+                    System.out.println(neighborString + " neighbor for " + coordinates.toString() + " Node does not exists");
+                }
+            }
+        }
+
+
+        /**
+         * Indicate the orientation we need to follow to reach previous node from this one
+         * Assume the previous node is a neighbor node
+         *
+         * @param previous (AreaNode), not null
+         * @return (Orientation)
+         */
+        Orientation getOrientation(AreaNode previous) {
+
+            if (previous.coordinates.x < coordinates.x)
+                return Orientation.LEFT;
+            if (previous.coordinates.y > coordinates.y)
+                return Orientation.UP;
+            if (previous.coordinates.x > coordinates.x)
+                return Orientation.RIGHT;
+            if (previous.coordinates.y < coordinates.y)
+                return Orientation.DOWN;
+
+            System.out.println("Should never print");
+            return null;
+        }
+
+        public void setSignal(Logic signal) {
+            isActive = signal;
+        }
+
+        public boolean isActive() {
+            return isActive.isOn();
+        }
+
     }
 }

@@ -2,7 +2,7 @@ package ch.epfl.cs107.play.math;
 
 public abstract class TextAlign {
 
-    public enum Horizontal{
+    public enum Horizontal {
         /// The anchor point is aligned with the left bound of the text
         LEFT,
         /// The anchor point is in the center of the text
@@ -11,7 +11,7 @@ public abstract class TextAlign {
         RIGHT
     }
 
-    public enum Vertical{
+    public enum Vertical {
         /// The anchor point is on top of the text
         TOP,
         /// The anchor point is in the middle of the text

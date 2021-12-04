@@ -15,14 +15,18 @@ public abstract class AreaPauseMenu extends PauseMenu {
     /// Owner Area
     private boolean isResumeRequested;
 
-    /** Setter for the resume request*/
-    protected void requestAreaResume(){
+    /**
+     * Setter for the resume request
+     */
+    protected void requestAreaResume() {
         getOwner().requestResume();
         isResumeRequested = true;
     }
 
-    /** @return (boolean): true if the resume is requested*/
-    protected boolean isResumeRequested(){
+    /**
+     * @return (boolean): true if the resume is requested
+     */
+    protected boolean isResumeRequested() {
         return isResumeRequested;
     }
 

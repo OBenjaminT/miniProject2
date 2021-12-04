@@ -24,7 +24,7 @@ public abstract class Tuto2Area extends Area {
     }
 
     public abstract DiscreteCoordinates getPlayerSpawnPosition();
-    
+
     /// Demo2Area implements Playable
 
     @Override

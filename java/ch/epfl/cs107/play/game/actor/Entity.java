@@ -17,11 +17,12 @@ public abstract class Entity implements Actor {
 
     /**
      * Default Entity constructor
+     *
      * @param position (Coordinate): Initial position of the entity. Not null
      */
     public Entity(Vector position) {
 
-        if (position == null )
+        if (position == null)
             throw new NullPointerException();
         this.currentPosition = position;
     }
@@ -29,9 +30,10 @@ public abstract class Entity implements Actor {
     /**
      * Update the current position (i.e. after motion)
      * after position change, the transform need to be updated to. Hence set it to null
+     *
      * @param v (Vector): The new Position. Not null
      */
-    protected void setCurrentPosition(Vector v){
+    protected void setCurrentPosition(Vector v) {
         this.currentPosition = v;
         transform = null;
     }
@@ -45,15 +47,15 @@ public abstract class Entity implements Actor {
             float x = currentPosition.x;
             float y = currentPosition.y;
             transform = new Transform(
-                    1, 0, x,
-                    0, 1, y
+                1, 0, x,
+                0, 1, y
             );
         }
         return transform;
     }
 
     @Override
-    public Vector getPosition(){
+    public Vector getPosition() {
         return currentPosition;
     }
 

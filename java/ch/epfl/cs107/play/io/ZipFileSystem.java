@@ -16,8 +16,9 @@ public class ZipFileSystem implements FileSystem {
 
     /**
      * Creates a new ZIP file system.
+     *
      * @param fallback (FileSystem): secondary file system used on error, not null
-     * @param zip (ZipFile): zip file, not null
+     * @param zip      (ZipFile): zip file, not null
      */
     public ZipFileSystem(FileSystem fallback, ZipFile zip) {
         if (fallback == null || zip == null)
@@ -25,7 +26,7 @@ public class ZipFileSystem implements FileSystem {
         this.fallback = fallback;
         this.zip = zip;
     }
-    
+
     @Override
     public InputStream read(String name) throws IOException {
         ZipEntry entry = zip.getEntry(name);
@@ -38,5 +39,5 @@ public class ZipFileSystem implements FileSystem {
     public OutputStream write(String name) throws IOException {
         return fallback.write(name);
     }
-    
+
 }

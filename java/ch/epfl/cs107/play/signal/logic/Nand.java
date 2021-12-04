@@ -10,6 +10,7 @@ public final class Nand extends LogicGate {
 
     /**
      * Default constructor of logical Nand
+     *
      * @param signal1 (Logic): first signal. Not null
      * @param signal2 (Logic): second signal. Not null
      */

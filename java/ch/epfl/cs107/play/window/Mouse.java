@@ -11,26 +11,33 @@ public interface Mouse extends Positionable {
 
     /**
      * Getter for the button corresponding to the given index
+     *
      * @param index (int): given index
      * @return (Button): button corresponding of the state of the given index button
      */
     Button getButton(int index);
 
-    /**@return (Button): the left button (by default index = 0)*/
+    /**
+     * @return (Button): the left button (by default index = 0)
+     */
     default Button getLeftButton() {
         return getButton(0);
     }
 
-    /**@return (Button): the Middle button (by default index = 1)*/
+    /**
+     * @return (Button): the Middle button (by default index = 1)
+     */
     default Button getMiddleButton() {
         return getButton(1);
     }
 
-    /**@return (Button): the right button (by default index = 2)*/
+    /**
+     * @return (Button): the right button (by default index = 2)
+     */
     default Button getRightButton() {
         return getButton(2);
     }
-    
+
     // TODO wheel/scroll
     // TODO other position getters and screen space things?
 

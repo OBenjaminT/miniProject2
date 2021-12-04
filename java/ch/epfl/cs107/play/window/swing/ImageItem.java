@@ -2,9 +2,7 @@ package ch.epfl.cs107.play.window.swing;
 
 import ch.epfl.cs107.play.math.Transform;
 
-import java.awt.AlphaComposite;
-import java.awt.Composite;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -20,10 +18,11 @@ public final class ImageItem implements Item {
 
     /**
      * Creates a new image item.
-     * @param depth (float): associated depth
-     * @param alpha (float): transparency, between 0 (invisible) and 1 (opaque)
+     *
+     * @param depth     (float): associated depth
+     * @param alpha     (float): transparency, between 0 (invisible) and 1 (opaque)
      * @param transform (Transform): transform used, not null
-     * @param image (SwingImage): swing image, not null
+     * @param image     (SwingImage): swing image, not null
      */
     public ImageItem(float depth, float alpha, Transform transform, SwingImage image) {
         this.depth = depth;
@@ -38,7 +37,7 @@ public final class ImageItem implements Item {
     public float getDepth() {
         return depth;
     }
-    
+
     @Override
     public void render(Graphics2D g) {
         if (alpha <= 0.0f)
@@ -61,5 +60,5 @@ public final class ImageItem implements Item {
             g.setComposite(composite);
         }
     }
-    
+
 }

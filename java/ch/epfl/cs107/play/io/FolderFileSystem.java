@@ -1,11 +1,6 @@
 package ch.epfl.cs107.play.io;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * Implementation of file system, mirroring actual files on disk.
@@ -17,11 +12,12 @@ public class FolderFileSystem implements FileSystem {
 
     /**
      * Creates a new file system using specified folder.
+     *
      * @param fallback (FileSystem): secondary file system used on error, not null
-     * @param folder (File): root, may be null
+     * @param folder   (File): root, may be null
      */
     public FolderFileSystem(FileSystem fallback, File folder) {
-        if (fallback == null )
+        if (fallback == null)
             throw new NullPointerException();
         this.fallback = fallback;
         this.folder = folder;
@@ -29,6 +25,7 @@ public class FolderFileSystem implements FileSystem {
 
     /**
      * Creates a new file system using current working directory.
+     *
      * @param fallback (FileSystem): secondary file system used on error, not null
      */
     public FolderFileSystem(FileSystem fallback) {

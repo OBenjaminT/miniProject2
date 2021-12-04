@@ -18,6 +18,7 @@ public class Background extends Entity {
     /**
      * Default Background Constructor
      * by default the Background image is using the area title as file name
+     *
      * @param area (Area): ownerArea. Not null
      */
     public Background(Area area) {
@@ -29,7 +30,8 @@ public class Background extends Entity {
     /**
      * Extended Background Constructor
      * by default the Background image is using the area title as file name
-     * @param area (Area): ownerArea. Not null
+     *
+     * @param area   (Area): ownerArea. Not null
      * @param region (RegionOfInterest): region of interest in the image for the background, may be null
      */
     public Background(Area area, RegionOfInterest region) {
@@ -40,9 +42,10 @@ public class Background extends Entity {
 
     /**
      * Extended Background Constructor
-     * @param area (Area): ownerArea. Not null
+     *
+     * @param area   (Area): ownerArea. Not null
      * @param region (RegionOfInterest): region of interest in the image for the background, may be null
-     * @param name (String): Background file name (i.e only the name, with neither path, nor file extension). Not null
+     * @param name   (String): Background file name (i.e only the name, with neither path, nor file extension). Not null
      */
     public Background(Area area, RegionOfInterest region, String name) {
         super(DiscreteCoordinates.ORIGIN.toVector());
@@ -52,8 +55,9 @@ public class Background extends Entity {
 
     /**
      * Alternative Background Constructor
-     * @param name (String): Background file name (i.e only the name, with neither path, nor file extension). Not null
-     * @param width (int): of the desired background
+     *
+     * @param name   (String): Background file name (i.e only the name, with neither path, nor file extension). Not null
+     * @param width  (int): of the desired background
      * @param height (int): of the desired background
      * @param region (RegionOfInterest): region of interest in the image for the background. May be null
      */

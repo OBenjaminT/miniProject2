@@ -10,6 +10,7 @@ public final class MultipleAnd extends LogicGate {
 
     /**
      * Default constructor of logical And with more than two input
+     *
      * @param signals (Array of Logic): all signals. Not null
      */
     public MultipleAnd(Logic... signals) {
@@ -21,8 +22,8 @@ public final class MultipleAnd extends LogicGate {
 
     @Override
     public float getIntensity() {
-        for(Logic logic : signals){
-            if(logic.isOff()) return Logic.FALSE.getIntensity();
+        for (Logic logic : signals) {
+            if (logic.isOff()) return Logic.FALSE.getIntensity();
         }
         return Logic.TRUE.getIntensity();
     }

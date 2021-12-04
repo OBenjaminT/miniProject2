@@ -20,49 +20,50 @@ public class Text extends Entity {
     private final float DY;
     /// The corresponding text graphics
     private final TextGraphics textGraphics;
+    /// Define if the text is relative to the world (false) or to the window (true), i.e. is the text always fixed in the window
+    private final boolean isScreenRelative;
+    private final Vector relativePosition;
     /// Variables to make the text appear and disappear
     private float currentAlpha;
     private boolean makeItAppear;
     private boolean makeItDisappear;
     private float appearStep;
-    /// Define if the text is relative to the world (false) or to the window (true), i.e. is the text always fixed in the window
-    private final boolean isScreenRelative;
-    private final Vector relativePosition;
 
 
     /**
      * Default Text constructor
-     * @param text (String): String of the text, not null
-     * @param position (DiscreteCoordinates): Initial position in the grid, not null
-     * @param area (Area): Area context of the text, not null
+     *
+     * @param text             (String): String of the text, not null
+     * @param position         (DiscreteCoordinates): Initial position in the grid, not null
+     * @param area             (Area): Area context of the text, not null
      * @param isScreenRelative (boolean): indicate if the text is relative to the world or the window
-     * @param fontSize (float): the font size (i.e. 1 is one cell high)
-     * @param color (Color): Color of the text, not null
-     * @param bold (boolean): Is the text bold
-     * @param italics (boolean): Is the text italics
-     * @param hAlign (Horizontal): Which horizontal alignment has the text, not null
-     * @param vAlign (Vertical): Which vertical alignment has the text, not null
-     * @param alpha (float): transparency of the text (0 is full invisible and 1 is full opaque)
-     * @param depth (float): the depth of the text, small depth draw first
+     * @param fontSize         (float): the font size (i.e. 1 is one cell high)
+     * @param color            (Color): Color of the text, not null
+     * @param bold             (boolean): Is the text bold
+     * @param italics          (boolean): Is the text italics
+     * @param hAlign           (Horizontal): Which horizontal alignment has the text, not null
+     * @param vAlign           (Vertical): Which vertical alignment has the text, not null
+     * @param alpha            (float): transparency of the text (0 is full invisible and 1 is full opaque)
+     * @param depth            (float): the depth of the text, small depth draw first
      */
     public Text(String text, DiscreteCoordinates position, Area area, boolean isScreenRelative, float fontSize, Color color, boolean bold, boolean italics,
                 TextAlign.Horizontal hAlign, TextAlign.Vertical vAlign, float alpha, float depth) {
         super(position.toVector());
 
-        DX = area.getCameraScaleFactor()/2;
-        DY = area.getCameraScaleFactor()/2;
+        DX = area.getCameraScaleFactor() / 2;
+        DY = area.getCameraScaleFactor() / 2;
 
         float x = 0;
         float y = 0;
 
-        if(hAlign == TextAlign.Horizontal.CENTER){
+        if (hAlign == TextAlign.Horizontal.CENTER) {
             x += 0.5;
-        }else if(hAlign == TextAlign.Horizontal.RIGHT){
+        } else if (hAlign == TextAlign.Horizontal.RIGHT) {
             x += 1;
         }
-        if(vAlign == TextAlign.Vertical.MIDDLE){
+        if (vAlign == TextAlign.Vertical.MIDDLE) {
             y += 0.5;
-        }else if(vAlign == TextAlign.Vertical.TOP){
+        } else if (vAlign == TextAlign.Vertical.TOP) {
             y += 1;
         }
 
@@ -78,14 +79,15 @@ public class Text extends Entity {
 
     /**
      * Alternative Text constructor
-     * @param text (String): String of the text, not null
-     * @param position (DiscreteCoordinates): Initial position in the grid, not null
-     * @param area (Area): Area context of the text, not null
+     *
+     * @param text             (String): String of the text, not null
+     * @param position         (DiscreteCoordinates): Initial position in the grid, not null
+     * @param area             (Area): Area context of the text, not null
      * @param isScreenRelative (boolean): indicate if the text is relative to the world or the window
-     * @param fontSize (float): the font size (i.e. 1 is one cell high)
-     * @param color (Color): Color of the text, not null
-     * @param bold (boolean): Is the text bold
-     * @param italics (boolean): Is the text italics
+     * @param fontSize         (float): the font size (i.e. 1 is one cell high)
+     * @param color            (Color): Color of the text, not null
+     * @param bold             (boolean): Is the text bold
+     * @param italics          (boolean): Is the text italics
      */
     public Text(String text, DiscreteCoordinates position, Area area, boolean isScreenRelative, float fontSize, Color color, boolean bold, boolean italics) {
         this(text, position, area, isScreenRelative, fontSize, color, bold, italics, TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1, 10);
@@ -93,14 +95,15 @@ public class Text extends Entity {
 
     /**
      * Alternative Text constructor
-     * @param text (String): String of the text, not null
-     * @param position (DiscreteCoordinates): Initial position in the grid, not null
-     * @param area (Area): Area context of the text, not null
+     *
+     * @param text             (String): String of the text, not null
+     * @param position         (DiscreteCoordinates): Initial position in the grid, not null
+     * @param area             (Area): Area context of the text, not null
      * @param isScreenRelative (boolean): indicate if the text is relative to the world or the window
-     * @param fontSize (float): the font size (i.e. 1 is one cell high)
-     * @param color (Color): Color of the text, not null
-     * @param alpha (float): transparency of the text (0 is full invisible and 1 is full opaque)
-     * @param depth (float): the depth of the text, small depth draw first
+     * @param fontSize         (float): the font size (i.e. 1 is one cell high)
+     * @param color            (Color): Color of the text, not null
+     * @param alpha            (float): transparency of the text (0 is full invisible and 1 is full opaque)
+     * @param depth            (float): the depth of the text, small depth draw first
      */
     public Text(String text, DiscreteCoordinates position, Area area, boolean isScreenRelative, float fontSize, Color color, float alpha, float depth) {
         this(text, position, area, isScreenRelative, fontSize, color, false, false, TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, alpha, depth);
@@ -108,12 +111,13 @@ public class Text extends Entity {
 
     /**
      * Alternative Text constructor
-     * @param text (String): String of the text, not null
-     * @param position (DiscreteCoordinates): Initial position in the grid, not null
+     *
+     * @param text             (String): String of the text, not null
+     * @param position         (DiscreteCoordinates): Initial position in the grid, not null
      * @param isScreenRelative (boolean): indicate if the text is relative to the world or the window
-     * @param area (Area): Area context of the text, not null
-     * @param fontSize (float): the font size (i.e. 1 is one cell high)
-     * @param color (Color): Color of the text, not null
+     * @param area             (Area): Area context of the text, not null
+     * @param fontSize         (float): the font size (i.e. 1 is one cell high)
+     * @param color            (Color): Color of the text, not null
      */
     public Text(String text, DiscreteCoordinates position, Area area, boolean isScreenRelative, float fontSize, Color color) {
         this(text, position, area, isScreenRelative, fontSize, color, false, false, TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1, 10);
@@ -121,17 +125,19 @@ public class Text extends Entity {
 
     /**
      * Update the text displayed
+     *
      * @param text (String) the new text, not null
      */
-    public void setText(String text){
+    public void setText(String text) {
         textGraphics.setText(text);
     }
 
     /**
      * Make the text appear by step of given size
+     *
      * @param stepSize (float): the step size
      */
-    public void makeItAppear(float stepSize){
+    public void makeItAppear(float stepSize) {
         makeItDisappear = false;
         makeItAppear = true;
         appearStep = stepSize;
@@ -139,9 +145,10 @@ public class Text extends Entity {
 
     /**
      * Make the text disappear by step of given size
+     *
      * @param stepSize (float): the step size
      */
-    public void makeItDisappear(float stepSize){
+    public void makeItDisappear(float stepSize) {
         makeItAppear = false;
         makeItDisappear = true;
         appearStep = stepSize;
@@ -153,16 +160,15 @@ public class Text extends Entity {
     @Override
     public void update(float deltaTime) {
 
-        if(makeItAppear){
-            currentAlpha = Math.min(1, currentAlpha+appearStep);
+        if (makeItAppear) {
+            currentAlpha = Math.min(1, currentAlpha + appearStep);
             textGraphics.setAlpha(currentAlpha);
-            if(currentAlpha >= 1)
+            if (currentAlpha >= 1)
                 makeItAppear = false;
-        }
-        else if(makeItDisappear){
-            currentAlpha = Math.max(0, currentAlpha-appearStep);
+        } else if (makeItDisappear) {
+            currentAlpha = Math.max(0, currentAlpha - appearStep);
             textGraphics.setAlpha(currentAlpha);
-            if(currentAlpha <= 0)
+            if (currentAlpha <= 0)
                 makeItDisappear = false;
         }
 
@@ -174,7 +180,7 @@ public class Text extends Entity {
     @Override
     public void draw(Canvas canvas) {
 
-        if(isScreenRelative) {
+        if (isScreenRelative) {
             setCurrentPosition(canvas.getPosition().sub(DX, DY).add(relativePosition));
         }
 

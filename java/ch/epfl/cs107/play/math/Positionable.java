@@ -6,14 +6,20 @@ package ch.epfl.cs107.play.math;
  */
 public interface Positionable {
 
-    /** @return (Transform): affine transform, not null */
+    /**
+     * @return (Transform): affine transform, not null
+     */
     Transform getTransform();
-    
-    /** @return (Vector): origin, not null */
+
+    /**
+     * @return (Vector): origin, not null
+     */
     default Vector getPosition() {
         return getTransform().getOrigin();
     }
 
-    /** @return (Vector): linear velocity, not null */
+    /**
+     * @return (Vector): linear velocity, not null
+     */
     Vector getVelocity();
 }

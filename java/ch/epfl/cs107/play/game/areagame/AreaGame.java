@@ -5,7 +5,7 @@ import ch.epfl.cs107.play.game.PauseMenu;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.*;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -28,71 +28,79 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
     /**
      * Add an Area to the AreaGame list
+     *
      * @param a (Area): The area to add, not null
      */
-    protected final void addArea(Area a){
+    protected final void addArea(Area a) {
         areas.put(a.getTitle(), a);
     }
 
     /**
      * Setter for the current area: Select an Area in the list from its key
      * - the area is then begin or resume depending if the area is already started or not and if it is forced
-     * @param key (String): Key of the Area to select, not null
+     *
+     * @param key        (String): Key of the Area to select, not null
      * @param forceBegin (boolean): force the key area to call begin even if it was already started
      * @return (Area): after setting it, return the new current area
      */
-    protected final Area setCurrentArea(String key, boolean forceBegin){
-    	Area newArea = areas.get(key);
-    	
-    	if(newArea == null) {
+    protected final Area setCurrentArea(String key, boolean forceBegin) {
+        Area newArea = areas.get(key);
+
+        if (newArea == null) {
             System.out.println("New Area not found, keep previous one");
-    	}else {
-    		// Stop previous area if it exist
-            if(currentArea != null){
+        } else {
+            // Stop previous area if it exist
+            if (currentArea != null) {
                 currentArea.suspend();
                 currentArea.purgeRegistration(); // Is useful?
             }
-            
+
             currentArea = newArea;
-            
+
             // Start/Resume the new one
             if (forceBegin || !currentArea.isStarted()) {
                 currentArea.begin(window, fileSystem);
             } else {
                 currentArea.resume(window, fileSystem);
             }
-    	}
-    	
+        }
+
         return currentArea;
     }
 
     /**
      * Set the pause menu
+     *
      * @param menu (PauseMenu) : the new pause menu, not null
      * @return (PauseMenu): the new pause menu, not null
      */
-    protected final PauseMenu setPauseMenu(PauseMenu menu){
+    protected final PauseMenu setPauseMenu(PauseMenu menu) {
         this.menu = menu;
         this.menu.begin(window, fileSystem);
         this.menu.setOwner(this);
         return menu;
     }
 
-    /**@return (Window) : the Graphic and Audio context*/
-    protected final Window getWindow(){
+    /**
+     * @return (Window) : the Graphic and Audio context
+     */
+    protected final Window getWindow() {
         return window;
     }
 
-    /**@return (FIleSystem): the linked file system*/
-    protected final FileSystem getFileSystem(){
+    /**
+     * @return (FIleSystem): the linked file system
+     */
+    protected final FileSystem getFileSystem() {
         return fileSystem;
     }
 
     /**
      * Getter for the current area
+     *
      * @return (Area)
      */
-    protected final Area getCurrentArea(){
+    protected final Area getCurrentArea() {
         return this.currentArea;
     }
 
@@ -113,27 +121,26 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     @Override
     public void update(float deltaTime) {
 
-        if(paused && menu != null) {
+        if (paused && menu != null) {
             menu.update(deltaTime);
-        }
-        else{
+        } else {
             currentArea.update(deltaTime);
         }
         paused = requestPause;
     }
 
     @Override
-    public void requestPause(){
+    public void requestPause() {
         requestPause = true;
     }
 
     @Override
-    public void requestResume(){
+    public void requestResume() {
         requestPause = false;
     }
 
     @Override
-    public boolean isPaused(){
-       return paused;
+    public boolean isPaused() {
+        return paused;
     }
 }

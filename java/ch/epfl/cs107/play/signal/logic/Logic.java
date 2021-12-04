@@ -42,13 +42,19 @@ public interface Logic extends Signal {
     };
 
 
-    /**@return (boolean): true if the signal is considered as on*/
+    /**
+     * @return (boolean): true if the signal is considered as on
+     */
     boolean isOn();
 
-    /**@return (boolean): true if the signal is considered as off*/
+    /**
+     * @return (boolean): true if the signal is considered as off
+     */
     boolean isOff();
 
-    /**@return (float) : the signal intensity, usually 0.0 or 1.0*/
+    /**
+     * @return (float) : the signal intensity, usually 0.0 or 1.0
+     */
     float getIntensity();
 
     @Override

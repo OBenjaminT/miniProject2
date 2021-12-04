@@ -9,31 +9,45 @@ import java.io.Serializable;
  */
 public final class Transform implements Serializable {
 
-	@Serial
-    private static final long serialVersionUID = 1;
-    /** The identity transform **/
+    /**
+     * The identity transform
+     **/
     public static final Transform I = new Transform(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-
-    /** X scale */
+    @Serial
+    private static final long serialVersionUID = 1;
+    /**
+     * X scale
+     */
     public final float m00;
 
-    /** X shear */
+    /**
+     * X shear
+     */
     public final float m01;
 
-    /** X translation */
+    /**
+     * X translation
+     */
     public final float m02;
 
-    /** Y shear */
+    /**
+     * Y shear
+     */
     public final float m10;
 
-    /** Y scale */
+    /**
+     * Y scale
+     */
     public final float m11;
 
-    /** Y translation */
+    /**
+     * Y translation
+     */
     public final float m12;
 
     /**
      * Creates a new transform.
+     *
      * @param m00 (float): X scale
      * @param m01 (float): X shear
      * @param m02 (float): X translation
@@ -52,28 +66,37 @@ public final class Transform implements Serializable {
 
     // TODO is rigid/scale/translation/...?
 
-    /** @return (Vector): X-axis, not null */
+    /**
+     * @return (Vector): X-axis, not null
+     */
     public Vector getX() {
         return new Vector(m00, m10);
     }
 
-    /** @return (Vector): Y-axis, not null */
+    /**
+     * @return (Vector): Y-axis, not null
+     */
     public Vector getY() {
         return new Vector(m01, m11);
     }
 
-    /** @return (Vector): translation vector, not null */
+    /**
+     * @return (Vector): translation vector, not null
+     */
     public Vector getOrigin() {
         return new Vector(m02, m12);
     }
 
-    /** @return (float): angle, in radians */
+    /**
+     * @return (float): angle, in radians
+     */
     public float getAngle() {
-        return (float)Math.atan2(m01, m00);
+        return (float) Math.atan2(m01, m00);
     }
 
     /**
      * Transforms point.
+     *
      * @param x (float): abcissa
      * @param y (float): ordinate
      * @return (Vector): transformed point, not null
@@ -87,6 +110,7 @@ public final class Transform implements Serializable {
 
     /**
      * Transforms point.
+     *
      * @param p (Vector): point, not null
      * @return (Vector): transformed point, not null
      */
@@ -96,6 +120,7 @@ public final class Transform implements Serializable {
 
     /**
      * Transforms vector.
+     *
      * @param x (float): abcissa
      * @param y (float): ordinate
      * @return (Vector): transformed vector, not null
@@ -109,6 +134,7 @@ public final class Transform implements Serializable {
 
     /**
      * Transforms vector.
+     *
      * @param v (Vector): point, not null
      * @return (Vector): transformed vector, not null
      */
@@ -118,6 +144,7 @@ public final class Transform implements Serializable {
 
     /**
      * Appends another transform (applied after this transform).
+     *
      * @param t (Transform): transform, not null
      * @return (Transform): extended transform, not null
      */
@@ -130,6 +157,7 @@ public final class Transform implements Serializable {
 
     /**
      * Appends translation (applied after this transform).
+     *
      * @param dx (float): X translation
      * @param dy (float): Y translation
      * @return (Transform): extended transform, not null
@@ -143,6 +171,7 @@ public final class Transform implements Serializable {
 
     /**
      * Appends translation (applied after this transform).
+     *
      * @param d (Vector): translation, not null
      * @return (Transform): extended transform, not null
      */
@@ -152,6 +181,7 @@ public final class Transform implements Serializable {
 
     /**
      * Appends scale (applied after this transform).
+     *
      * @param sx (float) X scale
      * @param sy (float) Y scale
      * @return (Transform): extended transform, not null
@@ -165,6 +195,7 @@ public final class Transform implements Serializable {
 
     /**
      * Appends scale (applied after this transform).
+     *
      * @param s (float): scale
      * @return (Transform): extended transform, not null
      */
@@ -177,12 +208,13 @@ public final class Transform implements Serializable {
 
     /**
      * Appends rotation around origin (applied after this transform).
+     *
      * @param a (float): angle, in radians
      * @return (Transform): extended transform, not null
      */
     public Transform rotated(float a) {
-        float c = (float)Math.cos(a);
-        float s = (float)Math.sin(a);
+        float c = (float) Math.cos(a);
+        float s = (float) Math.sin(a);
         return new Transform(
             c * m00 - s * m10, c * m01 - s * m11, c * m02 - s * m12,
             s * m00 + c * m10, s * m01 + c * m11, s * m02 + c * m12
@@ -191,22 +223,25 @@ public final class Transform implements Serializable {
 
     /**
      * Appends rotation around specified point (applied after this transform).
-     * @param a (float): angle, in radians
+     *
+     * @param a      (float): angle, in radians
      * @param center (Vector): rotation axis, not null
      * @return (Transform): extended transform, not null
      */
     public Transform rotated(float a, Vector center) {
         return
             translated(-center.x, -center.y).
-            rotated(a).
-            translated(center);
+                rotated(a).
+                translated(center);
     }
 
     // TODO 90, 180, 270 degrees rotation?
 
     // TODO flip h/v, mirror
 
-    /** @return (Transform): transform inverse, not null */
+    /**
+     * @return (Transform): transform inverse, not null
+     */
     public Transform inverted() {
         float det = 1.0f / (m00 * m11 - m01 * m10);
         float a = m11 * det;
@@ -223,17 +258,17 @@ public final class Transform implements Serializable {
     public int hashCode() {
         return
             Float.hashCode(m00) ^ Float.hashCode(m01) ^ Float.hashCode(m02) ^
-            Float.hashCode(m10) ^ Float.hashCode(m11) ^ Float.hashCode(m12);
+                Float.hashCode(m10) ^ Float.hashCode(m11) ^ Float.hashCode(m12);
     }
 
     @Override
     public boolean equals(Object object) {
         if (object == null || !(object instanceof Transform))
             return false;
-        Transform other = (Transform)object;
+        Transform other = (Transform) object;
         return
             m00 == other.m00 && m01 == other.m01 && m02 == other.m02 &&
-            m10 == other.m10 && m11 == other.m11 && m12 == other.m12;
+                m10 == other.m10 && m11 == other.m11 && m12 == other.m12;
     }
 
     @Override
@@ -241,7 +276,9 @@ public final class Transform implements Serializable {
         return String.format("[%f, %f, %f, %f, %f, %f]", m00, m01, m02, m10, m11, m12);
     }
 
-    /** @return (AffineTransform): AWT affine transform equivalent, not null */
+    /**
+     * @return (AffineTransform): AWT affine transform equivalent, not null
+     */
     public AffineTransform getAffineTransform() {
         return new AffineTransform(
             m00, m10,

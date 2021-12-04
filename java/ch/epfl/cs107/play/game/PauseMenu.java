@@ -9,14 +9,9 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
-public abstract class PauseMenu implements Playable, Acoustics{
+public abstract class PauseMenu implements Playable, Acoustics {
 
-    public interface Pausable{
-        void requestResume();
-        void requestPause();
-        boolean isPaused();
-    }
-
+    protected static final float CAMERA_SCALE_FACTOR = 13;
     // Owner which called this pause. Initially null, need to call setOwner
     private Pausable owner;
     /// Display dimension scale
@@ -24,33 +19,35 @@ public abstract class PauseMenu implements Playable, Acoustics{
     private Window window;
     //private FileSystem fileSystem; // TODO link it to save concept
 
-    protected static final float CAMERA_SCALE_FACTOR = 13;
-
     /**
      * Draw the entire menu (background, texts, etc.)
+     *
      * @param c (Canvas): the context canvas : here the Window
      */
     protected abstract void drawMenu(Canvas c);
 
-    /** @return (Keyboard): the Window Keyboard for inputs */
-    protected Keyboard getKeyboard(){
+    /**
+     * @return (Keyboard): the Window Keyboard for inputs
+     */
+    protected Keyboard getKeyboard() {
         return window.getKeyboard();
     }
 
-    /** @return (Pausable): the owner which starts this pause */
-    protected Pausable getOwner(){
+    /**
+     * @return (Pausable): the owner which starts this pause
+     */
+    protected Pausable getOwner() {
         return owner;
     }
 
     /**
      * Set the owner Pausable
+     *
      * @param owner (Pausable): the owner which starts this pause. Not null
      */
-    public void setOwner(Pausable owner){
+    public void setOwner(Pausable owner) {
         this.owner = owner;
     }
-
-    /// PauseMenu Implements Acoustics
 
     @Override
     public void bip(Audio audio) {
@@ -58,8 +55,7 @@ public abstract class PauseMenu implements Playable, Acoustics{
         // Must be overridden by children who wants beep
     }
 
-
-    /// PauseMenu implements Playable
+    /// PauseMenu Implements Acoustics
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
@@ -68,11 +64,14 @@ public abstract class PauseMenu implements Playable, Acoustics{
         return true;
     }
 
+
+    /// PauseMenu implements Playable
+
     @Override
     public void update(float deltaTime) {
 
         // Center the view on the center of the menu
-        Transform viewTransform = Transform.I.scaled(CAMERA_SCALE_FACTOR).translated(CAMERA_SCALE_FACTOR /2, CAMERA_SCALE_FACTOR /2);
+        Transform viewTransform = Transform.I.scaled(CAMERA_SCALE_FACTOR).translated(CAMERA_SCALE_FACTOR / 2, CAMERA_SCALE_FACTOR / 2);
         window.setRelativeTransform(viewTransform);
 
         // Draw the menu
@@ -81,10 +80,19 @@ public abstract class PauseMenu implements Playable, Acoustics{
     }
 
     @Override
-    public void close() {}
+    public void close() {
+    }
 
     @Override
     public String getTitle() {
         return "Pause Menu";
+    }
+
+    public interface Pausable {
+        void requestResume();
+
+        void requestPause();
+
+        boolean isPaused();
     }
 }

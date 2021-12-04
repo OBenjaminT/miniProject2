@@ -8,7 +8,9 @@ public class Node implements Attachable {
     private Positionable parent;
     private Transform transform;
 
-    /** Creates a new node at origin. */
+    /**
+     * Creates a new node at origin.
+     */
     public Node() {
         parent = null;
         transform = Transform.I;
@@ -17,15 +19,15 @@ public class Node implements Attachable {
     /// Node implements Attachable
 
     @Override
+    public Positionable getParent() {
+        return parent;
+    }
+
+    @Override
     public void setParent(Positionable parent) {
         this.parent = parent;
     }
 
-    @Override
-    public Positionable getParent() {
-        return parent;
-    }
-    
     @Override
     public Transform getRelativeTransform() {
         return transform;

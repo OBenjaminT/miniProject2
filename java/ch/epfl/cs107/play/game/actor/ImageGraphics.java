@@ -15,6 +15,8 @@ public class ImageGraphics extends Node implements Graphics {
 
     /// Region of interest as a rectangle in the image
     private final RegionOfInterest roi;
+    ///
+    private final boolean removeBackground;
     /// Image name
     private String name;
     /// Image dimension
@@ -25,18 +27,17 @@ public class ImageGraphics extends Node implements Graphics {
     private float alpha;
     /// Depth used as render priority. It is the third axis. See it as altitude : lower values are drawn first
     private float depth;
-    ///
-    private final boolean removeBackground;
 
     /**
      * Creates a new image graphics.
-     * @param name (String): image name, may be null
-     * @param width (float): actual image width, before transformation
-     * @param height (float): actual image height, before transformation
-     * @param roi (RegionOfInterest): region of interest as a rectangle in the image
-     * @param anchor (Vector): image anchor, not null
-     * @param alpha (float): transparency, between 0 (invisible) and 1 (opaque)
-     * @param depth (float): render priority, lower-values drawn first
+     *
+     * @param name             (String): image name, may be null
+     * @param width            (float): actual image width, before transformation
+     * @param height           (float): actual image height, before transformation
+     * @param roi              (RegionOfInterest): region of interest as a rectangle in the image
+     * @param anchor           (Vector): image anchor, not null
+     * @param alpha            (float): transparency, between 0 (invisible) and 1 (opaque)
+     * @param depth            (float): render priority, lower-values drawn first
      * @param removeBackground (boolean): indicate if we need to remove the uniform color background before using this image
      */
     public ImageGraphics(String name, float width, float height, RegionOfInterest roi, Vector anchor, float alpha, float depth, boolean removeBackground) {
@@ -52,13 +53,14 @@ public class ImageGraphics extends Node implements Graphics {
 
     /**
      * Creates a new image graphics.
-     * @param name (String): image name, may be null
-     * @param width (float): actual image width, before transformation
+     *
+     * @param name   (String): image name, may be null
+     * @param width  (float): actual image width, before transformation
      * @param height (float): actual image height, before transformation
-     * @param roi (RegionOfInterest): region of interest as a rectangle in the image
+     * @param roi    (RegionOfInterest): region of interest as a rectangle in the image
      * @param anchor (Vector): image anchor, not null
-     * @param alpha (float): transparency, between 0 (invisible) and 1 (opaque)
-     * @param depth (float): render priority, lower-values drawn first
+     * @param alpha  (float): transparency, between 0 (invisible) and 1 (opaque)
+     * @param depth  (float): render priority, lower-values drawn first
      */
     public ImageGraphics(String name, float width, float height, RegionOfInterest roi, Vector anchor, float alpha, float depth) {
         this(name, width, height, roi, anchor, alpha, depth, false);
@@ -66,10 +68,11 @@ public class ImageGraphics extends Node implements Graphics {
 
     /**
      * Creates a new image graphics.
-     * @param name (String): image name, may be null
-     * @param width (float): actual image width, before transformation
+     *
+     * @param name   (String): image name, may be null
+     * @param width  (float): actual image width, before transformation
      * @param height (float): actual image height, before transformation
-     * @param roi (RegionOfInterest): region of interest as a rectangle in the image
+     * @param roi    (RegionOfInterest): region of interest as a rectangle in the image
      * @param anchor (Vector): image anchor, not null
      */
     public ImageGraphics(String name, float width, float height, RegionOfInterest roi, Vector anchor) {
@@ -79,10 +82,11 @@ public class ImageGraphics extends Node implements Graphics {
     /**
      * Creates a new image graphics.
      * Creates a new image graphics.
-     * @param name (String): image name, may be null
-     * @param width (float): actual image width, before transformation
+     *
+     * @param name   (String): image name, may be null
+     * @param width  (float): actual image width, before transformation
      * @param height (float): actual image height, before transformation
-     * @param roi (RegionOfInterest): region of interest as a rectangle in the image
+     * @param roi    (RegionOfInterest): region of interest as a rectangle in the image
      */
     public ImageGraphics(String name, float width, float height, RegionOfInterest roi) {
         this(name, width, height, roi, Vector.ZERO);
@@ -90,10 +94,11 @@ public class ImageGraphics extends Node implements Graphics {
 
     /**
      * Creates a new image graphics.
-     * @param name (String): image name, may be null
-     * @param width (float): actual image width, before transformation
-     * @param height (float): actual image height, before transformation
-     * @param roi (RegionOfInterest): region of interest as a rectangle in the image
+     *
+     * @param name             (String): image name, may be null
+     * @param width            (float): actual image width, before transformation
+     * @param height           (float): actual image height, before transformation
+     * @param roi              (RegionOfInterest): region of interest as a rectangle in the image
      * @param removeBackground (boolean): indicate if we need to remove the uniform color background before using this image
      */
     public ImageGraphics(String name, float width, float height, RegionOfInterest roi, boolean removeBackground) {
@@ -102,92 +107,111 @@ public class ImageGraphics extends Node implements Graphics {
 
     /**
      * Creates a new image graphics.
-     * @param name (String): image name, may be null
-     * @param width (float): actual image width, before transformation
+     *
+     * @param name   (String): image name, may be null
+     * @param width  (float): actual image width, before transformation
      * @param height (float): actual image height, before transformation
      */
     public ImageGraphics(String name, float width, float height) {
         this(name, width, height, null, Vector.ZERO);
     }
-   
+
+    /**
+     * @return (String): image name, may be null
+     */
+    public String getName() {
+        return name;
+    }
+
     /**
      * Sets image name.
+     *
      * @param name (String): new image name, may be null
      */
     public void setName(String name) {
         this.name = name;
     }
 
-    /** @return (String): image name, may be null */
-    public String getName() {
-        return name;
+    /**
+     * @return (float): actual image width, before transformation
+     */
+    public float getWidth() {
+        return width;
     }
 
     /**
      * Sets actual image width, before transformation.
+     *
      * @param width (float): image width
      */
     public void setWidth(float width) {
         this.width = width;
     }
 
-    /** @return (float): actual image width, before transformation */
-    public float getWidth() {
-        return width;
+    /**
+     * @return (float): actual image height, before transformation
+     */
+    public float getHeight() {
+        return height;
     }
 
     /**
      * Sets actual image height, before transformation.
+     *
      * @param height (float): image height
      */
     public void setHeight(float height) {
         this.height = height;
     }
 
-    /** @return (float): actual image height, before transformation */
-    public float getHeight() {
-        return height;
+    /**
+     * @return (Vector): image anchor, not null
+     */
+    public Vector getAnchor() {
+        return anchor;
     }
 
     /**
      * Sets image anchor location, i.e. where is the center of the image.
+     *
      * @param anchor (Vector): image anchor, not null
      */
     public void setAnchor(Vector anchor) {
         this.anchor = anchor;
     }
 
-    /** @return (Vector): image anchor, not null */
-    public Vector getAnchor() {
-        return anchor;
+    /**
+     * @return (float): transparency, between 0 (invisible) and 1 (opaque)
+     */
+    public float getAlpha() {
+        return alpha;
     }
-    
+
     /**
      * Sets transparency.
+     *
      * @param alpha (float): transparency, between 0 (invisible) and 1 (opaque)
      */
     public void setAlpha(float alpha) {
         this.alpha = alpha;
     }
 
-    /** @return (float): transparency, between 0 (invisible) and 1 (opaque) */
-    public float getAlpha() {
-        return alpha;
+    /**
+     * @return (float): render priority, lower-values drawn first
+     */
+    public float getDepth() {
+        return depth;
     }
 
     /**
      * Sets rendering depth.
+     *
      * @param depth (float): render priority, lower-values drawn first
      */
     public void setDepth(float depth) {
         this.depth = depth;
     }
 
-    /** @return (float): render priority, lower-values drawn first */
-    public float getDepth() {
-        return depth;
-    }
-    
     @Override
     public void draw(Canvas canvas) {
         if (name == null)

@@ -32,7 +32,6 @@ public abstract class ICWarsArea extends Area {
 
     @Override
     public final float getCameraScaleFactor() {
-        //private ArrayList<Units> units = new ArrayList<>();
         return 10.f;
     }
 

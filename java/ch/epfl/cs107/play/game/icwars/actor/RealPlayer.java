@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 public class RealPlayer extends ICWarsPlayer {
     /// Animation duration in frame number
-    private final static int MOVE_DURATION = 8;
+    private final static int MOVE_DURATION = 6;
 
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction, units);
@@ -23,7 +23,6 @@ public class RealPlayer extends ICWarsPlayer {
     private String getName() {
         if (this.faction == Faction.ALLY) return "icwars/allyCursor";
         else return "icwars//enemyCursor";
-
     }
 
     @Override
@@ -34,6 +33,8 @@ public class RealPlayer extends ICWarsPlayer {
         moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        if (keyboard.get(Keyboard.Q).isDown()) getOwnerArea().close();
+
         super.update(deltaTime);
     }
 

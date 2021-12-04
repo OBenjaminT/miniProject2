@@ -14,14 +14,15 @@ public final class LogicNumber extends LogicGate {
 
     /**
      * Default constructor of logical Number
-     * @param value (int): value we want to represent with the signals
+     *
+     * @param value   (int): value we want to represent with the signals
      * @param signals (Array of Logic): all digits signals, smallest power of two first. Not null
      */
     public LogicNumber(int value, Logic... signals) {
 
-        if(value >= 8196 || signals.length > 13)
+        if (value >= 8196 || signals.length > 13)
             System.out.println("This Logic gate is not adapted to use 2^p for p>12");
-        if(value < 0 || value >= Math.pow(2, signals.length))
+        if (value < 0 || value >= Math.pow(2, signals.length))
             System.out.println("It would be impossible to represent given value with this number of signals");
 
         this.number = value;
@@ -33,8 +34,8 @@ public final class LogicNumber extends LogicGate {
     @Override
     public float getIntensity() {
         int currentValue = 0;
-        for(int p = 0; p < signals.length; p++){
-            if(signals[p].isOn()) currentValue += POWERS[p];
+        for (int p = 0; p < signals.length; p++) {
+            if (signals[p].isOn()) currentValue += POWERS[p];
         }
         return (currentValue == number) ? Logic.TRUE.getIntensity() : Logic.FALSE.getIntensity();
     }

@@ -9,7 +9,7 @@ import java.nio.file.NoSuchFileException;
  * Empty implementation of file system.
  */
 public enum DefaultFileSystem implements FileSystem {
-    
+
     INSTANCE;
 
     @Override
@@ -21,5 +21,5 @@ public enum DefaultFileSystem implements FileSystem {
     public OutputStream write(String name) throws IOException {
         throw new NoSuchFileException(name);
     }
-    
+
 }

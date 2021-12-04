@@ -14,15 +14,13 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICWars extends AreaGame {
 
+    private final String[] areas = {"icwars/Level0", "icwars/Level1"};
     private int areaIndex;
     private RealPlayer player;
     private Tank tank;
     private Soldier soldier;
 
-    private final String[] areas = {"icwars/Level0", "icwars/Level1"};
-
-
-    private void createAreas(){
+    private void createAreas() {
         addArea(new Level0());
         addArea(new Level1());
     }

@@ -11,6 +11,7 @@ public final class Or extends LogicGate {
 
     /**
      * Default constructor of logical Or
+     *
      * @param signal1 (Logic): first signal. Not null
      * @param signal2 (Logic): second signal. Not null
      */

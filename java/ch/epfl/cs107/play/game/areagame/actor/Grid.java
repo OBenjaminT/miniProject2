@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * Grid Overlay entity
  * Draw a grid on the DiscreteCoordinate Lines:
- *  Assume a coordinate system which is graduated every unit (0, 1, 2, ...)
- *  Assume a grid overlay with unit square
+ * Assume a coordinate system which is graduated every unit (0, 1, 2, ...)
+ * Assume a grid overlay with unit square
  */
 public class Grid extends Entity {
 
@@ -26,31 +26,32 @@ public class Grid extends Entity {
 
     /**
      * Default Grid Constructor
-     * @param width (int): of the desired grid
+     *
+     * @param width  (int): of the desired grid
      * @param height (int): of the desired grid
      */
-    public Grid(int width, int height){
+    public Grid(int width, int height) {
         super(DiscreteCoordinates.ORIGIN.toVector());
 
         final List<Vector> points = new ArrayList<>();
 
         // Add all vertical lines as a snake from top left to top/bottom right
-        for(int c = 1; c < width; c++) {
-            points.add(new Vector(c, (c%2)*height));
-            points.add(new Vector(c, ((c+1)%2)*height));
+        for (int c = 1; c < width; c++) {
+            points.add(new Vector(c, (c % 2) * height));
+            points.add(new Vector(c, ((c + 1) % 2) * height));
         }
         // Reach the right in the margin
-        points.add(new Vector(width, (width%2)*height));
+        points.add(new Vector(width, (width % 2) * height));
 
         // Add all horizontal lines as a snake
-        for(int r = 1; r < height; r++) {
-            points.add(new Vector((r%2)*width, r));
-            points.add(new Vector(((r+1)%2)*width, r));
+        for (int r = 1; r < height; r++) {
+            points.add(new Vector((r % 2) * width, r));
+            points.add(new Vector(((r + 1) % 2) * width, r));
         }
         // Convert the point into a opened poly line
         gridLine = new Polyline(false, points);
 
-        border = new Polyline(true, 0,0,0, height, width, height, width, 0);
+        border = new Polyline(true, 0, 0, 0, height, width, height, width, 0);
     }
 
     public Grid(Area area) {

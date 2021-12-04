@@ -8,12 +8,13 @@ import java.awt.geom.Path2D;
  * Represents an immutable circle.
  */
 public final class Circle extends Shape {
-    
+
     private final float radius;
     private final Vector center;
 
     /**
      * Creates a new circle.
+     *
      * @param radius (float): size, not negative
      * @param center (Vector): origin, not null
      */
@@ -26,18 +27,23 @@ public final class Circle extends Shape {
 
     /**
      * Creates a new circle.
+     *
      * @param radius (float): size, not negative
      */
     public Circle(float radius) {
         this(radius, Vector.ZERO);
     }
-    
-    /** @return (float): size of circle */
+
+    /**
+     * @return (float): size of circle
+     */
     public float getRadius() {
         return radius;
     }
 
-    /** @return (Vector): origin of circle, not null */
+    /**
+     * @return (Vector): origin of circle, not null
+     */
     public Vector getCenter() {
         return center;
     }
@@ -47,25 +53,25 @@ public final class Circle extends Shape {
 
     @Override
     public float getArea() {
-        return (float)Math.PI * radius * radius;
+        return (float) Math.PI * radius * radius;
     }
 
     @Override
     public float getPerimeter() {
-        return 2.0f * (float)Math.PI * radius;
+        return 2.0f * (float) Math.PI * radius;
     }
 
     @Override
     public Vector sample() {
-        
+
         // Sample random angle and distance (density increase quadratically)
         double distance = Math.sqrt(RandomGenerator.getInstance().nextDouble()) * radius;
         double angle = RandomGenerator.getInstance().nextDouble() * 2.0 * Math.PI;
-        
+
         // Compute actual location
         return new Vector(
-            center.x + (float)(distance * Math.cos(angle)),
-            center.y + (float)(distance * Math.sin(angle))
+            center.x + (float) (distance * Math.cos(angle)),
+            center.y + (float) (distance * Math.sin(angle))
         );
     }
 
@@ -74,10 +80,10 @@ public final class Circle extends Shape {
         // TODO is it possible to cache this? need to check if SwingWindow modifies it...
         Ellipse2D ellipse = new Ellipse2D.Float(
             center.x - radius,
-		    center.y - radius,
+            center.y - radius,
             radius * 2,
             radius * 2
         );
-		return new Path2D.Float(ellipse);
+        return new Path2D.Float(ellipse);
     }
 }

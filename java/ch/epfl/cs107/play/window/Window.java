@@ -7,21 +7,29 @@ import ch.epfl.cs107.play.math.Attachable;
  * Moreover, the camera can be attached to any positionable entity.
  */
 public interface Window extends Canvas, Audio, Attachable, AutoCloseable {
-    
-    /** @return (Button): whether the windows is active */
+
+    /**
+     * @return (Button): whether the windows is active
+     */
     Button getFocus();
-    
-    /** @return (Mouse): associated mouse controller */
+
+    /**
+     * @return (Mouse): associated mouse controller
+     */
     Mouse getMouse();
-    
-    /** @return (Keyboard): associated keyboard controller */
+
+    /**
+     * @return (Keyboard): associated keyboard controller
+     */
     Keyboard getKeyboard();
-    
+
     // TODO gamepads
-        
-    /** @return (boolean): whether the user tried to close the window */
+
+    /**
+     * @return (boolean): whether the user tried to close the window
+     */
     boolean isCloseRequested();
-    
+
     // TODO this may require delta time, e.g. for mouse interpolation
     void update();
 }
