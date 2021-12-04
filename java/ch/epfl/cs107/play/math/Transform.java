@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.math;
 
 import java.awt.geom.AffineTransform;
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,7 +12,7 @@ public final class Transform implements Serializable {
      * The identity transform
      **/
     public static final Transform I = new Transform(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    @Serial
+
     private static final long serialVersionUID = 1;
     /**
      * X scale

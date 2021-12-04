@@ -4,10 +4,9 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Window;
 
 import java.awt.*;
-import java.io.Serial;
 
 public class MouseMoveRecordEntry extends RecordEntry {
-    @Serial
+
     private static final long serialVersionUID = 1;
     private final float x;
     private final float y;

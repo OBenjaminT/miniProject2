@@ -4,10 +4,9 @@ import ch.epfl.cs107.play.window.Window;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.io.Serial;
 
 public class MouseButtonReleasedRecordEntry extends RecordEntry {
-    @Serial
+
     private static final long serialVersionUID = 1;
     private final int keycode;
 

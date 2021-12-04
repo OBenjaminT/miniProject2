@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.math;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.List;
  */
 public final class DiscreteCoordinates implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 1;
     public static DiscreteCoordinates ORIGIN = new DiscreteCoordinates(0, 0);
     /// A coordinate pair is defined by the x and y graduation

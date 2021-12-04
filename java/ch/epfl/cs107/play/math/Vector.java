@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.math;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -24,7 +23,7 @@ public final class Vector implements Serializable {
      * The unit Y vector (0, 1)
      */
     public static final Vector Y = new Vector(0.0f, 1.0f);
-    @Serial
+
     private static final long serialVersionUID = 1;
     public final float x;
     public final float y;
