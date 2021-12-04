@@ -47,13 +47,21 @@ abstract class ICWarsPlayer extends ICWarsActor {
         }
     }
 
-/*    @Override
+    @Override
     public void leaveArea() {
         for(Units unit: units) {
             unit.leaveArea();
         }
         super.leaveArea();
-    }*/
+    }
+
+    @Override
+    public void enterArea(Area area, DiscreteCoordinates position) {
+        super.enterArea(area,position);
+        for(Units unit: units) {
+            unit.enterArea(area, new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y));
+        }
+    }
 
     public void centerCamera() {
         getOwnerArea().setViewCandidate(this);
