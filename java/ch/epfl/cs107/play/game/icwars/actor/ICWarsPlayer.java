@@ -27,9 +27,7 @@ public class ICWarsPlayer extends ICWarsActor {
      * register all the units of the player in the player's ownerArea
      */
     private void RegisterUnitsAsActors() {
-        for (Units unit : units) {
-            unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y));
-        }
+        units.forEach(unit -> unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)));
     }
 
     @Override
@@ -52,18 +50,14 @@ public class ICWarsPlayer extends ICWarsActor {
 
     @Override
     public void leaveArea() {
-        for (Units unit : units) {
-            unit.leaveArea();
-        }
+        units.forEach(ICWarsActor::leaveArea);
         super.leaveArea();
     }
 
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
         super.enterArea(area, position);
-        for (Units unit : units) {
-            unit.enterArea(area, new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y));
-        }
+        units.forEach(unit -> unit.enterArea(area, new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)));
     }
 
     public void centerCamera() {
