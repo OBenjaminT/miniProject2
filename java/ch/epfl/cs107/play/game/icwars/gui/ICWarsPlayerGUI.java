@@ -12,11 +12,10 @@ public class ICWarsPlayerGUI implements Graphics {
     float cameraSclareFactor;
 
 
-
-    public ICWarsPlayerGUI(float cameraScaleFactor ,
-                           ICWarsPlayer player){
-        this.player=player;
-        this.cameraSclareFactor= cameraScaleFactor;
+    public ICWarsPlayerGUI(float cameraScaleFactor,
+                           ICWarsPlayer player) {
+        this.player = player;
+        this.cameraSclareFactor = cameraScaleFactor;
     }
 
     /**

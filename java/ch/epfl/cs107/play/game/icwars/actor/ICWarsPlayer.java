@@ -104,10 +104,10 @@ public class ICWarsPlayer extends ICWarsActor {
 
     /**
      * @param index the index of the selected Uit in the player's units list
-     * SelectedUnit parameter is associated to the proper Unit
-     * SelectedUnit is also transmitter to the playerGUI with the setter
+     *              SelectedUnit parameter is associated to the proper Unit
+     *              SelectedUnit is also transmitter to the playerGUI with the setter
      */
-    public void selectUnit(int index){
+    public void selectUnit(int index) {
         SelectedUnit = this.units.get(index);
         playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
     }

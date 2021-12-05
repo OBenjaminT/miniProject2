@@ -84,7 +84,7 @@ abstract public class Units extends ICWarsActor {
     private void completeUnitsRange() {
         int fromX = this.getCurrentMainCellCoordinates().x;
         int fromY = this.getCurrentMainCellCoordinates().y;
-        for (int x = (- radius); x < radius; x++) {
+        for (int x = (-radius); x < radius; x++)
             for (int y = (-radius); y < radius; y++) {
                 System.out.println("hi");
                 boolean hasLeftNeighbour = (x + fromX) > 0;
@@ -94,7 +94,6 @@ abstract public class Units extends ICWarsActor {
                 DiscreteCoordinates NodeCoordinates = new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
                 range.addNode(NodeCoordinates, hasLeftNeighbour, hasTopNeighbour, hasRightNeighbour, hasUnderNeighbour);
             }
-        }
     }
 
     /**

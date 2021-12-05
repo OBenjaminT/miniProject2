@@ -54,7 +54,7 @@ public class ICWars extends AreaGame {
         changeIfNPressed();
         resetIfRPressed();
         if (keyboard.get(Keyboard.U).isReleased()) {
-            ((RealPlayer)player).selectUnit(1); // 0, 1 ...
+            player.selectUnit(1); // 0, 1 ...
         }
         super.update(deltaTime);
     }
