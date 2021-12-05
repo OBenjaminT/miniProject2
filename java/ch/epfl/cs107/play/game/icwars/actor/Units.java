@@ -81,20 +81,20 @@ abstract public class Units extends ICWarsActor {
      * fills the unit's range attribute with nodes that are both
      * withtin a radius range of the unit's coordinatates and in the grid
      */
-    private void completeUnitsRange(){
-        int fromX= this.getCurrentMainCellCoordinates().x;
-        int fromY=this.getCurrentMainCellCoordinates().y;
-        for(int x=-radius+1; x<radius;++x){
-            for(int y=-radius+1; y<radius;++y){
-                boolean hasLeftNeighbourg = x+fromX>0;
-                boolean hasRightNeighbourg=x+fromX<this.getOwnerArea().getWidth()-1;
-                boolean hasTopNeighbourg = y+fromY>0;
-                boolean hasUnderNeighbourg = y+fromY<this.getOwnerArea().getHeight()-1;
+    private void completeUnitsRange() {
+        int fromX = this.getCurrentMainCellCoordinates().x;
+        int fromY = this.getCurrentMainCellCoordinates().y;
+        for (int x = 1 - radius; x < radius; x++)
+            for (int y = 1 - radius; y < radius; y++) {
+                boolean hasLeftNeighbour = (x + fromX) > 0;
+                boolean hasRightNeighbour = (x + fromX) < (this.getOwnerArea().getWidth() - 1);
+                boolean hasTopNeighbour = (y + fromY) > 0;
+                boolean hasUnderNeighbour = (y + fromY) < (this.getOwnerArea().getHeight() - 1);
                 DiscreteCoordinates NodeCoordinates = new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
-                range.addNode(NodeCoordinates, hasLeftNeighbourg,hasTopNeighbourg,hasRightNeighbourg,hasUnderNeighbourg);
+                range.addNode(NodeCoordinates, hasLeftNeighbour, hasTopNeighbour, hasRightNeighbour, hasUnderNeighbour);
             }
-        }
     }
+
     /**
      * a unit doesn't take spaceCellSpace
      */
@@ -121,20 +121,19 @@ abstract public class Units extends ICWarsActor {
 
     /**
      * Draw the unit's range and a path from the unit position to
-     destination
+     * destination
+     *
      * @param destination path destination
-     * @param canvas canvas
+     * @param canvas      canvas
      */
-    public void drawRangeAndPathTo(DiscreteCoordinates destination ,
-                                   Canvas canvas) {
+    public void drawRangeAndPathTo(DiscreteCoordinates destination, Canvas canvas) {
         range.draw(canvas);
         Queue<Orientation> path =
-                range.shortestPath(getCurrentMainCellCoordinates(),
-                        destination);
-//Draw path only if it exists (destination inside the range)
-        if (path != null){
-            new Path(getCurrentMainCellCoordinates().toVector(),
-                    path).draw(canvas);
+            range.shortestPath(getCurrentMainCellCoordinates(), destination);
+        // Draw path only if it exists (destination inside the range)
+        if (path != null) {
+            new Path(getCurrentMainCellCoordinates().toVector(), path)
+                .draw(canvas);
         }
     }
 }
