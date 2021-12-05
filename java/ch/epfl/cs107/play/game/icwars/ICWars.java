@@ -57,11 +57,11 @@ public class ICWars extends AreaGame {
     /**
      * if the button "N" is pressed,
      * if the current area isn't the last area :
-     *  the real player leaves the area,
-     *  the area is changed to the next in the area list
-     *  the player enters the new area
+     * the real player leaves the area,
+     * the area is changed to the next in the area list
+     * the player enters the new area
      * else:
-     *  print "game over"
+     * print "game over"
      */
     private void changeIfNPressed() {
         if (getWindow().getKeyboard().get(Keyboard.N).isReleased())

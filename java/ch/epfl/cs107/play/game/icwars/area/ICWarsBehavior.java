@@ -16,12 +16,11 @@ public class ICWarsBehavior extends AreaBehavior {
         super(window, name);
         int height = getHeight();
         int width = getWidth();
-        for (int y = 0; y < height; y++) {
+        for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
-                ICWarsBehavior.ICWarsCellType type = ICWarsBehavior.ICWarsCellType.toType(getRGB(height - 1 - y, x));
+                ICWarsCellType type = ICWarsCellType.toType(getRGB(height - 1 - y, x));
                 setCell(x, y, new ICWarsCell(x, y, type));
             }
-        }
     }
 
     public enum ICWarsCellType {
@@ -43,7 +42,7 @@ public class ICWarsBehavior extends AreaBehavior {
         }
 
         public static ICWarsBehavior.ICWarsCellType toType(int type) {
-            for (ICWarsBehavior.ICWarsCellType ict : ICWarsBehavior.ICWarsCellType.values()) {
+            for (ICWarsBehavior.ICWarsCellType ict : ICWarsCellType.values()) {
                 if (ict.type == type)
                     return ict;
             }
@@ -77,15 +76,10 @@ public class ICWarsBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            //if the entity takes Cell Space
-            if (entity.takeCellSpace()) {
-                for (Interactable otherEntity : entities) {//if another entity on the cell also takes the space
-                    if (otherEntity.takeCellSpace()) {
-                        return false; //entity can't enter
-                    }
-                }
-            }
-            return true; //else it can enter
+            // if the entity takes Cell Space else it can enter
+            // if another entity on the cell also takes the space entity can't enter
+            return !entity.takeCellSpace()
+                || entities.stream().noneMatch(Interactable::takeCellSpace);
         }
 
 

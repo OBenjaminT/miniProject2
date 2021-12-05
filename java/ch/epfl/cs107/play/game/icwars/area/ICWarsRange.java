@@ -20,9 +20,8 @@ public class ICWarsRange extends AreaGraph implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-        for (AreaNode node : getNodes().values()) {
-            ((RangeNode) node).draw(canvas);
-        }
+        getNodes().values()
+            .forEach(node -> ((RangeNode) node).draw(canvas));
     }
 
     private class RangeNode extends AreaNode implements Graphics {
