@@ -8,8 +8,10 @@ import ch.epfl.cs107.play.game.icwars.actor.units.Tank;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
+import ch.epfl.cs107.play.game.tutosSolution.area.Tuto2Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICWars extends AreaGame {
@@ -48,7 +50,44 @@ public class ICWars extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
+        changeIfNpressed();
+        resetIfRpressed();
         super.update(deltaTime);
+    }
+
+    /**
+     * if the button "N" is pressed,
+     * if the current area isn't the last area :
+     * the real player leaves the area,
+     * the area is changed to the next in the area list
+     * the player enters the enw area
+     * else:
+     * print "game over"
+     */
+    private void changeIfNpressed (){
+        Keyboard keyboard = getWindow().getKeyboard() ;
+        if(keyboard.get(Keyboard.N).isReleased()){
+            if(areaIndex!=areas.length-1){
+                ++areaIndex;
+                player.leaveArea();
+                ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true);
+                player.enterArea(currentArea, currentArea.getRealPlayerSpawnPosition());
+                player.centerCamera();
+            }
+            else{
+                System.out.println("Game over");
+            }
+        }
+    }
+    /**
+     * if the button "N" is pressed,
+     *the game restarts in the same conditions as it initially started
+     */
+    private void resetIfRpressed (){
+        Keyboard keyboard = getWindow().getKeyboard() ;
+        if(keyboard.get(Keyboard.R).isReleased()){
+            this.begin(this.getWindow(), this.getFileSystem());
+        }
     }
 
     @Override
