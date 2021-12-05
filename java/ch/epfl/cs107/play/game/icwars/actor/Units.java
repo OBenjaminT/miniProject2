@@ -79,7 +79,7 @@ abstract public class Units extends ICWarsActor {
 
     /**
      * fills the unit's range attribute with nodes that are both
-     * withtin a radius range of the unit's coordinatates and in the grid
+     * within a radius range of the unit's coordinates and in the grid
      */
     private void completeUnitsRange() {
         int fromX = this.getCurrentMainCellCoordinates().x;
