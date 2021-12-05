@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -31,9 +32,7 @@ public abstract class AreaEntity extends Entity implements Interactable {
 
         super(position.toVector());
 
-        if (area == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(area);
 
         this.ownerArea = area;
         this.orientation = orientation;

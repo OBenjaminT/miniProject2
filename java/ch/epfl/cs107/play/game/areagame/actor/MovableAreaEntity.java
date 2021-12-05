@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * MovableAreaEntity represent AreaEntity which can move on the grid
@@ -163,11 +164,9 @@ public abstract class MovableAreaEntity extends AreaEntity {
      * @return (List < DiscreteCoordinates >): the cells after the move
      */
     protected List<DiscreteCoordinates> getNextCurrentCells() {
-        List<DiscreteCoordinates> nextCells = new ArrayList<>();
-        for (DiscreteCoordinates coord : getCurrentCells()) {
-            nextCells.add(coord.jump(getOrientation().toVector()));
-        }
-        return nextCells;
+        return getCurrentCells().stream()
+            .map(coord -> coord.jump(getOrientation().toVector()))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -175,14 +174,14 @@ public abstract class MovableAreaEntity extends AreaEntity {
      */
     private List<DiscreteCoordinates> getLeavingCells() {
         Set<DiscreteCoordinates> leavingCells = new HashSet<>(getCurrentCells());
-        List<DiscreteCoordinates> nextCells = new ArrayList<>();
-        for (DiscreteCoordinates coord : getCurrentCells()) {
-            nextCells.add(coord.jump(getOrientation().toVector()));
-        }
+
+        // var nextCells = getCurrentCells().stream()
+        //     .map(coord -> coord.jump(getOrientation().toVector()))
+        //     .collect(Collectors.toList());
 
         getNextCurrentCells().forEach(leavingCells::remove);
 
-        return new ArrayList<>(leavingCells);
+        return leavingCells.stream().toList();
     }
 
     /**

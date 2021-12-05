@@ -3,6 +3,8 @@ package ch.epfl.cs107.play.game.actor;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 
+import java.util.Objects;
+
 
 /**
  * Basic Entity are simply actor and represented by a current exact position and its corresponding transform
@@ -21,9 +23,7 @@ public abstract class Entity implements Actor {
      * @param position (Coordinate): Initial position of the entity. Not null
      */
     public Entity(Vector position) {
-
-        if (position == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(position);
         this.currentPosition = position;
     }
 

@@ -20,8 +20,8 @@ abstract public class Units extends ICWarsActor {
     // ui
     protected String name;
     protected Sprite sprite;
-    //path
-    ICWarsRange range;
+    // path
+    ICWarsRange range = new ICWarsRange();
 
     /**
      * @param area       the area in yhich the unit is

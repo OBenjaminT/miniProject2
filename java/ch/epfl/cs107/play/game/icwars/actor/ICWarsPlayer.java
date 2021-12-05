@@ -111,5 +111,4 @@ public class ICWarsPlayer extends ICWarsActor {
         SelectedUnit = this.units.get(index);
         playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
     }
-
 }
