@@ -37,19 +37,18 @@ abstract class ICWarsPlayer extends ICWarsActor {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        //remoing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
-        for (int i = 0; i < this.units.size(); ++i) {
-            Units unit = units.get(i);
-            if (!unit.isAlive()) {
+        // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
+        units.stream()
+            .filter(Units::isDead)
+            .forEach(unit -> {
                 units.remove(unit);
                 unit.leaveArea();
-            }
-        }
+            });
     }
 
     @Override
     public void leaveArea() {
-        for(Units unit: units) {
+        for (Units unit : units) {
             unit.leaveArea();
         }
         super.leaveArea();
@@ -57,8 +56,8 @@ abstract class ICWarsPlayer extends ICWarsActor {
 
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
-        super.enterArea(area,position);
-        for(Units unit: units) {
+        super.enterArea(area, position);
+        for (Units unit : units) {
             unit.enterArea(area, new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y));
         }
     }

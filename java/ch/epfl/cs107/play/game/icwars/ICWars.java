@@ -8,7 +8,6 @@ import ch.epfl.cs107.play.game.icwars.actor.units.Tank;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
-import ch.epfl.cs107.play.game.tutosSolution.area.Tuto2Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -40,9 +39,9 @@ public class ICWars extends AreaGame {
 
     private void initArea(String areaKey) {
         ICWarsArea area = (ICWarsArea) setCurrentArea(areaKey, true);
-        DiscreteCoordinates coords = area.getRealPlayerSpawnPosition();
-        tank = new Tank(area, area.getTankSpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-        soldier = new Soldier(area, area.getSoldierSpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+        DiscreteCoordinates coords = area.getAllyCenter();
+        tank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+        soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
         player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
         player.enterArea(area, coords);
         player.centerCamera();
@@ -50,44 +49,39 @@ public class ICWars extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
-        changeIfNpressed();
-        resetIfRpressed();
+        changeIfNPressed();
+        resetIfRPressed();
         super.update(deltaTime);
     }
 
     /**
      * if the button "N" is pressed,
      * if the current area isn't the last area :
-     * the real player leaves the area,
-     * the area is changed to the next in the area list
-     * the player enters the enw area
+     *  the real player leaves the area,
+     *  the area is changed to the next in the area list
+     *  the player enters the new area
      * else:
-     * print "game over"
+     *  print "game over"
      */
-    private void changeIfNpressed (){
-        Keyboard keyboard = getWindow().getKeyboard() ;
-        if(keyboard.get(Keyboard.N).isReleased()){
-            if(areaIndex!=areas.length-1){
+    private void changeIfNPressed() {
+        if (getWindow().getKeyboard().get(Keyboard.N).isReleased())
+            if (areaIndex != areas.length - 1) {
                 ++areaIndex;
                 player.leaveArea();
-                ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true);
-                player.enterArea(currentArea, currentArea.getRealPlayerSpawnPosition());
+                try (var currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true)) {
+                    player.enterArea(currentArea, currentArea.getAllyCenter());
+                }
                 player.centerCamera();
-            }
-            else{
-                System.out.println("Game over");
-            }
-        }
+            } else System.out.println("Game over");
     }
+
     /**
      * if the button "N" is pressed,
-     *the game restarts in the same conditions as it initially started
+     * the game restarts in the same conditions as it initially started
      */
-    private void resetIfRpressed (){
-        Keyboard keyboard = getWindow().getKeyboard() ;
-        if(keyboard.get(Keyboard.R).isReleased()){
+    private void resetIfRPressed() {
+        if (getWindow().getKeyboard().get(Keyboard.R).isReleased())
             this.begin(this.getWindow(), this.getFileSystem());
-        }
     }
 
     @Override

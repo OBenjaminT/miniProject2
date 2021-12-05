@@ -4,7 +4,17 @@ import ch.epfl.cs107.play.game.areagame.actor.Background;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
+import java.util.ArrayList;
+
 public class Level1 extends ICWarsArea {
+    public final SpawnPoints allyFactionSpawnPoints;
+    public final SpawnPoints enemyFactionSpawnPoints;
+
+    public Level1() {
+        this.allyFactionSpawnPoints = new SpawnPoints(new ArrayList<>());
+        this.enemyFactionSpawnPoints = new SpawnPoints(new ArrayList<>());
+    }
+
     @Override
     public String getTitle() {
         return "icwars/Level1";
@@ -15,18 +25,14 @@ public class Level1 extends ICWarsArea {
         registerActor(new Background(this));
     }
 
+
     @Override
-    public DiscreteCoordinates getRealPlayerSpawnPosition() {
-        return new DiscreteCoordinates(2, 5);
+    public DiscreteCoordinates getAllyCenter() {
+        return new DiscreteCoordinates(0, 0);
     }
 
     @Override
-    public DiscreteCoordinates getTankSpawnPosition() {
-        return new DiscreteCoordinates(2, 5);
-    }
-
-    @Override
-    public DiscreteCoordinates getSoldierSpawnPosition() {
-        return new DiscreteCoordinates(3, 5);
+    public DiscreteCoordinates getFreeAllySpawnPosition() {
+        return allyFactionSpawnPoints.getFreeSpawnPosition();
     }
 }

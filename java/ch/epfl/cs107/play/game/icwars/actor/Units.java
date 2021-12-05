@@ -53,6 +53,10 @@ abstract public class Units extends ICWarsActor {
         return this.current_HP > 0;
     }
 
+    public boolean isDead() {
+        return !isAlive();
+    }
+
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
