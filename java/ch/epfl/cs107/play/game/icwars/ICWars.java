@@ -53,9 +53,7 @@ public class ICWars extends AreaGame {
     public void update(float deltaTime) {
         changeIfNPressed();
         resetIfRPressed();
-        if (keyboard.get(Keyboard.U).isReleased()) {
-            player.selectUnit(1); // 0, 1 ...
-        }
+        if (keyboard.get(Keyboard.U).isReleased()) player.selectUnit(0); // 0, 1 ...
         super.update(deltaTime);
     }
 
