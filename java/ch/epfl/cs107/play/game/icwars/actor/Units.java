@@ -32,7 +32,13 @@ abstract public class Units extends ICWarsActor {
      * @param current_HP the number of HP a unit has
      * @param maxHP      the maximum HP the unit has
      */
-    public Units(Area area, DiscreteCoordinates position, Faction faction, int repair, int radius, int current_HP, int maxHP) {
+    public Units(Area area,
+                 DiscreteCoordinates position,
+                 Faction faction,
+                 int repair,
+                 int radius,
+                 int current_HP,
+                 int maxHP) {
         super(area, position, faction);
         this.maxHP = maxHP;
         this.radius = radius;
@@ -90,7 +96,8 @@ abstract public class Units extends ICWarsActor {
                 boolean hasRightNeighbour = (x + fromX) < (this.getOwnerArea().getWidth() - 1);
                 boolean hasTopNeighbour = (y + fromY) > 0;
                 boolean hasUnderNeighbour = (y + fromY) < (this.getOwnerArea().getHeight() - 1);
-                DiscreteCoordinates NodeCoordinates = new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
+                DiscreteCoordinates NodeCoordinates =
+                    new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
                 range.addNode(NodeCoordinates, hasLeftNeighbour, hasTopNeighbour, hasRightNeighbour, hasUnderNeighbour);
             }
     }

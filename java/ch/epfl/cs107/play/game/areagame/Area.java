@@ -377,7 +377,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
     @Override
     public void close() {
-        System.out.println("Close requestedq");
+        System.out.println("Close requested");
     }
 
 
