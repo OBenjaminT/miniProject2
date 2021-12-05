@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -10,9 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-abstract class ICWarsPlayer extends ICWarsActor {
+public class ICWarsPlayer extends ICWarsActor {
     protected ArrayList<Units> units = new ArrayList<>();
     protected Sprite sprite;
+    protected Units SelectedUnit;
+    ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
@@ -32,6 +35,7 @@ abstract class ICWarsPlayer extends ICWarsActor {
     @Override
     public void draw(Canvas canvas) {
         this.sprite.draw(canvas);
+        playerGUI.draw(canvas);
     }
 
     @Override
@@ -101,6 +105,17 @@ abstract class ICWarsPlayer extends ICWarsActor {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         //TODO implement this
+    }
+
+
+    /**
+     * @param index the index of the selected Uit in the player's units list
+     * SelectedUnit parameter is associated to the proper Unit
+     * SelectedUnit is also transmitter to the playerGUI with the setter
+     */
+    public void selectUnit(int index){
+        SelectedUnit = this.units.get(index);
+        playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
     }
 
 }

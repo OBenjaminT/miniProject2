@@ -20,6 +20,7 @@ public class ICWars extends AreaGame {
     private RealPlayer player;
     private Tank tank;
     private Soldier soldier;
+    private Keyboard keyboard;
 
     private void createAreas() {
         addArea(new Level0());
@@ -30,6 +31,7 @@ public class ICWars extends AreaGame {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             createAreas();
+            keyboard = window.getKeyboard();
             int areaIndex = 0;
             initArea(areas[areaIndex]);
             return true;
@@ -51,6 +53,9 @@ public class ICWars extends AreaGame {
     public void update(float deltaTime) {
         changeIfNPressed();
         resetIfRPressed();
+        if (keyboard.get(Keyboard.U).isReleased()) {
+            ((RealPlayer)player).selectUnit(1); // 0, 1 ...
+        }
         super.update(deltaTime);
     }
 
@@ -64,7 +69,7 @@ public class ICWars extends AreaGame {
      *  print "game over"
      */
     private void changeIfNPressed() {
-        if (getWindow().getKeyboard().get(Keyboard.N).isReleased())
+        if (keyboard.get(Keyboard.N).isReleased())
             if (areaIndex != areas.length - 1) {
                 ++areaIndex;
                 player.leaveArea();
@@ -80,7 +85,7 @@ public class ICWars extends AreaGame {
      * the game restarts in the same conditions as it initially started
      */
     private void resetIfRPressed() {
-        if (getWindow().getKeyboard().get(Keyboard.R).isReleased())
+        if (keyboard.get(Keyboard.R).isReleased())
             this.begin(this.getWindow(), this.getFileSystem());
     }
 
