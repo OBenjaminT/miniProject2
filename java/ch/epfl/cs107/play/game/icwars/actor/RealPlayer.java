@@ -28,11 +28,12 @@ public class RealPlayer extends ICWarsPlayer {
     @Override
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
-
-        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        if (RealPlayerCanMove()) {
+            moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+            moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
+            moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+            moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        }
         if (keyboard.get(Keyboard.Q).isDown()) getOwnerArea().close();
 
         super.update(deltaTime);
@@ -45,9 +46,17 @@ public class RealPlayer extends ICWarsPlayer {
      * @param b           (Button): button corresponding to the given orientation, not null
      */
     private void moveIfPressed(Orientation orientation, Button b) {
-        if (b.isDown() && !isDisplacementOccurs()) {
-            orientate(orientation);
-            move(MOVE_DURATION);
+            if (b.isDown() && !isDisplacementOccurs()) {
+                orientate(orientation);
+                move(MOVE_DURATION);
         }
+    }
+
+    /**
+     * @return true only if playerCurrentState = NORMAL, SELECT_UNIT or MOVE_UNIT
+     */
+    private boolean RealPlayerCanMove (){
+        if(this.playerCurrentState==States.NORMAL || this.playerCurrentState==States.SELECT_CELL || this.playerCurrentState==States.MOVE_UNIT) return true;
+        else return false;
     }
 }

@@ -48,7 +48,7 @@ public class ICWarsPlayer extends ICWarsActor {
     @Override
     public void draw(Canvas canvas) {
         this.sprite.draw(canvas);
-        //playerGUI.draw(canvas);
+        //if(playerCurrentState == States.MOVE_UNIT) playerGUI.draw(canvas);;
     }
 
     @Override
