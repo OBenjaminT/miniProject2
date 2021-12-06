@@ -1,14 +1,11 @@
 package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
-
-import java.util.Queue;
 
 abstract public class Units extends ICWarsActor {
 
@@ -21,7 +18,7 @@ abstract public class Units extends ICWarsActor {
     protected String name;
     protected Sprite sprite;
     // path
-    ICWarsRange range = new ICWarsRange();
+    ICWarsRange range;
 
     /**
      * @param area       the area in yhich the unit is
@@ -44,6 +41,7 @@ abstract public class Units extends ICWarsActor {
         this.radius = radius;
         this.setHp(current_HP);
         this.repair = repair;
+        this.range = new ICWarsRange();
         completeUnitsRange();
     }
 
@@ -88,18 +86,23 @@ abstract public class Units extends ICWarsActor {
      * within a radius range of the unit's coordinates and in the grid
      */
     private void completeUnitsRange() {
-        int fromX = this.getCurrentMainCellCoordinates().x;
-        int fromY = this.getCurrentMainCellCoordinates().y;
-        for (int x = 1 - radius; x < radius; x++)
-            for (int y = 1 - radius; y < radius; y++) {
-                boolean hasLeftNeighbour = (x + fromX) > 0;
-                boolean hasRightNeighbour = (x + fromX) < (this.getOwnerArea().getWidth() - 1);
-                boolean hasTopNeighbour = (y + fromY) > 0;
-                boolean hasUnderNeighbour = (y + fromY) < (this.getOwnerArea().getHeight() - 1);
-                DiscreteCoordinates NodeCoordinates =
-                    new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
-                range.addNode(NodeCoordinates, hasLeftNeighbour, hasTopNeighbour, hasRightNeighbour, hasUnderNeighbour);
+        int widthIndex = this.getOwnerArea().getWidth() - 1;
+        int heightIndex = this.getOwnerArea().getHeight() - 1;
+        for (int x = -radius; x <= radius; x++) {
+            int fromX = this.getCurrentMainCellCoordinates().x + x;
+            for (int y = -radius; y <= radius; y++) {
+                int fromY = this.getCurrentMainCellCoordinates().y + y;
+                if (x <= heightIndex && x >= 0 && y <= widthIndex && y >= 0) {
+                    boolean hasLeftNeighbour = fromX > 0;
+                    boolean hasRightNeighbour = fromX < widthIndex;
+                    boolean hasTopNeighbour = fromY > 0;
+                    boolean hasUnderNeighbour = fromY < heightIndex;
+                    DiscreteCoordinates NodeCoordinates =
+                        new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
+                    range.addNode(NodeCoordinates, hasLeftNeighbour, hasTopNeighbour, hasRightNeighbour, hasUnderNeighbour);
+                }
             }
+        }
     }
 
     /**
@@ -136,13 +139,10 @@ abstract public class Units extends ICWarsActor {
     public void drawRangeAndPathTo(DiscreteCoordinates destination,
                                    Canvas canvas) {
         range.draw(canvas);
-        Queue<Orientation> path =
-            range.shortestPath(getCurrentMainCellCoordinates(),
-                destination);
-//Draw path only if it exists (destination inside the range)
-        if (path != null) {
-            new Path(getCurrentMainCellCoordinates().toVector(),
-                path).draw(canvas);
-        }
+        var path =
+            range.shortestPath(getCurrentMainCellCoordinates(), destination);
+        // Draw path only if it exists (destination inside the range)
+        if (path != null)
+            new Path(getCurrentMainCellCoordinates().toVector(), path).draw(canvas);
     }
 }
