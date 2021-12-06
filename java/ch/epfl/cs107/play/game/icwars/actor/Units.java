@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
@@ -16,6 +17,7 @@ abstract public class Units extends ICWarsActor {
     protected int maxHP;
     protected int repair;
     protected int radius;
+    protected boolean isAlreadyMoved;
     // ui
     protected String name;
     protected Sprite sprite;
@@ -44,6 +46,7 @@ abstract public class Units extends ICWarsActor {
         this.setHp(current_HP);
         this.repair = repair;
         this.range = new ICWarsRange();
+        this.isAlreadyMoved=false; //at its creation a unit hasn't already been moved
         completeUnitsRange();
     }
 
@@ -58,6 +61,10 @@ abstract public class Units extends ICWarsActor {
      */
     public void setHp(int HP) {
         this.current_HP = HP < 0 ? 0 : Math.min(HP, maxHP);
+    }
+
+    public void setIsAlreadyMoved(boolean isAlreadyMoved) {
+        this.isAlreadyMoved=isAlreadyMoved;
     }
 
     /**
@@ -140,12 +147,28 @@ abstract public class Units extends ICWarsActor {
      */
     public void drawRangeAndPathTo(DiscreteCoordinates destination,
                                    Canvas canvas) {
-
         range.draw(canvas);
         var path =
             range.shortestPath(getCurrentMainCellCoordinates(), destination);
         // Draw path only if it exists (destination inside the range)
         if (path != null)
             new Path(getCurrentMainCellCoordinates().toVector(), path).draw(canvas);
+    }
+
+    /**
+     * @param newPosition new unit's position
+     * @return true if super.changePosition does so and if a node with newPosition coordinates
+     * exists in the units range. If the move is possible, the unit's radius is adapted to the newPosition
+     * else return false
+     */
+    @Override
+    public boolean changePosition(DiscreteCoordinates newPosition) {
+        if (this.range.nodeExists(newPosition) && super.changePosition(newPosition)){
+            completeUnitsRange();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

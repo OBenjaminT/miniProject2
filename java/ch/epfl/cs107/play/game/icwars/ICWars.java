@@ -40,6 +40,7 @@ public class ICWars extends AreaGame {
             soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
             player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
             player.enterArea(area, coords);
+            player.startTurn();
         }
         player.centerCamera();
     }
@@ -48,7 +49,7 @@ public class ICWars extends AreaGame {
     public void update(float deltaTime) {
         changeIfNPressed();
         resetIfRPressed();
-        if (keyboard.get(Keyboard.U).isReleased()) player.selectUnit(0); // 0, 1 ...
+        //if (keyboard.get(Keyboard.U).isReleased()) player.selectUnit(0); // 0, 1 ...
         if (keyboard.get(Keyboard.Q).isReleased()) this.getWindow().isCloseRequested(); // 0, 1 ...
         super.update(deltaTime);
     }
