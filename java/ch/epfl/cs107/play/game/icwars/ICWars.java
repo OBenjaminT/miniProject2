@@ -9,7 +9,6 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
@@ -22,30 +21,26 @@ public class ICWars extends AreaGame {
     private Soldier soldier;
     private Keyboard keyboard;
 
-    private void createAreas() {
-        addArea(new Level0());
-        addArea(new Level1());
-    }
-
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
-            createAreas();
+            addArea(new Level0());
+            addArea(new Level1());
             keyboard = window.getKeyboard();
             int areaIndex = 0;
             initArea(areas[areaIndex]);
             return true;
-        }
-        return false;
+        } else return false;
     }
 
     private void initArea(String areaKey) {
-        ICWarsArea area = (ICWarsArea) setCurrentArea(areaKey, true);
-        DiscreteCoordinates coords = area.getAllyCenter();
-        tank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-        soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-        player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
-        player.enterArea(area, coords);
+        try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
+            var coords = area.getAllyCenter();
+            tank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+            soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+            player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
+            player.enterArea(area, coords);
+        }
         player.centerCamera();
     }
 
@@ -54,6 +49,7 @@ public class ICWars extends AreaGame {
         changeIfNPressed();
         resetIfRPressed();
         if (keyboard.get(Keyboard.U).isReleased()) player.selectUnit(0); // 0, 1 ...
+        if (keyboard.get(Keyboard.Q).isReleased()) this.getWindow().isCloseRequested(); // 0, 1 ...
         super.update(deltaTime);
     }
 
