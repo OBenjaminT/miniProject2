@@ -1,9 +1,12 @@
 package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -13,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class ICWarsPlayer extends ICWarsActor {
+public class ICWarsPlayer extends ICWarsActor implements Interactor{
     protected ArrayList<Units> units = new ArrayList<>();
     protected Sprite sprite;
     protected Units SelectedUnit;
@@ -136,11 +139,6 @@ public class ICWarsPlayer extends ICWarsActor {
         return this.units.isEmpty();
     }
 
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
-        //TODO implement this
-    }
-
 
     /**
      * @param index the index of the selected Uit in the player's units list
@@ -149,6 +147,16 @@ public class ICWarsPlayer extends ICWarsActor {
      */
     public void selectUnit(int index) {
         SelectedUnit = this.units.get(index);
+        playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
+    }
+
+    /**
+     * @param unit the unit the player wants to select
+     *              SelectedUnit parameter is associated to the proper Unit
+     *              SelectedUnit is also transmitter to the playerGUI with the setter
+     */
+    public void selectUnit(Units unit) {
+        SelectedUnit = unit;
         playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
     }
 
@@ -172,6 +180,31 @@ public class ICWarsPlayer extends ICWarsActor {
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
         super.onLeaving(coordinates);
         if(this.playerCurrentState == States.SELECT_CELL) this.playerCurrentState=States.NORMAL;
+    }
+
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return null;
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return false;
+    }
+
+    @Override
+    public void interactWith(Interactable other) {
+
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v) {
+        ((ICWarsInteractionVisitor)v).interactWith(this);
     }
 }
 
