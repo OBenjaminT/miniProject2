@@ -7,6 +7,8 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
+import java.util.stream.IntStream;
+
 abstract public class Units extends ICWarsActor {
 
     // data
@@ -88,21 +90,21 @@ abstract public class Units extends ICWarsActor {
     private void completeUnitsRange() {
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
-        for (int x = -radius; x <= radius; x++) {
-            int fromX = this.getCurrentMainCellCoordinates().x + x;
-            for (int y = -radius; y <= radius; y++) {
-                int fromY = this.getCurrentMainCellCoordinates().y + y;
-                if (x <= heightIndex && x >= 0 && y <= widthIndex && y >= 0) {
-                    boolean hasLeftNeighbour = fromX > 0;
-                    boolean hasRightNeighbour = fromX < widthIndex;
-                    boolean hasTopNeighbour = fromY > 0;
-                    boolean hasUnderNeighbour = fromY < heightIndex;
-                    DiscreteCoordinates NodeCoordinates =
-                        new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y);
-                    range.addNode(NodeCoordinates, hasLeftNeighbour, hasTopNeighbour, hasRightNeighbour, hasUnderNeighbour);
-                }
-            }
-        }
+        IntStream.rangeClosed(-radius, radius)
+            .map(x -> x + this.getCurrentMainCellCoordinates().x)
+            .filter(x -> x <= heightIndex)
+            .filter(x -> x >= 0)
+            .forEach(x -> IntStream.rangeClosed(-radius, radius)
+                .map(y -> y + this.getCurrentMainCellCoordinates().y)
+                .filter(y -> y <= widthIndex)
+                .filter(y -> y >= 0)
+                .forEach(y ->
+                    range.addNode(new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y), // NodeCoordinates
+                        x > 0, // hasLeftNeighbour
+                        y > 0, // hasTopNeighbour
+                        x < widthIndex, // hasRightNeighbour
+                        y < heightIndex) // hasUnderNeighbour
+                ));
     }
 
     /**
@@ -138,6 +140,7 @@ abstract public class Units extends ICWarsActor {
      */
     public void drawRangeAndPathTo(DiscreteCoordinates destination,
                                    Canvas canvas) {
+
         range.draw(canvas);
         var path =
             range.shortestPath(getCurrentMainCellCoordinates(), destination);
