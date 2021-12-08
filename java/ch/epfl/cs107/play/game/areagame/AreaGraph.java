@@ -20,6 +20,11 @@ public class AreaGraph {
     /// Map containing all the node or vertices of the area graph
     private final Map<DiscreteCoordinates, AreaNode> nodes;
 
+    public void debugPrint() {
+        nodes.entrySet()
+                .forEach(key -> System.out.println(key.getKey().x + ", " + key.getKey().y));
+    }
+
     /**
      * Default AreaGraph Constructor
      */
