@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
@@ -48,7 +47,7 @@ abstract public class Units extends ICWarsActor {
         this.setHp(current_HP);
         this.repair = repair;
         this.range = new ICWarsRange();
-        this.isAlreadyMoved=false; //at its creation a unit hasn't already been moved
+        this.isAlreadyMoved = false; //at its creation a unit hasn't already been moved
         completeUnitsRange();
     }
 
@@ -66,7 +65,7 @@ abstract public class Units extends ICWarsActor {
     }
 
     public void setIsAlreadyMoved(boolean isAlreadyMoved) {
-        this.isAlreadyMoved=isAlreadyMoved;
+        this.isAlreadyMoved = isAlreadyMoved;
     }
 
     /**
@@ -167,17 +166,14 @@ abstract public class Units extends ICWarsActor {
      */
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
-        if (this.range.nodeExists(newPosition) && super.changePosition(newPosition)){
+        if (this.range.nodeExists(newPosition) && super.changePosition(newPosition)) {
             completeUnitsRange();
             return true;
-        }
-        else{
-            return false;
-        }
+        } else return false;
     }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
-        ((ICWarsInteractionVisitor)v).interactWith(this);
+        ((ICWarsInteractionVisitor) v).interactWith(this);
     }
 }

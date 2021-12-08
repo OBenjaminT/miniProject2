@@ -12,6 +12,8 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.Arrays;
+
 public class ICWars extends AreaGame {
 
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};

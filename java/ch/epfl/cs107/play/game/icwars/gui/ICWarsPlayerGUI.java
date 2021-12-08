@@ -26,6 +26,13 @@ public class ICWarsPlayerGUI implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-        // PlayerSelectedUnit.drawRangeAndPathTo(new DiscreteCoordinates((int) player.getPosition().x, (int) player.getPosition().y), canvas);
+        /*
+        if (PlayerSelectedUnit == null) return;
+        PlayerSelectedUnit
+            .drawRangeAndPathTo(
+                new DiscreteCoordinates((int) player.getPosition().x, (int) player.getPosition().y),
+                canvas
+            );
+         */
     }
 }

@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 public class RealPlayer extends ICWarsPlayer {
     /// Animation duration in frame number
     private final static int MOVE_DURATION = 6;
+    private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
 
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction, units);
@@ -48,13 +49,11 @@ public class RealPlayer extends ICWarsPlayer {
      * @param b           (Button): button corresponding to the given orientation, not null
      */
     private void moveIfPressed(Orientation orientation, Button b) {
-            if (b.isDown() && !isDisplacementOccurs()) {
-                orientate(orientation);
-                move(MOVE_DURATION);
+        if (b.isDown() && !isDisplacementOccurs()) {
+            orientate(orientation);
+            move(MOVE_DURATION);
         }
     }
-
-    private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
 
     @Override
     public void interactWith(Interactable other) {
@@ -64,21 +63,23 @@ public class RealPlayer extends ICWarsPlayer {
     /**
      * @return true only if playerCurrentState = NORMAL, SELECT_UNIT or MOVE_UNIT
      */
-    private boolean RealPlayerCanMove (){
-        if(this.playerCurrentState==States.NORMAL || this.playerCurrentState==States.SELECT_CELL || this.playerCurrentState==States.MOVE_UNIT) return true;
-        else return false;
+    private boolean RealPlayerCanMove() {
+        return this.playerCurrentState == States.NORMAL
+            || this.playerCurrentState == States.SELECT_CELL
+            || this.playerCurrentState == States.MOVE_UNIT;
     }
 
-    private class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor{
+    private static class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
         RealPlayer player;
-        public ICWarsPlayerInteractionHandler (RealPlayer player){
+
+        public ICWarsPlayerInteractionHandler(RealPlayer player) {
             this.player = player;
         }
+
         @Override
         public void interactWith(Units unit) {
-            if(player.playerCurrentState == States.SELECT_CELL && unit.faction == player.faction){
+            if (player.playerCurrentState == States.SELECT_CELL && unit.faction == player.faction)
                 player.selectUnit(unit);
-            }
         }
     }
 }
