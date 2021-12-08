@@ -16,11 +16,11 @@ import java.util.List;
 
 
 public class ICWarsPlayer extends ICWarsActor implements Interactor {
-    public States playerCurrentState;
     protected ArrayList<Units> units = new ArrayList<>();
     protected Sprite sprite;
     protected Units SelectedUnit;
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
+    public States playerCurrentState;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
@@ -59,27 +59,32 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
-                if (keyboard.get(Keyboard.ENTER).isDown())
+                if (keyboard.get(Keyboard.ENTER).isReleased())
                     yield States.SELECT_CELL;
-                else if (keyboard.get(Keyboard.TAB).isDown())
+                else if (keyboard.get(Keyboard.TAB).isReleased())
                     yield States.IDLE;
                 else yield playerCurrentState;
             }
             case SELECT_CELL -> {
                 // TODO select the unit in this cell
+                this.selectUnit();
                 if (this.SelectedUnit != null)
                     yield States.MOVE_UNIT;
                 else yield playerCurrentState;
             }
             case MOVE_UNIT -> {
-                if (keyboard.get(Keyboard.ENTER).isDown()) {
+                if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     var pos = this.getPosition();
                     this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
                     SelectedUnit.setIsAlreadyMoved(true);
                     yield States.NORMAL;
                 } else yield playerCurrentState;
             }
-            case ACTION_SELECTED, ACTION -> playerCurrentState; // TODO
+            case ACTION_SELECTED, ACTION -> {
+                //this.unselectUnit();
+                yield playerCurrentState;
+            }
+            // TODO
         };
     }
 
@@ -152,6 +157,28 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void selectUnit(Units unit) {
         SelectedUnit = unit;
         playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
+    }
+
+    /**
+     * if a unit UNIT has the same position as the player and he hasn't already been moved, we call SelectedUnit(UNIT)
+     * else SelectedUnit is set to null
+     */
+    public void selectUnit(){
+        boolean UnitedSelected=false;
+        for(Units unit : units){
+            if(unit.getPosition().equals(this.getPosition()) && !unit.isAlreadyMoved()){
+                selectUnit(unit);
+                UnitedSelected = true;
+            }
+        }
+        if(!UnitedSelected) SelectedUnit=null;
+    }
+
+    /**
+     * SelectedUnit is set to null
+     */
+    public void unselectUnit(){
+        SelectedUnit=null;
     }
 
     /**

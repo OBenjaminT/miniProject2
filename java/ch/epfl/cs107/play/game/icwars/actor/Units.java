@@ -68,6 +68,8 @@ abstract public class Units extends ICWarsActor {
         this.isAlreadyMoved = isAlreadyMoved;
     }
 
+    public boolean isAlreadyMoved() {return isAlreadyMoved;}
+
     /**
      * @return true if the unit's hp are positive
      */

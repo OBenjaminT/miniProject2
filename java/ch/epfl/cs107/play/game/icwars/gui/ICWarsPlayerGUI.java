@@ -29,11 +29,13 @@ public class ICWarsPlayerGUI implements Graphics {
     public void draw(Canvas canvas) {
 
         if (PlayerSelectedUnit == null) return;
-        PlayerSelectedUnit
-            .drawRangeAndPathTo(
-                new DiscreteCoordinates((int) player.getPosition().x, (int) player.getPosition().y),
-                canvas
-            );
+        if(!PlayerSelectedUnit.isAlreadyMoved()) {
+            PlayerSelectedUnit
+                    .drawRangeAndPathTo(
+                            new DiscreteCoordinates((int) player.getPosition().x, (int) player.getPosition().y),
+                            canvas
+                    );
+        }
 
     }
 }

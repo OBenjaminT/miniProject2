@@ -95,7 +95,7 @@ public class ICWars extends AreaGame {
             this.begin(this.getWindow(), this.getFileSystem());
         // Select first unit with `U`
         if (keyboard.get(Keyboard.U).isReleased())
-            players.get(0).selectUnit(0); // 0, 1 ...
+            players.get(0).selectUnit(1); // 0, 1 ...
         // TODO: Close with `Q`
         if (keyboard.get(Keyboard.Q).isReleased())
             this.getWindow().isCloseRequested();
