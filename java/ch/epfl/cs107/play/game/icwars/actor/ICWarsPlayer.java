@@ -52,25 +52,34 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                 units.remove(unit);
                 unit.leaveArea();
             });
-        Keyboard keyboard = this.getOwnerArea().getKeyboard();
-        switch (playerCurrentState) {
-            case NORMAL:
-                if (keyboard.get(Keyboard.ENTER).isDown()) this.playerCurrentState = States.SELECT_CELL;
-                else if (keyboard.get(Keyboard.TAB).isDown()) this.playerCurrentState = States.IDLE;
-                break;
-            case SELECT_CELL:
-                if (this.SelectedUnit != null) this.playerCurrentState = States.MOVE_UNIT;
-                break;
-            case MOVE_UNIT:
+        var keyboard = this.getOwnerArea().getKeyboard();
+        // https://www.baeldung.com/java-switch
+        // Ensures all cases are covered, doesn't need break blocks, and assigns value to `yield` result.
+        this.playerCurrentState = switch (playerCurrentState) {
+            case IDLE -> playerCurrentState;
+            case NORMAL -> {
+                if (keyboard.get(Keyboard.ENTER).isDown())
+                    yield States.SELECT_CELL;
+                else if (keyboard.get(Keyboard.TAB).isDown())
+                    yield States.IDLE;
+                else yield playerCurrentState;
+            }
+            case SELECT_CELL -> {
+                // TODO select the unit in this cell
+                if (this.SelectedUnit != null)
+                    yield States.MOVE_UNIT;
+                else yield playerCurrentState;
+            }
+            case MOVE_UNIT -> {
                 if (keyboard.get(Keyboard.ENTER).isDown()) {
-                    this.SelectedUnit.changePosition(new DiscreteCoordinates((int) SelectedUnit.getPosition().x, (int) SelectedUnit.getPosition().y));
+                    var pos = this.getPosition();
+                    this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
                     SelectedUnit.setIsAlreadyMoved(true);
-                    this.playerCurrentState = States.NORMAL;
-                }
-                break;
-            default:
-                break;
-        }
+                    yield States.NORMAL;
+                } else yield playerCurrentState;
+            }
+            case ACTION_SELECTED, ACTION -> playerCurrentState; // TODO
+        };
     }
 
     @Override
@@ -147,7 +156,6 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     public void startTurn() {
         this.playerCurrentState = States.NORMAL;
-        // TODO idk if something should be done to make him receptive to controls (cn the guidelines page 18)
         this.getOwnerArea().setViewCandidate(this);
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
@@ -159,8 +167,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
         super.onLeaving(coordinates);
-        if (this.playerCurrentState == States.SELECT_CELL)
-            this.playerCurrentState = States.NORMAL;
+        this.playerCurrentState = switch (this.playerCurrentState) {
+            case IDLE, ACTION, ACTION_SELECTED, MOVE_UNIT, NORMAL -> this.playerCurrentState;
+            case SELECT_CELL -> States.NORMAL;
+        };
     }
 
     @Override
@@ -188,7 +198,9 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         v.interactWith(this);
     }
 
-    //states that an ICWarsPlayer can be in
+    /**
+     * states that an `ICWarsPlayer` can be in
+     */
     public enum States {
         IDLE,
         NORMAL,

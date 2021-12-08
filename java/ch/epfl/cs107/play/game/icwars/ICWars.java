@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class ICWars extends AreaGame {
 
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
+    States gameState;
     private int areaIndex;
     private RealPlayer player;
     private Tank tank;
@@ -34,6 +35,7 @@ public class ICWars extends AreaGame {
 
             keyboard = window.getKeyboard();
             initArea(areas[0]);
+            gameState = States.INIT;
             return true;
         } else return false;
     }
@@ -52,16 +54,41 @@ public class ICWars extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
+        this.gameState = switch (gameState) {
+            case INIT -> {
+                yield gameState;
+            }
+            case END -> {
+                yield gameState;
+            }
+            case CHOOSE_PLAYER -> {
+                yield gameState;
+            }
+            case START_PLAYER_TURN -> {
+                yield gameState;
+            }
+            case PLAYER_TURN -> {
+                yield gameState;
+            }
+            case END_PLAYER_TURN -> {
+                yield gameState;
+            }
+            case END_TURN -> {
+                yield gameState;
+            }
+        };
         // Next level with `N`
         if (keyboard.get(Keyboard.N).isReleased())
             changeIfNPressed();
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
             this.begin(this.getWindow(), this.getFileSystem());
+        /*
         // Select first unit with `U`
-        //if (keyboard.get(Keyboard.U).isReleased())
-        //    player.selectUnit(0); // 0, 1 ...
-        // Close with `Q`
+        if (keyboard.get(Keyboard.U).isReleased())
+            player.selectUnit(0); // 0, 1 ...
+         */
+        // TODO: Close with `Q`
         if (keyboard.get(Keyboard.Q).isReleased())
             this.getWindow().isCloseRequested();
         super.update(deltaTime);
@@ -94,5 +121,18 @@ public class ICWars extends AreaGame {
 
     @Override
     public void close() {
+    }
+
+    /**
+     * states that an `ICWars` can be in
+     */
+    public enum States {
+        INIT,
+        CHOOSE_PLAYER,
+        START_PLAYER_TURN,
+        PLAYER_TURN,
+        END_PLAYER_TURN,
+        END_TURN,
+        END,
     }
 }
