@@ -190,9 +190,9 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return the mouse position relatively to the area and the cells
      */
     public Vector getRelativeMousePosition() {
-        return getMouse().getPosition();
-    			/*.max(new Vector(0,0))
-				.min(new Vector(getWidth(),getHeight()));*/
+        return getMouse().getPosition()
+            .max(new Vector(0, 0))
+            .min(new Vector(getWidth(), getHeight()));
     }
 
     /**
@@ -223,8 +223,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         if (areaBehavior.canLeave(entity, coordinates)) {
             interactablesToLeave.put(entity, coordinates);
             return true;
-        }
-        return false;
+        } else return false;
     }
 
     /**
@@ -240,8 +239,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         if (areaBehavior.canEnter(entity, coordinates)) {
             interactablesToEnter.put(entity, coordinates);
             return true;
-        }
-        return false;
+        } else return false;
     }
 
     /**
@@ -290,66 +288,58 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         purgeRegistration();
 
         // Decide if we update the contextual menu or this content
-        if (paused && menu != null) {
+        if (paused && menu != null)
             menu.update(deltaTime);
-        } else {
+        else {
             // Render actors
-            for (Actor actor : actors) {
-                actor.update(deltaTime);
-            }
+            actors.forEach(actor -> actor.update(deltaTime));
 
             Draggable currentDraggedElement = DragHelper.getCurrentDraggedElement();
-            if (currentDraggedElement != null && currentDraggedElement.wantsDropInteraction()) {
+            if (currentDraggedElement != null && currentDraggedElement.wantsDropInteraction())
                 areaBehavior.dropInteractionOf(currentDraggedElement, getRelativeMouseCoordinates());
-            }
 
             // Realize interaction between interactors and their cells contents
-            for (Interactor interactor : interactors) {
-                if (interactor.wantsCellInteraction()) {
+            interactors.forEach(interactor -> {
+                if (interactor.wantsCellInteraction())
                     areaBehavior.cellInteractionOf(interactor);
-                }
-                if (interactor.wantsViewInteraction()) {
+                if (interactor.wantsViewInteraction())
                     areaBehavior.viewInteractionOf(interactor);
-                }
-            }
+            });
 
             // Update camera location
             updateCamera();
 
             // Draw actors
-            for (Actor actor : actors) {
+            actors.forEach(actor -> {
                 actor.bip(window);
                 actor.draw(window);
-            }
+            });
         }
     }
 
     final void purgeRegistration() {
         // PART 1
         // - Register actors
-        for (Actor actor : registeredActors) {
-            addActor(actor, false);
-        }
+        registeredActors.forEach(actor -> addActor(actor, false));
         registeredActors.clear();
 
         // - unregister actors
-        for (Actor actor : unregisteredActors) {
-            removeActor(actor, false);
-        }
+        unregisteredActors.forEach(actor -> removeActor(actor, false));
         unregisteredActors.clear();
 
         // PART 2
         // - leave old cells
-        for (Map.Entry<Interactable, List<DiscreteCoordinates>> entry : interactablesToLeave.entrySet()) {
-            areaBehavior.leave(entry.getKey(), entry.getValue());
-            entry.getKey().onLeaving(entry.getValue());
-        }
+        interactablesToLeave.forEach((key, value) -> {
+            areaBehavior.leave(key, value);
+            key.onLeaving(value);
+        });
         interactablesToLeave.clear();
+
         // - enter new cells
-        for (Map.Entry<Interactable, List<DiscreteCoordinates>> entry : interactablesToEnter.entrySet()) {
-            areaBehavior.enter(entry.getKey(), entry.getValue());
-            entry.getKey().onEntering(entry.getValue());
-        }
+        interactablesToEnter.forEach((key, value) -> {
+            areaBehavior.enter(key, value);
+            key.onEntering(value);
+        });
         interactablesToEnter.clear();
     }
 

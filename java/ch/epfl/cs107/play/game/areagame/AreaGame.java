@@ -120,7 +120,6 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
     @Override
     public void update(float deltaTime) {
-
         if (paused && menu != null)
             menu.update(deltaTime);
         else

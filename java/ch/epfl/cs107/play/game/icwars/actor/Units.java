@@ -98,12 +98,14 @@ abstract public class Units extends ICWarsActor {
                 .map(y -> y + this.getCurrentMainCellCoordinates().y)
                 .filter(y -> y <= widthIndex)
                 .filter(y -> y >= 0)
-                .forEach(y ->
-                    range.addNode(new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y), // NodeCoordinates
-                        x > 0, // hasLeftNeighbour
-                        y > 0, // hasTopNeighbour
-                        x < widthIndex, // hasRightNeighbour
-                        y < heightIndex) // hasUnderNeighbour
+                .forEach(y -> {
+                        range.addNode(new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y), // NodeCoordinates
+                            x > 0, // hasLeftNeighbour
+                            y > 0, // hasTopNeighbour
+                            x < widthIndex, // hasRightNeighbour
+                            y < heightIndex);
+                        System.out.println("looping in completeUnitsRange");
+                    } // hasUnderNeighbour
                 ));
     }
 

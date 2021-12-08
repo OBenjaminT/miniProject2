@@ -12,6 +12,8 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.Arrays;
+
 public class ICWars extends AreaGame {
 
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
@@ -24,11 +26,14 @@ public class ICWars extends AreaGame {
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
-            addArea(new Level0());
-            addArea(new Level1());
+            // Levels
+            Arrays.stream(new ICWarsArea[]{
+                new Level0(),
+                new Level1(),
+            }).forEach(this::addArea);
+
             keyboard = window.getKeyboard();
-            int areaIndex = 0;
-            initArea(areas[areaIndex]);
+            initArea(areas[0]);
             return true;
         } else return false;
     }
@@ -46,10 +51,18 @@ public class ICWars extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
-        changeIfNPressed();
-        resetIfRPressed();
-        if (keyboard.get(Keyboard.U).isReleased()) player.selectUnit(0); // 0, 1 ...
-        if (keyboard.get(Keyboard.Q).isReleased()) this.getWindow().isCloseRequested(); // 0, 1 ...
+        // Next level with `N`
+        if (keyboard.get(Keyboard.N).isReleased())
+            changeIfNPressed();
+        // Reset to start with `R`
+        if (keyboard.get(Keyboard.R).isReleased())
+            this.begin(this.getWindow(), this.getFileSystem());
+        // Select first unit with `U`
+        if (keyboard.get(Keyboard.U).isReleased())
+            player.selectUnit(0); // 0, 1 ...
+        // Close with `Q`
+        if (keyboard.get(Keyboard.Q).isReleased())
+            this.getWindow().isCloseRequested();
         super.update(deltaTime);
     }
 
@@ -63,24 +76,14 @@ public class ICWars extends AreaGame {
      * print "game over"
      */
     private void changeIfNPressed() {
-        if (keyboard.get(Keyboard.N).isReleased())
-            if (areaIndex != areas.length - 1) {
-                ++areaIndex;
-                player.leaveArea();
-                try (var currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true)) {
-                    player.enterArea(currentArea, currentArea.getAllyCenter());
-                }
-                player.centerCamera();
-            } else System.out.println("Game over");
-    }
-
-    /**
-     * if the button "N" is pressed,
-     * the game restarts in the same conditions as it initially started
-     */
-    private void resetIfRPressed() {
-        if (keyboard.get(Keyboard.R).isReleased())
-            this.begin(this.getWindow(), this.getFileSystem());
+        if (areaIndex != areas.length - 1) {
+            ++areaIndex;
+            player.leaveArea();
+            try (var currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true)) {
+                player.enterArea(currentArea, currentArea.getAllyCenter());
+            }
+            player.centerCamera();
+        } else System.out.println("Game over");
     }
 
     @Override

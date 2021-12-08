@@ -14,10 +14,13 @@ import ch.epfl.cs107.play.window.swing.SwingWindow;
  */
 public class Play {
 
-    public static final int WINDOW_HEIGHT = 1000;
-    public static final int WINDOW_WIDTH = 2000;
     /**
-     * One second in nano second
+     * The game window dimensions
+     */
+    public static final int WINDOW_WIDTH = 1400;
+    public static final int WINDOW_HEIGHT = 900;
+    /**
+     * One second in nanoseconds
      */
     private static final float ONE_SEC = 1E9f;
 
@@ -39,9 +42,12 @@ public class Play {
         //	Recorder recorder = new Recorder(window);
         //	RecordReplayer replayer = new RecordReplayer(window);
 
-        // I changed Window and Game to implement Autoclosable,
-        // so we just do a try-with-resources, and it closes it automatically
-        try (Game game = new ICWars(); final Window window = new SwingWindow(game.getTitle(), fileSystem, WINDOW_WIDTH, WINDOW_HEIGHT)) {
+        // I changed Window and Game to implement `Autoclosable`,
+        // so we just do a try-with-resources, and it closes it automatically.
+        try (
+            Game game = new ICWars();
+            final Window window = new SwingWindow(game.getTitle(), fileSystem, WINDOW_WIDTH, WINDOW_HEIGHT)
+        ) {
             window.registerFonts(ResourcePath.FONTS);
 
             if (game.begin(window, fileSystem)) {
@@ -53,16 +59,16 @@ public class Play {
                 long lastTime;
                 final float frameDuration = ONE_SEC / game.getFrameRate();
 
-                // Run until the user try to close the window
-
-                do {
+                // Run until the user tries to close the window
+                while (!window.isCloseRequested()) {
                     // Compute time interval
                     lastTime = currentTime;
                     currentTime = System.nanoTime();
                     float deltaTime = (currentTime - lastTime);
+                    int timeDiff = Math.max(0, (int) (frameDuration - deltaTime));
 
+                    // Delay for frame time
                     try {
-                        int timeDiff = Math.max(0, (int) (frameDuration - deltaTime));
                         Thread.sleep((int) (timeDiff / 1E6), (int) (timeDiff % 1E6));
                     } catch (InterruptedException e) {
                         System.out.println("Thread sleep interrupted");
@@ -76,9 +82,10 @@ public class Play {
 
                     // Render and update input
                     window.update();
+
                     //recorder.update();
                     //replayer.update();
-                } while (!window.isCloseRequested());
+                }
 
             }
             //recorder.stop("zelda.xml");
