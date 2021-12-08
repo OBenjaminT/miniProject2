@@ -16,11 +16,11 @@ import java.util.List;
 
 
 public class ICWarsPlayer extends ICWarsActor implements Interactor {
+    public States playerCurrentState;
     protected ArrayList<Units> units = new ArrayList<>();
     protected Sprite sprite;
     protected Units SelectedUnit;
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
-    public States playerCurrentState;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);

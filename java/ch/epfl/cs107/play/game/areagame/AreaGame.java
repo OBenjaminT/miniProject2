@@ -18,6 +18,9 @@ import java.util.Map;
  */
 abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
+    protected List<ICWarsPlayer> players;
+    protected List<ICWarsPlayer> activePlayers = new ArrayList<>();
+    protected ICWarsPlayer activePlayer;
     // Context objects
     private Window window;
     private FileSystem fileSystem;
@@ -28,9 +31,6 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     /// pause mechanics and menu to display. May be null
     private boolean paused, requestPause;
     private PauseMenu menu;
-    protected List<ICWarsPlayer> players;
-    protected List<ICWarsPlayer> activePlayers;
-    protected ICWarsPlayer activePlayer;
 
     /**
      * Add an Area to the AreaGame list
