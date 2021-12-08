@@ -12,8 +12,6 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.Arrays;
-
 public class ICWars extends AreaGame {
 
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
@@ -45,6 +43,7 @@ public class ICWars extends AreaGame {
             soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
             player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
             player.enterArea(area, coords);
+            player.startTurn();
         }
         player.centerCamera();
     }
@@ -58,8 +57,8 @@ public class ICWars extends AreaGame {
         if (keyboard.get(Keyboard.R).isReleased())
             this.begin(this.getWindow(), this.getFileSystem());
         // Select first unit with `U`
-        if (keyboard.get(Keyboard.U).isReleased())
-            player.selectUnit(0); // 0, 1 ...
+        //if (keyboard.get(Keyboard.U).isReleased())
+        //    player.selectUnit(0); // 0, 1 ...
         // Close with `Q`
         if (keyboard.get(Keyboard.Q).isReleased())
             this.getWindow().isCloseRequested();

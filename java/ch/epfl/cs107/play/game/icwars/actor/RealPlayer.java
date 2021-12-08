@@ -1,8 +1,10 @@
 package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
@@ -28,11 +30,12 @@ public class RealPlayer extends ICWarsPlayer {
     @Override
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
-
-        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        if (RealPlayerCanMove()) {
+            moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+            moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
+            moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+            moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        }
         if (keyboard.get(Keyboard.Q).isDown()) getOwnerArea().close();
 
         super.update(deltaTime);
@@ -45,9 +48,37 @@ public class RealPlayer extends ICWarsPlayer {
      * @param b           (Button): button corresponding to the given orientation, not null
      */
     private void moveIfPressed(Orientation orientation, Button b) {
-        if (b.isDown() && !isDisplacementOccurs()) {
-            orientate(orientation);
-            move(MOVE_DURATION);
+            if (b.isDown() && !isDisplacementOccurs()) {
+                orientate(orientation);
+                move(MOVE_DURATION);
+        }
+    }
+
+    private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
+
+    @Override
+    public void interactWith(Interactable other) {
+        other.acceptInteraction(handler);
+    }
+
+    /**
+     * @return true only if playerCurrentState = NORMAL, SELECT_UNIT or MOVE_UNIT
+     */
+    private boolean RealPlayerCanMove (){
+        if(this.playerCurrentState==States.NORMAL || this.playerCurrentState==States.SELECT_CELL || this.playerCurrentState==States.MOVE_UNIT) return true;
+        else return false;
+    }
+
+    private class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor{
+        RealPlayer player;
+        public ICWarsPlayerInteractionHandler (RealPlayer player){
+            this.player = player;
+        }
+        @Override
+        public void interactWith(Units unit) {
+            if(player.playerCurrentState == States.SELECT_CELL && unit.faction == player.faction){
+                player.selectUnit(unit);
+            }
         }
     }
 }
