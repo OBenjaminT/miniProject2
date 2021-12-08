@@ -99,22 +99,22 @@ abstract public class Units extends ICWarsActor {
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
         IntStream.rangeClosed(-radius, radius)
-            .map(x -> x + this.getCurrentMainCellCoordinates().x)
-            .filter(x -> x <= heightIndex)
-            .filter(x -> x >= 0)
-            .forEach(x -> IntStream.rangeClosed(-radius, radius)
-                .map(y -> y + this.getCurrentMainCellCoordinates().y)
-                .filter(y -> y <= widthIndex)
-                .filter(y -> y >= 0)
-                .forEach(y -> {
-                        range.addNode(new DiscreteCoordinates((int) this.getPosition().x, (int) this.getPosition().y), // NodeCoordinates
-                            x > 0, // hasLeftNeighbour
-                            y > 0, // hasTopNeighbour
-                            x < widthIndex, // hasRightNeighbour
-                            y < heightIndex);
-                        System.out.println("looping in completeUnitsRange");
-                    } // hasUnderNeighbour
-                ));
+                .map(x -> x + this.getCurrentMainCellCoordinates().x)
+                .filter(x -> x <= heightIndex)
+                .filter(x -> x >= 0)
+                .forEach(x -> IntStream.rangeClosed(-radius, radius)
+                        .map(y -> y + this.getCurrentMainCellCoordinates().y)
+                        .filter(y -> y <= widthIndex)
+                        .filter(y -> y >= 0)
+                        .forEach(y -> {
+                                    range.addNode(new DiscreteCoordinates(x, y), // NodeCoordinates
+                                            x > 0, // hasLeftNeighbour
+                                            y > 0, // hasTopNeighbour
+                                            x < widthIndex, // hasRightNeighbour
+                                            y < heightIndex);
+                                    //System.out.println("looping in completeUnitsRange");
+                                } // hasUnderNeighbour
+                        ));
     }
 
     /**
@@ -152,7 +152,7 @@ abstract public class Units extends ICWarsActor {
                                    Canvas canvas) {
         range.draw(canvas);
         var path =
-            range.shortestPath(getCurrentMainCellCoordinates(), destination);
+                range.shortestPath(getCurrentMainCellCoordinates(), destination);
         // Draw path only if it exists (destination inside the range)
         if (path != null)
             new Path(getCurrentMainCellCoordinates().toVector(), path).draw(canvas);

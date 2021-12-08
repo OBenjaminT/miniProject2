@@ -40,6 +40,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void draw(Canvas canvas) {
         this.sprite.draw(canvas);
         if (playerCurrentState.equals(States.MOVE_UNIT)) playerGUI.draw(canvas);
+        //playerGUI.draw(canvas);
     }
 
     @Override
