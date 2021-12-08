@@ -2,10 +2,13 @@ package ch.epfl.cs107.play.game.areagame;
 
 import ch.epfl.cs107.play.game.Game;
 import ch.epfl.cs107.play.game.PauseMenu;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,6 +28,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     /// pause mechanics and menu to display. May be null
     private boolean paused, requestPause;
     private PauseMenu menu;
+    protected List<ICWarsPlayer> players;
+    protected List<ICWarsPlayer> activePlayers;
+    protected ICWarsPlayer activePlayer;
 
     /**
      * Add an Area to the AreaGame list
@@ -114,6 +120,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         this.fileSystem = fileSystem;
 
         areas = new HashMap<>();
+        players = new ArrayList<>();
         paused = false;
         return true;
     }

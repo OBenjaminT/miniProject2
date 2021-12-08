@@ -20,7 +20,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected Sprite sprite;
     protected Units SelectedUnit;
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
-    States playerCurrentState;
+    public States playerCurrentState;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
@@ -80,6 +80,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             }
             case ACTION_SELECTED, ACTION -> playerCurrentState; // TODO
         };
+    }
+
+    public boolean isIdle() {
+        return playerCurrentState == States.IDLE;
     }
 
     @Override

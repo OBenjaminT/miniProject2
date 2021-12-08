@@ -2,6 +2,7 @@ package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.units.Soldier;
 import ch.epfl.cs107.play.game.icwars.actor.units.Tank;
@@ -19,10 +20,10 @@ public class ICWars extends AreaGame {
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
     States gameState;
     private int areaIndex;
-    private RealPlayer player;
     private Tank tank;
     private Soldier soldier;
     private Keyboard keyboard;
+
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
@@ -45,24 +46,30 @@ public class ICWars extends AreaGame {
             var coords = area.getAllyCenter();
             tank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
             soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-            player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
+            var player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
             player.enterArea(area, coords);
             player.startTurn();
+            player.centerCamera();
+            players.add(player);
         }
-        player.centerCamera();
     }
 
     @Override
     public void update(float deltaTime) {
         this.gameState = switch (gameState) {
             case INIT -> {
-                yield gameState;
-            }
-            case END -> {
-                yield gameState;
+                activePlayers.addAll(players);
+                yield States.CHOOSE_PLAYER;
             }
             case CHOOSE_PLAYER -> {
-                yield gameState;
+                if (activePlayers.isEmpty()) {
+                    yield States.END_TURN;
+                } else {
+                    activePlayer = activePlayers.get(0);
+                    activePlayer.startTurn();
+                    activePlayer.centerCamera();
+                    yield States.START_PLAYER_TURN;
+                }
             }
             case START_PLAYER_TURN -> {
                 yield gameState;
@@ -74,6 +81,9 @@ public class ICWars extends AreaGame {
                 yield gameState;
             }
             case END_TURN -> {
+                yield gameState;
+            }
+            case END -> {
                 yield gameState;
             }
         };
@@ -106,11 +116,11 @@ public class ICWars extends AreaGame {
     private void changeIfNPressed() {
         if (areaIndex != areas.length - 1) {
             ++areaIndex;
-            player.leaveArea();
+            players.forEach(ICWarsPlayer::leaveArea);
             try (var currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true)) {
-                player.enterArea(currentArea, currentArea.getAllyCenter());
+                players.get(0).enterArea(currentArea, currentArea.getAllyCenter());
             }
-            player.centerCamera();
+            players.get(0).centerCamera();
         } else System.out.println("Game over");
     }
 
