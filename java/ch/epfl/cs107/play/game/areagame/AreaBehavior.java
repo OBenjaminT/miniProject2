@@ -54,20 +54,24 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
 
     @Override
     public void cellInteractionOf(Interactor interactor) {
-        for (DiscreteCoordinates dc : interactor.getCurrentCells()) {
-            if (dc.x < 0 || dc.y < 0 || dc.x >= width || dc.y >= height)
-                continue;
-            cells[dc.x][dc.y].cellInteractionOf(interactor);
-        }
+        interactor.getCurrentCells()
+            .stream()
+            .filter(dc -> dc.x >= 0)
+            .filter(dc -> dc.y >= 0)
+            .filter(dc -> dc.x < width)
+            .filter(dc -> dc.y < height)
+            .forEach(dc -> cells[dc.x][dc.y].cellInteractionOf(interactor));
     }
 
     @Override
     public void viewInteractionOf(Interactor interactor) {
-        for (DiscreteCoordinates dc : interactor.getFieldOfViewCells()) {
-            if (dc.x < 0 || dc.y < 0 || dc.x >= width || dc.y >= height)
-                continue;
-            cells[dc.x][dc.y].viewInteractionOf(interactor);
-        }
+        interactor.getFieldOfViewCells()
+            .stream()
+            .filter(dc -> dc.x >= 0)
+            .filter(dc -> dc.y >= 0)
+            .filter(dc -> dc.x < width)
+            .filter(dc -> dc.y < height)
+            .forEach(dc -> cells[dc.x][dc.y].viewInteractionOf(interactor));
     }
 
     protected void setCell(int x, int y, Cell cell) {
@@ -95,41 +99,32 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
 
     @Override
     public boolean canLeave(Interactable entity, List<DiscreteCoordinates> coordinates) {
-
-        for (DiscreteCoordinates c : coordinates) {
-            if (c.x < 0 || c.y < 0 || c.x >= width || c.y >= height)
-                return false;
-            if (!cells[c.x][c.y].canLeave(entity))
-                return false;
-        }
-        return true;
+        return coordinates.stream()
+            .noneMatch(c -> (c.x < 0)
+                || (c.y < 0)
+                || (c.x >= width)
+                || (c.y >= height)
+                || !cells[c.x][c.y].canLeave(entity));
     }
 
     @Override
     public boolean canEnter(Interactable entity, List<DiscreteCoordinates> coordinates) {
-        for (DiscreteCoordinates c : coordinates) {
-            if (c.x < 0 || c.y < 0 || c.x >= width || c.y >= height)
-                return false;
-            if (!cells[c.x][c.y].canEnter(entity))
-                return false;
-        }
-        return true;
+        return coordinates.stream()
+            .noneMatch(c -> (c.x < 0)
+                || (c.y < 0)
+                || (c.x >= width)
+                || (c.y >= height)
+                || !cells[c.x][c.y].canEnter(entity));
     }
 
     @Override
     public void leave(Interactable entity, List<DiscreteCoordinates> coordinates) {
-
-        for (DiscreteCoordinates c : coordinates) {
-            cells[c.x][c.y].leave(entity);
-        }
-
+        coordinates.forEach(c -> cells[c.x][c.y].leave(entity));
     }
 
     @Override
     public void enter(Interactable entity, List<DiscreteCoordinates> coordinates) {
-        for (DiscreteCoordinates c : coordinates) {
-            cells[c.x][c.y].enter(entity);
-        }
+        coordinates.forEach(c -> cells[c.x][c.y].enter(entity));
     }
 
     /**
@@ -175,10 +170,9 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
          */
         private void cellInteractionOf(Interactor interactor) {
             interactor.interactWith(this);
-            for (Interactable interactable : entities) {
-                if (interactable.isCellInteractable())
-                    interactor.interactWith(interactable);
-            }
+            entities.stream()
+                .filter(Interactable::isCellInteractable)
+                .forEach(interactor::interactWith);
         }
 
         /**
@@ -188,10 +182,9 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
          */
         private void viewInteractionOf(Interactor interactor) {
             interactor.interactWith(this);
-            for (Interactable interactable : entities) {
-                if (interactable.isViewInteractable())
-                    interactor.interactWith(interactable);
-            }
+            entities.stream()
+                .filter(Interactable::isViewInteractable)
+                .forEach(interactor::interactWith);
         }
 
         /**

@@ -16,11 +16,11 @@ import java.util.List;
 
 
 public class ICWarsPlayer extends ICWarsActor implements Interactor {
+    public States playerCurrentState;
     protected ArrayList<Units> units = new ArrayList<>();
     protected Sprite sprite;
     protected Units SelectedUnit;
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
-    public States playerCurrentState;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
@@ -163,22 +163,22 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * if a unit UNIT has the same position as the player and he hasn't already been moved, we call SelectedUnit(UNIT)
      * else SelectedUnit is set to null
      */
-    public void selectUnit(){
-        boolean UnitedSelected=false;
-        for(Units unit : units){
-            if(unit.getPosition().equals(this.getPosition()) && !unit.isAlreadyMoved()){
-                selectUnit(unit);
-                UnitedSelected = true;
-            }
-        }
-        if(!UnitedSelected) SelectedUnit=null;
+    public void selectUnit() {
+        units.stream() // for all units
+            .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
+            .filter(u -> !u.isAlreadyMoved()) // and haven't already moved
+            .findFirst() // find the first one
+            .ifPresentOrElse( // if there is one that fits the criteria
+                this::selectUnit, // select it
+                () -> SelectedUnit = null); // else `selectedUnit` is null
+
     }
 
     /**
      * SelectedUnit is set to null
      */
-    public void unselectUnit(){
-        SelectedUnit=null;
+    public void unselectUnit() {
+        SelectedUnit = null;
     }
 
     /**

@@ -68,7 +68,9 @@ abstract public class Units extends ICWarsActor {
         this.isAlreadyMoved = isAlreadyMoved;
     }
 
-    public boolean isAlreadyMoved() {return isAlreadyMoved;}
+    public boolean isAlreadyMoved() {
+        return isAlreadyMoved;
+    }
 
     /**
      * @return true if the unit's hp are positive
@@ -108,15 +110,13 @@ abstract public class Units extends ICWarsActor {
                 .map(y -> y + this.getCurrentMainCellCoordinates().y)
                 .filter(y -> y <= widthIndex)
                 .filter(y -> y >= 0)
-                .forEach(y -> {
-                        range.addNode(new DiscreteCoordinates(x, y), // NodeCoordinates
-                            x > 0, // hasLeftNeighbour
-                            y > 0, // hasTopNeighbour
-                            x < widthIndex, // hasRightNeighbour
-                            y < heightIndex);
-                        //System.out.println("looping in completeUnitsRange");
-                    } // hasUnderNeighbour
-                ));
+                .forEach(y -> range.addNode(
+                    new DiscreteCoordinates(x, y), // NodeCoordinates
+                    x > 0, // hasLeftNeighbour
+                    y > 0, // hasTopNeighbour
+                    x < widthIndex, // hasRightNeighbour
+                    y < heightIndex // hasUnderNeighbour
+                )));
     }
 
     /**

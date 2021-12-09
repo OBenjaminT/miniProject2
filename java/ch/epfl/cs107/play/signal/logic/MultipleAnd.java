@@ -22,9 +22,8 @@ public final class MultipleAnd extends LogicGate {
 
     @Override
     public float getIntensity() {
-        for (Logic logic : signals) {
+        for (Logic logic : signals)
             if (logic.isOff()) return Logic.FALSE.getIntensity();
-        }
         return Logic.TRUE.getIntensity();
     }
 }

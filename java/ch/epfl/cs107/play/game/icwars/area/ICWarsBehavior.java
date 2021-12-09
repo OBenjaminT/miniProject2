@@ -5,6 +5,8 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.Arrays;
+
 public class ICWarsBehavior extends AreaBehavior {
     /**
      * Default Tuto2Behavior Constructor
@@ -17,10 +19,12 @@ public class ICWarsBehavior extends AreaBehavior {
         int height = getHeight();
         int width = getWidth();
         for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++) {
-                ICWarsCellType type = ICWarsCellType.toType(getRGB(height - 1 - y, x));
-                setCell(x, y, new ICWarsCell(x, y, type));
-            }
+            for (int x = 0; x < width; x++)
+                setCell(
+                    x,
+                    y,
+                    new ICWarsCell(x, y, ICWarsCellType.toType(getRGB(height - 1 - y, x)))
+                );
     }
 
     public enum ICWarsCellType {
@@ -42,13 +46,10 @@ public class ICWarsBehavior extends AreaBehavior {
         }
 
         public static ICWarsBehavior.ICWarsCellType toType(int type) {
-            for (ICWarsBehavior.ICWarsCellType ict : ICWarsCellType.values()) {
-                if (ict.type == type)
-                    return ict;
-            }
-            // When you add a new color, you can print the int value here before assign it to a type
-            System.out.println(type);
-            return NONE;
+            return Arrays.stream(ICWarsCellType.values()) // for each cell type
+                .filter(ict -> ict.type == type) // if it's the type we're looking for
+                .findFirst() // get the first one, and return it
+                .orElse(NONE); // if there isn't one, return `NONE`
         }
     }
 

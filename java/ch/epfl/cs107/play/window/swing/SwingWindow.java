@@ -168,8 +168,7 @@ public final class SwingWindow extends Node implements Window {
 
         // Render ordered drawable
         Collections.sort(gItems);
-        for (Item item : gItems)
-            item.render(graphics);
+        gItems.forEach(item -> item.render(graphics));
 
         // Clean the audio item by removing terminated ones
         if (isSoundSupported())
@@ -275,14 +274,13 @@ public final class SwingWindow extends Node implements Window {
             assert url != null;
             String path = new URI(url.toString()).getPath();
             File directory = new File(path);
-            for (File fontFile : Objects.requireNonNull(directory.listFiles())) {
+            for (File fontFile : Objects.requireNonNull(directory.listFiles()))
                 if (fontFile.isDirectory())
                     registerFonts(fontFile.getName());
                 else {
                     Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
                     GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
                 }
-            }
         } catch (Exception e) {
             //Empty on purpose
             e.printStackTrace();
@@ -322,10 +320,8 @@ public final class SwingWindow extends Node implements Window {
 
         if (isSoundSupported()) {
             if (stopOthersOnStart) {
-                for (SoundItem item : aItems) {
-                    item.finish();        // Can be commented and replaced by fade out on next line
-                    //item.fadeOut();	// if uncomment fade out, please comment the clear line below
-                }
+                aItems.forEach(SoundItem::finish);
+                // aItems.forEach(SoundItem::fadeOut);	// if uncomment fade out, please comment the clear line below
                 aItems.clear();            // Comment this line if fade out option !
             }
 
