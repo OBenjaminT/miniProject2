@@ -14,6 +14,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ICWars extends AreaGame {
 
@@ -46,43 +47,56 @@ public class ICWars extends AreaGame {
             var coords = area.getAllyCenter();
             tank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
             soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-            var player = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier);
-            player.enterArea(area, coords);
-            player.startTurn();
-            player.centerCamera();
-            players.add(player);
+
+            // Players
+            Arrays.stream(new ICWarsPlayer[]{
+                new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier),
+            }).forEach(player -> {
+                player.enterArea(area, coords);
+                players.add(player);
+            });
         }
     }
 
     @Override
     public void update(float deltaTime) {
+        // convention: the first player in `activePlayers` is the one whose turn it is
         this.gameState = switch (gameState) {
             case INIT -> {
-                activePlayers.addAll(players);
+                activePlayers.addAll(
+                    players.stream()
+                        .filter(p -> !p.isDefeated()) // add only non-defeated players
+                        .collect(Collectors.toList()));
                 yield States.CHOOSE_PLAYER;
             }
-            case CHOOSE_PLAYER -> {
-                if (activePlayers.isEmpty()) {
-                    yield States.END_TURN;
-                } else {
-                    activePlayer = activePlayers.get(0);
-                    activePlayer.startTurn();
-                    activePlayer.centerCamera();
-                    yield States.START_PLAYER_TURN;
-                }
-            }
+            case CHOOSE_PLAYER -> activePlayers.isEmpty()
+                ? States.END_TURN
+                : States.START_PLAYER_TURN;
             case START_PLAYER_TURN -> {
-                yield gameState;
+                activePlayer = activePlayers.get(0);
+                activePlayer.startTurn();
+                activePlayer.centerCamera();
+                yield States.PLAYER_TURN;
             }
             case PLAYER_TURN -> {
-                yield gameState;
-            }
+                activePlayers.get(0).update(deltaTime);
+                yield activePlayers.get(0).isIdle()
+                    ? States.PLAYER_TURN
+                    : gameState;
+            } // loops forever?
             case END_PLAYER_TURN -> {
-                yield gameState;
+                var player = activePlayers.get(0);
+                if (player.isDefeated())
+                    player.leaveArea(); // remove him from the playing area
+                else {
+                    // player.endTurn(); // TODO reset all the players units movement
+                    activePlayers.remove(player);
+                }
+                yield States.CHOOSE_PLAYER; // it said only change like this in the first branch but nothing for the second
             }
-            case END_TURN -> {
-                yield gameState;
-            }
+            case END_TURN -> (2 > players.stream().filter(p -> !p.isDefeated()).count())
+                ? States.END
+                : States.INIT;
             case END -> {
                 yield gameState;
             }
