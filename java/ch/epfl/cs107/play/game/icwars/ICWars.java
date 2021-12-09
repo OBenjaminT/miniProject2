@@ -58,6 +58,10 @@ public class ICWars extends AreaGame {
         }
     }
 
+    public ICWarsPlayer getActivePlayer() {
+        return activePlayers.get(0);
+    }
+
     @Override
     public void update(float deltaTime) {
         // convention: the first player in `activePlayers` is the one whose turn it is
@@ -73,25 +77,25 @@ public class ICWars extends AreaGame {
                 ? States.END_TURN
                 : States.START_PLAYER_TURN;
             case START_PLAYER_TURN -> {
-                activePlayer = activePlayers.get(0);
+                activePlayer = getActivePlayer();
                 activePlayer.startTurn();
                 activePlayer.centerCamera();
                 yield States.PLAYER_TURN;
             }
             case PLAYER_TURN -> {
-                activePlayers.get(0).update(deltaTime);
-                yield activePlayers.get(0).isIdle()
+                var activePlayer = getActivePlayer();
+                activePlayer.update(deltaTime);
+                yield activePlayer.isIdle()
                     ? States.PLAYER_TURN
                     : gameState;
             } // loops forever?
             case END_PLAYER_TURN -> {
-                var player = activePlayers.get(0);
-                if (player.isDefeated())
-                    player.leaveArea(); // remove him from the playing area
-                else {
+                var player = getActivePlayer();
+                if (!player.isDefeated()) {
                     // player.endTurn(); // TODO reset all the players units movement
                     activePlayers.remove(player);
-                }
+                } else player.leaveArea(); // remove him from the playing area
+
                 yield States.CHOOSE_PLAYER; // it said only change like this in the first branch but nothing for the second
             }
             case END_TURN -> (2 > players.stream().filter(p -> !p.isDefeated()).count())
