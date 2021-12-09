@@ -33,7 +33,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * register all the units of the player in the player's ownerArea
      */
     private void RegisterUnitsAsActors() {
-        units.forEach(unit -> unit.enterArea(this.getOwnerArea(), new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)));
+        units.forEach(unit -> unit.enterArea(
+            this.getOwnerArea(),
+            new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
+        ));
     }
 
     @Override
@@ -67,10 +70,9 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             }
             case SELECT_CELL -> {
                 // TODO select the unit in this cell
-                this.selectUnit();
-                if (this.SelectedUnit != null)
-                    yield States.MOVE_UNIT;
-                else yield playerCurrentState;
+                yield this.selectUnit() != null
+                    ? States.MOVE_UNIT
+                    : playerCurrentState;
             }
             case MOVE_UNIT -> {
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
@@ -140,7 +142,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
-     * @param index the index of the selected Uit in the player's units list
+     * @param index the index of the selected Unit in the player's units list
      *              SelectedUnit parameter is associated to the proper Unit
      *              SelectedUnit is also transmitter to the playerGUI with the setter
      */
@@ -163,7 +165,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * if a unit UNIT has the same position as the player and he hasn't already been moved, we call SelectedUnit(UNIT)
      * else SelectedUnit is set to null
      */
-    public void selectUnit() {
+    public Units selectUnit() {
         units.stream() // for all units
             .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
             .filter(u -> !u.isAlreadyMoved()) // and haven't already moved
@@ -171,7 +173,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             .ifPresentOrElse( // if there is one that fits the criteria
                 this::selectUnit, // select it
                 () -> SelectedUnit = null); // else `selectedUnit` is null
-
+        return this.SelectedUnit;
     }
 
     /**

@@ -17,8 +17,10 @@ public class Play {
     /**
      * The game window dimensions
      */
-    public static final int WINDOW_WIDTH = 1400;
-    public static final int WINDOW_HEIGHT = 900;
+    public static final int WINDOW_WIDTH = 400;
+    //public static final int WINDOW_WIDTH = 1400;
+    public static final int WINDOW_HEIGHT = 300;
+    //public static final int WINDOW_HEIGHT = 900;
     /**
      * One second in nanoseconds
      */

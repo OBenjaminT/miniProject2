@@ -47,7 +47,7 @@ abstract public class Units extends ICWarsActor {
         this.setHp(current_HP);
         this.repair = repair;
         this.range = new ICWarsRange();
-        this.isAlreadyMoved = false; //at its creation a unit hasn't already been moved
+        this.isAlreadyMoved = false; // at its creation a unit hasn't already been moved
         completeUnitsRange();
     }
 
