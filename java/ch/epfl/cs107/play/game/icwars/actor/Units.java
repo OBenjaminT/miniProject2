@@ -100,6 +100,7 @@ abstract public class Units extends ICWarsActor {
      * within a radius range of the unit's coordinates and in the grid
      */
     private void completeUnitsRange() {
+        this.range = new ICWarsRange();
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
         IntStream.rangeClosed(-radius, radius)
