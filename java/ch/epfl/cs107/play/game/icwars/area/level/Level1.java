@@ -32,7 +32,15 @@ public class Level1 extends ICWarsArea {
     }
 
     @Override
+    public DiscreteCoordinates getEnnemyCenter() {
+        return new DiscreteCoordinates(7, 4);
+    }
+
+    @Override
     public DiscreteCoordinates getFreeAllySpawnPosition() {
         return allyFactionSpawnPoints.getFreeSpawnPosition();
+    }
+    public DiscreteCoordinates getFreeEnnemySpawnPosition() {
+        return enemyFactionSpawnPoints.getFreeSpawnPosition();
     }
 }

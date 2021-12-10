@@ -9,7 +9,7 @@ import ch.epfl.cs107.play.math.Vector;
 
 public class Soldier extends Units {
     static int SoldierMaxHP = 10;
-    static int SoldierRadius = 4;
+    static int SoldierRadius = 2;
     static int SoldierDammage = 7;
 
     /**
@@ -43,7 +43,7 @@ public class Soldier extends Units {
     @Override
     protected String getName() {
         if (this.faction == Faction.ALLY) return "icwars/friendlySoldier";
-        else return "icwars/friendlyTank";
+        else return "icwars/enemySoldier";
 
     }
 }

@@ -24,6 +24,11 @@ public abstract class ICWarsArea extends Area {
     public abstract DiscreteCoordinates getAllyCenter();
 
     /**
+     * Get the "ennemy center", currently used as the player spawn point
+     */
+    public abstract DiscreteCoordinates getEnnemyCenter();
+
+    /**
      * Get the a free coordinate that the ally can spawn a unit in
      */
     public abstract DiscreteCoordinates getFreeAllySpawnPosition();
@@ -44,6 +49,8 @@ public abstract class ICWarsArea extends Area {
         }
         return false;
     }
+
+    public abstract DiscreteCoordinates getFreeEnnemySpawnPosition();
 
     //public abstract DiscreteCoordinates getPlayerSpawnPosition();
 

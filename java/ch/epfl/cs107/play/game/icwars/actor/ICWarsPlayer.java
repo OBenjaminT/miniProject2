@@ -41,9 +41,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-        this.sprite.draw(canvas);
-        if (playerCurrentState.equals(States.MOVE_UNIT)) playerGUI.draw(canvas);
-        //playerGUI.draw(canvas);
+        if(this.playerCurrentState != States.IDLE) {
+            this.sprite.draw(canvas);
+            if (playerCurrentState.equals(States.MOVE_UNIT)) playerGUI.draw(canvas);
+        }
     }
 
     @Override
@@ -64,11 +65,14 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             case NORMAL -> {
                 if (keyboard.get(Keyboard.ENTER).isReleased())
                     yield States.SELECT_CELL;
-                else if (keyboard.get(Keyboard.TAB).isReleased())
+                else if (keyboard.get(Keyboard.TAB).isReleased()) {
+                    System.out.println("tab");
                     yield States.IDLE;
+                }
                 else yield playerCurrentState;
             }
             case SELECT_CELL -> {
+                System.out.println("select CELL");
                 // TODO select the unit in this cell
                 yield this.selectUnit() != null
                     ? States.MOVE_UNIT
@@ -192,6 +196,12 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         this.playerCurrentState = States.NORMAL;
         this.getOwnerArea().setViewCandidate(this);
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
+    }
+
+    public void endTurn(){
+        for(Units unit : this.units){
+            unit.setIsAlreadyMoved(false);
+        }
     }
 
     /**

@@ -21,9 +21,20 @@ public class ICWars extends AreaGame {
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
     States gameState;
     private int areaIndex;
-    private Tank tank;
-    private Soldier soldier;
+
+    //units for ally player
+    private Tank allyTank;
+    private Soldier allySoldier;
+
+    //units for enemyplayer
+    private Soldier ennemySoldier;
+    private Tank ennemyTank;
+
+
     private Keyboard keyboard;
+
+
+
 
 
     @Override
@@ -45,12 +56,23 @@ public class ICWars extends AreaGame {
     private void initArea(String areaKey) {
         try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
             var coords = area.getAllyCenter();
-            tank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-            soldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+            allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+            allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+
+            ennemyTank = new Tank(area, area.getFreeEnnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
+            ennemySoldier = new Soldier(area, area.getFreeEnnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
 
             // Players
+            RealPlayer AllyPlayer = new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, allyTank, allySoldier);
+            AllyPlayer.enterArea(area, area.getAllyCenter());
+            players.add(AllyPlayer);
+
+            RealPlayer EnnemyPlayer = new RealPlayer(area, coords, ICWarsActor.Faction.ENEMY, ennemyTank,ennemySoldier );
+            EnnemyPlayer.enterArea(area, area.getEnnemyCenter());
+            players.add(EnnemyPlayer);
+
             Arrays.stream(new ICWarsPlayer[]{
-                new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, tank, soldier),
+                    new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, allyTank, allySoldier),
             }).forEach(player -> {
                 player.enterArea(area, coords);
                 players.add(player);
@@ -59,7 +81,7 @@ public class ICWars extends AreaGame {
     }
 
     public ICWarsPlayer getActivePlayer() {
-        return activePlayers.get(0);
+        return PlayersWaitingForCurrentTurn.get(0);
     }
 
     @Override
@@ -67,40 +89,77 @@ public class ICWars extends AreaGame {
         // convention: the first player in `activePlayers` is the one whose turn it is
         this.gameState = switch (gameState) {
             case INIT -> {
-                activePlayers.addAll(
+                PlayersWaitingForCurrentTurn.addAll(
                     players.stream()
                         .filter(p -> !p.isDefeated()) // add only non-defeated players
                         .collect(Collectors.toList()));
                 yield States.CHOOSE_PLAYER;
             }
-            case CHOOSE_PLAYER -> activePlayers.isEmpty()
-                ? States.END_TURN
-                : States.START_PLAYER_TURN;
+            case CHOOSE_PLAYER -> {
+                if( PlayersWaitingForCurrentTurn.isEmpty()){
+                    yield States.END_TURN;
+                }
+                else{
+                    //chose the next playr that has to play in the current turn
+                    //remove it from the lsit of players taht wait for a turn
+                    this.activePlayer=PlayersWaitingForCurrentTurn.get(0);
+                    PlayersWaitingForCurrentTurn.remove(this.activePlayer);
+                    yield States.START_PLAYER_TURN;
+                }
+//                activePlayers.isEmpty()
+//                        ? States.END_TURN
+//                        : States.START_PLAYER_TURN;
+            }
             case START_PLAYER_TURN -> {
-                activePlayer = getActivePlayer();
                 activePlayer.startTurn();
                 activePlayer.centerCamera();
                 yield States.PLAYER_TURN;
             }
             case PLAYER_TURN -> {
-                var activePlayer = getActivePlayer();
                 activePlayer.update(deltaTime);
                 yield activePlayer.isIdle()
-                    ? States.PLAYER_TURN
+                    ? States.END_PLAYER_TURN
                     : gameState;
             } // loops forever?
             case END_PLAYER_TURN -> {
-                var player = getActivePlayer();
+                var player = activePlayer;
                 if (!player.isDefeated()) {
-                    // player.endTurn(); // TODO reset all the players units movement
-                    activePlayers.remove(player);
-                } else player.leaveArea(); // remove him from the playing area
+                    player.endTurn(); // TODO reset all the players units movement
+                    PlayersWaitingForNextTurn.add(player);
+                    PlayersWaitingForCurrentTurn.remove(player);
+                } else {
+                    PlayersWaitingForCurrentTurn.remove(player);
+                    player.leaveArea();
+                }; // remove him from the playing area
 
                 yield States.CHOOSE_PLAYER; // it said only change like this in the first branch but nothing for the second
             }
-            case END_TURN -> (2 > players.stream().filter(p -> !p.isDefeated()).count())
+            case END_TURN -> /*(2 > players.stream().filter(p -> !p.isDefeated()).count())
                 ? States.END
-                : States.INIT;
+                : States.INIT;*/
+                    {
+                        for(ICWarsPlayer player: players){
+                            if(player.isDefeated()){
+                                players.remove(player);
+                            }
+                        }
+
+                        for(ICWarsPlayer player: PlayersWaitingForNextTurn){
+                            if(player.isDefeated()){
+                                players.remove(player);
+                            }
+                        }
+
+                        if(PlayersWaitingForNextTurn.size()==1){
+                            yield States.END;
+                        }
+                        else{
+                            for(ICWarsPlayer player: PlayersWaitingForNextTurn){
+                                PlayersWaitingForCurrentTurn.add(player);
+                            }
+                            yield States.CHOOSE_PLAYER;
+                        }
+                    }
             case END -> {
                 yield gameState;
             }

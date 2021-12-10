@@ -19,7 +19,8 @@ import java.util.Map;
 abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
     protected List<ICWarsPlayer> players;
-    protected List<ICWarsPlayer> activePlayers = new ArrayList<>();
+    protected List<ICWarsPlayer> PlayersWaitingForNextTurn = new ArrayList<>();
+    protected List<ICWarsPlayer> PlayersWaitingForCurrentTurn = new ArrayList<>();
     protected ICWarsPlayer activePlayer;
     // Context objects
     private Window window;

@@ -16,12 +16,19 @@ public class Level0 extends ICWarsArea {
         levelAllySpawnPoints.add(new DiscreteCoordinates(3, 5));
         this.allyFactionSpawnPoints = new SpawnPoints(levelAllySpawnPoints);
 
-        this.enemyFactionSpawnPoints = new SpawnPoints(new ArrayList<>());
+        var levelEnnemySpawnPoints = new ArrayList<DiscreteCoordinates>();
+        levelEnnemySpawnPoints.add(new DiscreteCoordinates(3, 8));
+        levelEnnemySpawnPoints.add(new DiscreteCoordinates(9, 5));
+        this.enemyFactionSpawnPoints = new SpawnPoints(levelEnnemySpawnPoints);
     }
 
     @Override
     public DiscreteCoordinates getAllyCenter() {
         return new DiscreteCoordinates(0, 0);
+    }
+    @Override
+    public DiscreteCoordinates getEnnemyCenter() {
+        return new DiscreteCoordinates(7, 4);
     }
 
     @Override
@@ -37,5 +44,9 @@ public class Level0 extends ICWarsArea {
 
     public DiscreteCoordinates getFreeAllySpawnPosition() {
         return allyFactionSpawnPoints.getFreeSpawnPosition();
+    }
+
+    public DiscreteCoordinates getFreeEnnemySpawnPosition() {
+        return enemyFactionSpawnPoints.getFreeSpawnPosition();
     }
 }
