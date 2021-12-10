@@ -97,6 +97,5 @@ public class ICWarsBehavior extends AreaBehavior {
         @Override
         public void acceptInteraction(AreaInteractionVisitor v) {
         }
-
     }
 }

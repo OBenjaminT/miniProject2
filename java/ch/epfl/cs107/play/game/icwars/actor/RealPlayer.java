@@ -10,6 +10,8 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.EnumSet;
+
 public class RealPlayer extends ICWarsPlayer {
     /// Animation duration in frame number
     private final static int MOVE_DURATION = 6;
@@ -64,9 +66,8 @@ public class RealPlayer extends ICWarsPlayer {
      * @return true only if playerCurrentState = NORMAL, SELECT_UNIT or MOVE_UNIT
      */
     private boolean RealPlayerCanMove() {
-        return this.playerCurrentState == States.NORMAL
-            || this.playerCurrentState == States.SELECT_CELL
-            || this.playerCurrentState == States.MOVE_UNIT;
+        final var movableStates = EnumSet.of(States.NORMAL, States.SELECT_CELL, States.MOVE_UNIT);
+        return movableStates.contains(this.playerCurrentState);
     }
 
     private static class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
@@ -78,7 +79,7 @@ public class RealPlayer extends ICWarsPlayer {
 
         @Override
         public void interactWith(Units unit) {
-            if (player.playerCurrentState == States.SELECT_CELL && unit.faction == player.faction)
+            if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
                 player.selectUnit(unit);
         }
     }

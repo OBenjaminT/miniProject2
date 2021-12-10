@@ -105,7 +105,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     public boolean isIdle() {
-        return playerCurrentState == States.IDLE;
+        return playerCurrentState.equals(States.IDLE);
     }
 
     @Override

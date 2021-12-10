@@ -45,7 +45,7 @@ public class Tank extends Units {
      */
     @Override
     protected String getName() {
-        if (this.faction == Faction.ALLY) return "icwars/friendlyTank";
+        if (this.faction.equals(Faction.ALLY)) return "icwars/friendlyTank";
         else return "icwars/enemyTank";
 
     }

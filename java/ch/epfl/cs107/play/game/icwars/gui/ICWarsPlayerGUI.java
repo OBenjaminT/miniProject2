@@ -27,7 +27,6 @@ public class ICWarsPlayerGUI implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-
         if (PlayerSelectedUnit == null) return;
         if (PlayerSelectedUnit.hasNotAlreadyMoved())
             PlayerSelectedUnit
