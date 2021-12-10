@@ -23,13 +23,13 @@ public interface Window extends Canvas, Audio, Attachable, AutoCloseable {
      */
     Keyboard getKeyboard();
 
-    // TODO gamepads
+    // TO-DO gamepads
 
     /**
      * @return (boolean): whether the user tried to close the window
      */
     boolean isCloseRequested();
 
-    // TODO this may require delta time, e.g. for mouse interpolation
+    // TO-DO this may require delta time, e.g. for mouse interpolation
     void update();
 }

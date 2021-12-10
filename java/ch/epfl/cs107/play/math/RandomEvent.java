@@ -8,7 +8,7 @@ public final class RandomEvent {
 
     // Probability of success of the Bernoulli experiment
     private final float p;
-    // Indicate if the experiment can happen only once (i.e always fails after first success)
+    // Indicate if the experiment can happen only once (i.e. always fails after first success)
     private final boolean onlyOnce;
     // Indicate if the experiment already happened at least once
     private boolean happened;
@@ -76,7 +76,7 @@ public final class RandomEvent {
      * @param max (int): High bound, exclusive
      * @return (int): between [min, max)
      */
-    public int nextInt(int min, int max) {//TODO should be deleted
+    public int nextInt(int min, int max) {//TO-DO should be deleted
         return RandomGenerator.getInstance().nextInt(max - min) + min;
     }
 

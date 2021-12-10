@@ -77,7 +77,7 @@ public final class Circle extends Shape {
 
     @Override
     public Path2D toPath() {
-        // TODO is it possible to cache this? need to check if SwingWindow modifies it...
+        // TO-DO is it possible to cache this? need to check if SwingWindow modifies it...
         Ellipse2D ellipse = new Ellipse2D.Float(
             center.x - radius,
             center.y - radius,

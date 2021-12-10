@@ -63,7 +63,7 @@ public final class Transform implements Serializable {
         this.m12 = m12;
     }
 
-    // TODO is rigid/scale/translation/...?
+    // TO-DO is rigid/scale/translation/...?
 
     /**
      * @return (Vector): X-axis, not null
@@ -202,8 +202,8 @@ public final class Transform implements Serializable {
         return scaled(s, s);
     }
 
-    // TODO scale in specific direction, according to vector?
-    // TODO scale using specific center of transformation?
+    // TO-DO scale in specific direction, according to vector?
+    // TO-DO scale using specific center of transformation?
 
     /**
      * Appends rotation around origin (applied after this transform).
@@ -234,9 +234,9 @@ public final class Transform implements Serializable {
                 translated(center);
     }
 
-    // TODO 90, 180, 270 degrees rotation?
+    // TO-DO 90, 180, 270 degrees rotation?
 
-    // TODO flip h/v, mirror
+    // TO-DO flip h/v, mirror
 
     /**
      * @return (Transform): transform inverse, not null

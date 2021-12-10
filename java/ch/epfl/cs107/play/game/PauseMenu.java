@@ -17,7 +17,7 @@ public abstract class PauseMenu implements Playable, Acoustics {
     /// Display dimension scale
     /// Context objects
     private Window window;
-    //private FileSystem fileSystem; // TODO link it to save concept
+    //private FileSystem fileSystem; // TO-DO link it to save concept
 
     /**
      * Draw the entire menu (background, texts, etc.)

@@ -92,7 +92,7 @@ public class Animation implements Updatable, Graphics {
      * Update the speed factor of this Animation. Can be done on the fly.
      * Note the speed factor is given between 1 (original speed) and frameDuration (maximal speed)
      * Hence we cannot slow down the animation !
-     * TODO make the animation compatible with slow down
+     * TO-DO make the animation compatible with slow down
      *
      * @param speedFactor (int): new speed factor. Will be cropped between 1 and frameDuration
      */

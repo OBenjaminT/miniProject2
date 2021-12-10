@@ -101,7 +101,7 @@ public final class Polygon extends Shape {
     // Generate convex decomposition
     private void initialize() {
 
-        // TODO use better convex partitioning, i.e. split in convex polygons instead of only triangles
+        // TO-DO use better convex partitioning, i.e. split in convex polygons instead of only triangles
 
         // Check validity
         if (points.size() < 3)
@@ -231,7 +231,7 @@ public final class Polygon extends Shape {
 
     @Override
     public Path2D toPath() {
-        // TODO is it possible to cache this? need to check if SwingWindow modifies it...
+        // TO-DO is it possible to cache this? need to check if SwingWindow modifies it...
         Path2D path = new Path2D.Float();
         Vector point = points.get(0);
         path.moveTo(point.x, point.y);

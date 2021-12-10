@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public interface Canvas extends Positionable {
 
-    // TODO maybe provide some size/aspect ratio information
+    // TO-DO maybe provide some size/aspect ratio information
 
     /**
      * Gets image from file system.

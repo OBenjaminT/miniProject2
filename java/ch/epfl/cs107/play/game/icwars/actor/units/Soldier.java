@@ -42,8 +42,7 @@ public class Soldier extends Units {
      */
     @Override
     protected String getName() {
-        if (this.faction == Faction.ALLY) return "icwars/friendlySoldier";
+        if (this.faction.equals(Faction.ALLY)) return "icwars/friendlySoldier";
         else return "icwars/enemySoldier";
-
     }
 }

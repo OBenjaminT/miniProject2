@@ -38,8 +38,8 @@ public interface Mouse extends Positionable {
         return getButton(2);
     }
 
-    // TODO wheel/scroll
-    // TODO other position getters and screen space things?
+    // TO-DO wheel/scroll
+    // TO-DO other position getters and screen space things?
 
 
     /// Mouse extends Positionable

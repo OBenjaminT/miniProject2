@@ -17,9 +17,9 @@ public abstract class Shape {
      */
     public abstract float getPerimeter();
 
-    // TODO bounding box/circle?
+    // TO-DO bounding box/circle?
 
-    // TODO apply transform (or at least some translation, scale, rotation) to shape?
+    // TO-DO apply transform (or at least some translation, scale, rotation) to shape?
 
     /**
      * Sample uniform point inside shape, including border.
