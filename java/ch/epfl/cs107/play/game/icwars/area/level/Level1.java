@@ -40,6 +40,7 @@ public class Level1 extends ICWarsArea {
     public DiscreteCoordinates getFreeAllySpawnPosition() {
         return allyFactionSpawnPoints.getFreeSpawnPosition();
     }
+
     public DiscreteCoordinates getFreeEnnemySpawnPosition() {
         return enemyFactionSpawnPoints.getFreeSpawnPosition();
     }
