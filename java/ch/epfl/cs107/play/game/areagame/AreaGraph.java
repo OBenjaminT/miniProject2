@@ -28,8 +28,7 @@ public class AreaGraph {
     }
 
     public void debugPrint() {
-        nodes.entrySet()
-            .forEach(key -> System.out.println(key.getKey().x + ", " + key.getKey().y));
+        nodes.forEach((key1, value) -> System.out.println(key1.x + ", " + key1.y));
     }
 
     /**

@@ -182,7 +182,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public Units selectUnit() {
         units.stream() // for all units
             .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
-            .filter(u -> !u.isAlreadyMoved()) // and haven't already moved
+            .filter(Units::hasNotAlreadyMoved) // and haven't already moved
             .findFirst() // find the first one
             .ifPresentOrElse( // if there is one that fits the criteria
                 this::selectUnit, // select it

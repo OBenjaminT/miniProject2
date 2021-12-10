@@ -68,8 +68,8 @@ abstract public class Units extends ICWarsActor {
         this.isAlreadyMoved = isAlreadyMoved;
     }
 
-    public boolean isAlreadyMoved() {
-        return isAlreadyMoved;
+    public boolean hasNotAlreadyMoved() {
+        return !isAlreadyMoved;
     }
 
     /**
