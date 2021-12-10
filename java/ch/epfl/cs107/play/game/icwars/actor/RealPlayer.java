@@ -55,6 +55,7 @@ public class RealPlayer extends ICWarsPlayer {
         if (b.isDown() && !isDisplacementOccurs()) {
             orientate(orientation);
             move(MOVE_DURATION);
+            //this.EnterWasRealsed=false;
         }
     }
 

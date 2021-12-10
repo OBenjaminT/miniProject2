@@ -21,6 +21,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected Sprite sprite;
     protected Units SelectedUnit;
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
+    boolean EnterWasRealsed= false;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
@@ -57,19 +58,36 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                 units.remove(unit);
                 unit.leaveArea();
             });
+        drawOpacityOfUnits();
         var keyboard = this.getOwnerArea().getKeyboard();
         // https://www.baeldung.com/java-switch
         // Ensures all cases are covered, doesn't need break blocks, and assigns value to `yield` result.
         this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
-                if (keyboard.get(Keyboard.ENTER).isReleased())
-                    yield States.SELECT_CELL;
-                else if (keyboard.get(Keyboard.TAB).isReleased()) {
+                System.out.println(EnterWasRealsed);
+                if (!keyboard.get(Keyboard.ENTER).isReleased()) {
+                    EnterWasRealsed = false;
+                }
+                if (keyboard.get(Keyboard.TAB).isReleased()) {
                     System.out.println("tab");
+                    EnterWasRealsed = false;
                     yield States.IDLE;
                 }
+                else if(!EnterWasRealsed) {
+                    if (keyboard.get(Keyboard.ENTER).isReleased())
+                        yield States.SELECT_CELL;
+                    else yield playerCurrentState;
+                }
+/*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                    yield States.SELECT_CELL;
+                }*/
                 else yield playerCurrentState;
+
+                /*else {
+                    //EnterWasRealsed = false;
+                    yield playerCurrentState;
+                }*/
             }
             case SELECT_CELL -> {
                 System.out.println("select CELL");
@@ -83,6 +101,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                     var pos = this.getPosition();
                     this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
                     SelectedUnit.setIsAlreadyMoved(true);
+                    EnterWasRealsed =true;
                     yield States.NORMAL;
                 } else yield playerCurrentState;
             }
@@ -240,6 +259,17 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         v.interactWith(this);
+    }
+
+    /**
+     * the sprite of the already moved units has a smaller opacity
+     * than the sprite of other  units
+     */
+    private void drawOpacityOfUnits (){
+        for(Units unit : this.units){
+            if(unit.isAlreadyMoved)unit.sprite.setAlpha(0.1f);
+            else unit.sprite.setAlpha(1.0f);
+        }
     }
 
     /**
