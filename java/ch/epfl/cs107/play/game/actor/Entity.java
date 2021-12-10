@@ -29,7 +29,7 @@ public abstract class Entity implements Actor {
 
     /**
      * Update the current position (i.e. after motion)
-     * after position change, the transform need to be updated to. Hence set it to null
+     * after position change, the transform need to be updated to. Hence, set it to null
      *
      * @param v (Vector): The new Position. Not null
      */

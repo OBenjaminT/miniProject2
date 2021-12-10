@@ -55,7 +55,7 @@ public class Animation implements Updatable, Graphics {
     /**
      * Creates an array of 4 animations (one animation per orientation)
      * the entry indexed by Orientation.dir.ordinal() is the animation corresponding
-     * to the orientation Orientation.dir
+     * to the orientation `Orientation.dir`
      *
      * @param animationDuration (int): the animation duration
      * @param sprites           (Sprite[][]): sprites to be played by each animation
@@ -76,7 +76,7 @@ public class Animation implements Updatable, Graphics {
     /**
      * Creates an array of 4 animations (one animation per orientation)
      * the entry indexed by Orientation.dir.ordinal() is the animation corresponding
-     * to the orientation Orientation.dir. The animations are repeated by default.
+     * to the orientation `Orientation.dir`. The animations are repeated by default.
      *
      * @param animationDuration (int): the animation duration
      * @param sprites           (Sprite[][]): sprites to be played by each animation

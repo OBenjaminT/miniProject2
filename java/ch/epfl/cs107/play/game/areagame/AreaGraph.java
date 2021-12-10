@@ -73,7 +73,7 @@ public class AreaGraph {
      *
      * @param from (DiscreteCoordinates): source node of the desired path, not null
      * @param to   (DiscreteCoordinates): sink node of the desired path, not null
-     * @return (Iterator of Orientation): return an iterator containing the shortest path from source to sink, or null if the path does not exists !
+     * @return (Iterator of Orientation): return an iterator containing the shortest path from source to sink, or null if the path does not exist!
      */
     public Queue<Orientation> shortestPath(DiscreteCoordinates from, DiscreteCoordinates to) {
 
@@ -103,7 +103,7 @@ public class AreaGraph {
             if (current.equals(goal))
                 return reconstructPath(cameFrom, goal);
 
-            // Otherwise we remove it from non-evaluated node and put it inside evaluated node
+            // Otherwise, we remove it from non-evaluated node and put it inside evaluated node
             toVisitSet.remove(0);
             visitedSet.add(current);
 

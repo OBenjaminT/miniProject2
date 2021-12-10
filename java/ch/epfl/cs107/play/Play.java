@@ -44,7 +44,7 @@ public class Play {
         //	Recorder recorder = new Recorder(window);
         //	RecordReplayer replayer = new RecordReplayer(window);
 
-        // I changed Window and Game to implement `Autoclosable`,
+        // I changed Window and Game to implement `AutoClosable`,
         // so we just do a try-with-resources, and it closes it automatically.
         try (
             Game game = new ICWars();

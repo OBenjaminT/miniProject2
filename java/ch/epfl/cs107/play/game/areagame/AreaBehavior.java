@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  * AreaBehavior is a basically a map made of Cells. Those cells are used for the game behavior
- * Note: implementation from Interactable.Listener not excpected from students
+ * Note: implementation from Interactable.Listener not expected from students
  */
 
 public abstract class AreaBehavior implements Interactable.Listener, Interactor.Listener {

@@ -63,7 +63,7 @@ public class ICWarsBehavior extends AreaBehavior {
          *
          * @param x    (int): x coordinate of the cell
          * @param y    (int): y coordinate of the cell
-         * @param type (EnigmeCellType), not null
+         * @param type (UnknownCellType), not null
          */
         public ICWarsCell(int x, int y, ICWarsBehavior.ICWarsCellType type) {
             super(x, y);

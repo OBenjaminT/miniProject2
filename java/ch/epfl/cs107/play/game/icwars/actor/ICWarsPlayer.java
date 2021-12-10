@@ -133,7 +133,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
-     * a unit is not Viewinteractable
+     * a unit is not ViewInteractable
      */
     @Override
     public boolean isViewInteractable() {
@@ -176,7 +176,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
-     * if a unit UNIT has the same position as the player and he hasn't already been moved, we call SelectedUnit(UNIT)
+     * if a unit `UNIT` has the same position as the player, and he hasn't already been moved, we call SelectedUnit(UNIT)
      * else SelectedUnit is set to null
      */
     public Units selectUnit() {
@@ -213,7 +213,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
-     * @param coordinates used for super.onleaving(coordinates)
+     * @param coordinates used for `super.onLeaving(coordinates)`
      *                    in addition, playerCurrentState is set to NORMAl so that the player is available for future interactions
      */
     @Override

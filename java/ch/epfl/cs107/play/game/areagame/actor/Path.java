@@ -39,7 +39,7 @@ public class Path extends Entity {
             prevPoint = newPoint;
         }
 
-        // Convert the point into a opened poly line
+        // Convert the point into an opened poly line
         if (points.size() >= 2)
             pathLine = new Polyline(points);
         else

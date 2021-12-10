@@ -45,7 +45,7 @@ public class Foreground extends Entity {
      *
      * @param area   (Area): ownerArea. Not null
      * @param region (RegionOfInterest): region of interest in the image for the foreground, may be null
-     * @param name   (String): Background file name (i.e only the name, with neither path, nor file extension). Not null
+     * @param name   (String): Background file name (i.e. only the name, with neither path, nor file extension). Not null
      */
     public Foreground(Area area, RegionOfInterest region, String name) {
         super(DiscreteCoordinates.ORIGIN.toVector());
@@ -57,7 +57,7 @@ public class Foreground extends Entity {
     /**
      * Alternative Foreground Constructor
      *
-     * @param name   (String): Background file name (i.e only the name, with neither path, nor file extension). Not null
+     * @param name   (String): Background file name (i.e. only the name, with neither path, nor file extension). Not null
      * @param width  (int): of the desired foreground
      * @param height (int): of the desired foreground
      * @param region (RegionOfInterest): region of interest in the image for the foreground, may be null

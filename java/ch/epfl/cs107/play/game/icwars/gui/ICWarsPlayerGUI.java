@@ -9,13 +9,13 @@ import ch.epfl.cs107.play.window.Canvas;
 public class ICWarsPlayerGUI implements Graphics {
     ICWarsPlayer player;
     Units PlayerSelectedUnit;
-    float cameraSclareFactor;
+    float cameraScaleFactor;
 
 
     public ICWarsPlayerGUI(float cameraScaleFactor,
                            ICWarsPlayer player) {
         this.player = player;
-        this.cameraSclareFactor = cameraScaleFactor;
+        this.cameraScaleFactor = cameraScaleFactor;
     }
 
     /**

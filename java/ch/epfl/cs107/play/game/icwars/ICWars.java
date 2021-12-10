@@ -42,20 +42,20 @@ public class ICWars extends AreaGame {
 
     private void initArea(String areaKey) {
         try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
-            var coords = area.getAllyCenter();
+            var coordinates = area.getAllyCenter();
             // units for ally player
             Tank allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
             Soldier allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
 
             // units for enemy player
-            Tank enemyTank = new Tank(area, area.getFreeEnnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
-            Soldier enemySoldier = new Soldier(area, area.getFreeEnnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
+            Tank enemyTank = new Tank(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
+            Soldier enemySoldier = new Soldier(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
 
             Arrays.stream(new ICWarsPlayer[]{
-                new RealPlayer(area, coords, ICWarsActor.Faction.ALLY, allyTank, allySoldier),
-                new RealPlayer(area, coords, ICWarsActor.Faction.ENEMY, enemyTank, enemySoldier),
+                new RealPlayer(area, coordinates, ICWarsActor.Faction.ALLY, allyTank, allySoldier),
+                new RealPlayer(area, coordinates, ICWarsActor.Faction.ENEMY, enemyTank, enemySoldier),
             }).forEach(player -> {
-                player.enterArea(area, coords); // change to get center
+                player.enterArea(area, coordinates); // change to get center
                 players.add(player);
             });
         }
@@ -112,6 +112,7 @@ public class ICWars extends AreaGame {
                 } else yield States.END;
             }
             case END -> {
+                initArea(areas[1]);
                 yield gameState;
             }
         };

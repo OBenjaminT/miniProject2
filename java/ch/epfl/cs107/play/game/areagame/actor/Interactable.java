@@ -15,7 +15,7 @@ import java.util.List;
 public interface Interactable {
 
     /**
-     * Get this Interactor's current occupying cells coordinates
+     * Get this Interacts current occupying cells coordinates
      *
      * @return (List of DiscreteCoordinates). May be empty but not null
      */

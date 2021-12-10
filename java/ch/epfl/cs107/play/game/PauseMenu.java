@@ -51,8 +51,8 @@ public abstract class PauseMenu implements Playable, Acoustics {
 
     @Override
     public void bip(Audio audio) {
-        // By default there is nothing to bip
-        // Must be overridden by children who wants beep
+        // By default, there is nothing to bip
+        // Must be overridden by children who want beep
     }
 
     /// PauseMenu Implements Acoustics

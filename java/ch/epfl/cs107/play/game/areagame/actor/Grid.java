@@ -48,7 +48,7 @@ public class Grid extends Entity {
             points.add(new Vector((r % 2) * width, r));
             points.add(new Vector(((r + 1) % 2) * width, r));
         }
-        // Convert the point into a opened poly line
+        // Convert the point into an opened poly line
         gridLine = new Polyline(false, points);
 
         border = new Polyline(true, 0, 0, 0, height, width, height, width, 0);

@@ -44,7 +44,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
     /**
      * Setter for the current area: Select an Area in the list from its key
-     * - the area is then begin or resume depending if the area is already started or not and if it is forced
+     * - the area is then begin or resume depending on if the area is already started or not and if it is forced
      *
      * @param key        (String): Key of the Area to select, not null
      * @param forceBegin (boolean): force the key area to call begin even if it was already started
@@ -56,7 +56,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         if (newArea == null) {
             System.out.println("New Area not found, keep previous one");
         } else {
-            // Stop previous area if it exist
+            // Stop previous area if it exists
             if (currentArea != null) {
                 currentArea.suspend();
                 currentArea.purgeRegistration(); // Is useful?
@@ -65,11 +65,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
             currentArea = newArea;
 
             // Start/Resume the new one
-            if (forceBegin || !currentArea.isStarted()) {
+            if (forceBegin || !currentArea.isStarted())
                 currentArea.begin(window, fileSystem);
-            } else {
-                currentArea.resume(window, fileSystem);
-            }
+            else currentArea.resume(window, fileSystem);
         }
 
         return currentArea;

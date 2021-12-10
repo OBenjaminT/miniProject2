@@ -18,7 +18,7 @@ public interface Playable extends Updatable, AutoCloseable {
 
     /**
      * Getter for game title
-     * Note: Need to be Override
+     * Note: Need to be Overridden
      *
      * @return (String) the game title
      */

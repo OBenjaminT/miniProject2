@@ -165,18 +165,18 @@ public abstract class MovableAreaEntity extends AreaEntity {
      */
     protected List<DiscreteCoordinates> getNextCurrentCells() {
         return getCurrentCells().stream()
-            .map(coord -> coord.jump(getOrientation().toVector()))
+            .map(coordinate -> coordinate.jump(getOrientation().toVector()))
             .collect(Collectors.toList());
     }
 
     /**
-     * @return (List of DiscreteCoordinates): the cells a movement will implies to leave. May be empty but not null
+     * @return (List of DiscreteCoordinates): the cells a movement will imply to leave. May be empty but not null
      */
     private List<DiscreteCoordinates> getLeavingCells() {
         Set<DiscreteCoordinates> leavingCells = new HashSet<>(getCurrentCells());
 
         // var nextCells = getCurrentCells().stream()
-        //     .map(coord -> coord.jump(getOrientation().toVector()))
+        //     .map(coordinate -> coordinate.jump(getOrientation().toVector()))
         //     .collect(Collectors.toList());
 
         getNextCurrentCells().forEach(leavingCells::remove);
@@ -185,7 +185,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
     }
 
     /**
-     * @return (List of DiscreteCoordinates): the cells a movement will implies to enter. May be empty but not null
+     * @return (List of DiscreteCoordinates): the cells a movement will imply to enter. May be empty but not null
      */
     private List<DiscreteCoordinates> getEnteringCells() {
         Set<DiscreteCoordinates> enteringCells = new HashSet<>(getNextCurrentCells());
@@ -215,8 +215,8 @@ public abstract class MovableAreaEntity extends AreaEntity {
      *
      * @return (boolean)
      */
-    protected boolean isDisplacementOccurs() {
-        return displacementOccurs;
+    protected boolean isNoDisplacementOccurs() {
+        return !displacementOccurs;
     }
 
     /**

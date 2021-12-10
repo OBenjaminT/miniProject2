@@ -10,12 +10,12 @@ import ch.epfl.cs107.play.math.Vector;
 public class Tank extends Units {
     static int TankMaxHP = 10;
     static int TankRadius = 4;
-    static int TankDammage = 7;
+    static int TankDamage = 7;
 
     /**
      * @param area     the area in which the unit is
      * @param position position of the unit in the area
-     * @param faction  faction to which the units belong (eiter ALLY or ENNEMY
+     * @param faction  faction to which the units belong (eiter ALLY or ENEMY
      * @param repair   the amount that the unit can increase its HP
      * @param hp       the number of HP a unit has
      *                 the sprite of the tank is also initiated
@@ -36,8 +36,8 @@ public class Tank extends Units {
     }
 
     @Override
-    protected int getDammage() {
-        return TankDammage;
+    protected int getDamage() {
+        return TankDamage;
     }
 
     /**

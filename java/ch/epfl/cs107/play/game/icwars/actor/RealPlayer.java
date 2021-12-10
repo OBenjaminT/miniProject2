@@ -49,7 +49,7 @@ public class RealPlayer extends ICWarsPlayer {
      * @param b           (Button): button corresponding to the given orientation, not null
      */
     private void moveIfPressed(Orientation orientation, Button b) {
-        if (b.isDown() && !isDisplacementOccurs()) {
+        if (b.isDown() && isNoDisplacementOccurs()) {
             orientate(orientation);
             move(MOVE_DURATION);
         }

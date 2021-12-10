@@ -55,7 +55,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
     /**
      * Setter for the Behavior of this Area
-     * Please call this method in the begin method of every subclass
+     * Please call this method in the `begin` method of every subclass
      *
      * @param ab (AreaBehavior), not null
      */
@@ -371,7 +371,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
 
-    /// Area Implements PauseMenu.Pausable
+    /// Area Implements `PauseMenu.Pausable`
 
     /**
      * Can be called by any possessor of this Area.
@@ -379,7 +379,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * Notice: this method chooses if the request ends up or not
      *
      * @param menu (AreaPauseMenu): The context menu to display. It (or any of its components) will
-     *             be responsible of the ResumeRequest, not null
+     *             be responsible for the ResumeRequest, not null
      */
     public final void requestAreaPause(AreaPauseMenu menu) {
         // TODO if the request end up: It is this Area decision, implement a strategy

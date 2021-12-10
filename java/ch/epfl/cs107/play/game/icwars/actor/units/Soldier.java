@@ -10,12 +10,12 @@ import ch.epfl.cs107.play.math.Vector;
 public class Soldier extends Units {
     static int SoldierMaxHP = 10;
     static int SoldierRadius = 2;
-    static int SoldierDammage = 7;
+    static int SoldierDamage = 7;
 
     /**
      * @param area     the area in which the unit is
      * @param position position of the unit in the area
-     * @param faction  faction to which the units belong (eiter ALLY or ENNEMY
+     * @param faction  faction to which the units belong (eiter ALLY or ENEMY
      * @param repair   the amount that the unit can increase its HP
      * @param hp       the number of HP a unit has
      *                 the sprite of the soldier is also initiated
@@ -33,8 +33,8 @@ public class Soldier extends Units {
     }
 
     @Override
-    protected int getDammage() {
-        return SoldierDammage;
+    protected int getDamage() {
+        return SoldierDamage;
     }
 
     /**

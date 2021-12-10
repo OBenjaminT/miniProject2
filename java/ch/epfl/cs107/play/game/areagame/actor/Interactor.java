@@ -30,17 +30,17 @@ public interface Interactor {
 
 
     /**
-     * @return (boolean): true if this require cell interaction
+     * @return (boolean): true if this requires cell interaction
      */
     boolean wantsCellInteraction();
 
     /**
-     * @return (boolean): true if this require view interaction
+     * @return (boolean): true if this requires view interaction
      */
     boolean wantsViewInteraction();
 
     /**
-     * Do this Interactor interact with the given Interactable
+     * Do this Interactor interacts with the given Interactable
      * The interaction is implemented on the interactor side !
      *
      * @param other (Interactable). Not null

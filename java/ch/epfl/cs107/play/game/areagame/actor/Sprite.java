@@ -75,7 +75,7 @@ public class Sprite extends ImageGraphics {
      * the returned array has 4 entry (one per orientation)
      * the content of each entry is an array of sprites corresponding to the given orientation
      * (the entry indexed by Orientation.dir.ordinal() is the array of sprites corresponding
-     * to the orientation Orientation.dir).
+     * to the orientation `Orientation.dir`).
      *
      * @param name         (String): the name of the image
      * @param nbFrames     (int): number of frames in each row
@@ -107,7 +107,7 @@ public class Sprite extends ImageGraphics {
      * the returned array has 4 entry (one per orientation)
      * the content of each entry is an array of sprites corresponding to the given orientation
      * (the entry indexed by Orientation.dir.ordinal() is the array of sprites corresponding
-     * to the orientation Orientation.dir).
+     * to the orientation `Orientation.dir`).
      *
      * @param name         (String): the name of the image
      * @param nbFrames     (int): number of frames in each row

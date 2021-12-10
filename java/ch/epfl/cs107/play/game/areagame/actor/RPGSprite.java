@@ -72,7 +72,7 @@ public class RPGSprite extends Sprite {
     /**
      * Creates an array of 4 animations (one animation per orientation)
      * the entry indexed by Orientation.dir.ordinal() is the animation corresponding
-     * to the orientation Orientation.dir
+     * to the orientation `Orientation.dir`
      *
      * @param animationDuration (int): the animation duration
      * @param sprites           (Sprite[][]): sprites to be played by each animation
@@ -94,7 +94,7 @@ public class RPGSprite extends Sprite {
     /**
      * Creates an array of 4 animations (one animation per orientation)
      * the entry indexed by Orientation.dir.ordinal() is the animation corresponding
-     * to the orientation Orientation.dir. The animations are repeated by default.
+     * to the orientation `Orientation.dir`. The animations are repeated by default.
      *
      * @param animationDuration (int): the animation duration
      * @param sprites           (Sprite[][]): sprites to be played by each animation
@@ -111,7 +111,7 @@ public class RPGSprite extends Sprite {
      * the returned array has 4 entry (one per orientation)
      * the content of each entry is an array of sprites corresponding to the given orientation
      * (the entry indexed by Orientation.dir.ordinal() is the array of sprites corresponding
-     * to the orientation Orientation.dir).
+     * to the orientation `Orientation.dir`).
      *
      * @param name         (String): the name of the image
      * @param nbFrames     (int): number of frames in each row
@@ -127,8 +127,8 @@ public class RPGSprite extends Sprite {
 
         Sprite[][] sprites = new Sprite[4][nbFrames];
 
+        int j = 0;
         for (int i = 0; i < nbFrames; i++) {
-            int j = 0;
             sprites[order[0].ordinal()][i] = new RPGSprite(name, width, height, parent, new RegionOfInterest(i * regionWidth, regionHeight * j++, regionWidth, regionHeight));
             sprites[order[1].ordinal()][i] = new RPGSprite(name, width, height, parent, new RegionOfInterest(i * regionWidth, regionHeight * j++, regionWidth, regionHeight));
             sprites[order[2].ordinal()][i] = new RPGSprite(name, width, height, parent, new RegionOfInterest(i * regionWidth, regionHeight * j++, regionWidth, regionHeight));
@@ -142,7 +142,7 @@ public class RPGSprite extends Sprite {
      * the returned array has 4 entry (one per orientation)
      * the content of each entry is an array of sprites corresponding to the given orientation
      * (the entry indexed by Orientation.dir.ordinal() is the array of sprites corresponding
-     * to the orientation Orientation.dir).
+     * to the orientation `Orientation.dir`).
      *
      * @param name         (String): the name of the image
      * @param nbFrames     (int): number of frames in each row
@@ -159,8 +159,8 @@ public class RPGSprite extends Sprite {
 
         Sprite[][] sprites = new Sprite[4][nbFrames];
 
+        int j = 0;
         for (int i = 0; i < nbFrames; i++) {
-            int j = 0;
             sprites[order[0].ordinal()][i] = new RPGSprite(name, width, height, parent, new RegionOfInterest(i * regionWidth, regionHeight * j++, regionWidth, regionHeight), anchor);
             sprites[order[1].ordinal()][i] = new RPGSprite(name, width, height, parent, new RegionOfInterest(i * regionWidth, regionHeight * j++, regionWidth, regionHeight), anchor);
             sprites[order[2].ordinal()][i] = new RPGSprite(name, width, height, parent, new RegionOfInterest(i * regionWidth, regionHeight * j++, regionWidth, regionHeight), anchor);

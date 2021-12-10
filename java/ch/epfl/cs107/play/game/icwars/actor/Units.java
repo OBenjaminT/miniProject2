@@ -26,9 +26,9 @@ abstract public class Units extends ICWarsActor {
     ICWarsRange range;
 
     /**
-     * @param area       the area in yhich the unit is
+     * @param area       the area in which the unit is
      * @param position   position of the unit in the area
-     * @param faction    faction to which the units belong (eiter ALLY or ENNEMY
+     * @param faction    faction to which the units belong (eiter ALLY or ENEMY
      * @param repair     the amount that the unit can increase its HP
      * @param radius     the maximum distance for moving
      * @param current_HP the number of HP a unit has
@@ -51,7 +51,7 @@ abstract public class Units extends ICWarsActor {
         completeUnitsRange();
     }
 
-    protected abstract int getDammage();
+    protected abstract int getDamage();
 
     /**
      * if the HP are given negative, they are set to 0
@@ -129,7 +129,7 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
-     * a unit is not Viewinteractable
+     * a unit is not ViewInteractable
      */
     @Override
     public boolean isViewInteractable() {
