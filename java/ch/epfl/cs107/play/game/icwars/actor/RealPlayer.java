@@ -32,17 +32,14 @@ public class RealPlayer extends ICWarsPlayer {
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
         //make sure the player can't move when it isn't his turn
-        if(this.playerCurrentState!=States.IDLE) {
-            if (RealPlayerCanMove()) {
-                moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-                moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-                moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-                moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
-            }
+        if (this.playerCurrentState != States.IDLE && RealPlayerCanMove()) {
+            moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+            moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
+            moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+            moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         }
         if (keyboard.get(Keyboard.Q).isDown()) getOwnerArea().close();
         super.update(deltaTime);
-
     }
 
     /**
@@ -55,7 +52,6 @@ public class RealPlayer extends ICWarsPlayer {
         if (b.isDown() && !isDisplacementOccurs()) {
             orientate(orientation);
             move(MOVE_DURATION);
-            //this.EnterWasRealsed=false;
         }
     }
 

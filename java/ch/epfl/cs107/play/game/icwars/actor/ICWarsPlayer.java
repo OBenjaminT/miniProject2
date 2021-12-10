@@ -21,7 +21,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected Sprite sprite;
     protected Units SelectedUnit;
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
-    boolean EnterWasRealsed= false;
+    boolean EnterWasReleased = false;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
@@ -42,9 +42,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-        if(this.playerCurrentState != States.IDLE) {
+        if (this.playerCurrentState != States.IDLE) {
             this.sprite.draw(canvas);
-            if (playerCurrentState.equals(States.MOVE_UNIT)) playerGUI.draw(canvas);
+            if (playerCurrentState.equals(States.MOVE_UNIT))
+                playerGUI.draw(canvas);
         }
     }
 
@@ -65,29 +66,19 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
-                System.out.println(EnterWasRealsed);
-                if (!keyboard.get(Keyboard.ENTER).isReleased()) {
-                    EnterWasRealsed = false;
-                }
-                if (keyboard.get(Keyboard.TAB).isReleased()) {
-                    System.out.println("tab");
-                    EnterWasRealsed = false;
-                    yield States.IDLE;
-                }
-                else if(!EnterWasRealsed) {
-                    if (keyboard.get(Keyboard.ENTER).isReleased())
-                        yield States.SELECT_CELL;
-                    else yield playerCurrentState;
-                }
-/*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                System.out.println(EnterWasReleased);
+                if (!keyboard.get(Keyboard.ENTER).isReleased())
+                    EnterWasReleased = false;
+                /*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
                 }*/
-                else yield playerCurrentState;
-
-                /*else {
-                    //EnterWasRealsed = false;
-                    yield playerCurrentState;
-                }*/
+                if (keyboard.get(Keyboard.TAB).isReleased()) {
+                    System.out.println("tab");
+                    EnterWasReleased = false;
+                    yield States.IDLE;
+                } else yield !EnterWasReleased
+                    ? keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState
+                    : playerCurrentState;
             }
             case SELECT_CELL -> {
                 System.out.println("select CELL");
@@ -101,7 +92,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                     var pos = this.getPosition();
                     this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
                     SelectedUnit.setIsAlreadyMoved(true);
-                    EnterWasRealsed =true;
+                    EnterWasReleased = true;
                     yield States.NORMAL;
                 } else yield playerCurrentState;
             }
@@ -217,10 +208,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
-    public void endTurn(){
-        for(Units unit : this.units){
-            unit.setIsAlreadyMoved(false);
-        }
+    public void endTurn() {
+        this.units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
     /**
@@ -265,11 +254,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * the sprite of the already moved units has a smaller opacity
      * than the sprite of other  units
      */
-    private void drawOpacityOfUnits (){
-        for(Units unit : this.units){
-            if(unit.isAlreadyMoved)unit.sprite.setAlpha(0.1f);
-            else unit.sprite.setAlpha(1.0f);
-        }
+    private void drawOpacityOfUnits() {
+        this.units.forEach(unit -> unit.sprite.setAlpha(unit.isAlreadyMoved ? 0.1f : 1.0f));
     }
 
     /**
