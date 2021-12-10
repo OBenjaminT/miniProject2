@@ -15,7 +15,10 @@ public class ICWarsRange extends AreaGraph implements Graphics {
 
     @Override
     public void addNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
-        getNodes().putIfAbsent(coordinates, new RangeNode(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge));
+        getNodes().putIfAbsent(
+            coordinates,
+            new RangeNode(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge)
+        );
     }
 
     @Override
@@ -30,45 +33,105 @@ public class ICWarsRange extends AreaGraph implements Graphics {
         private RangeNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
             super(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 
-            if (!hasUpEdge && !hasRightEdge && !hasDownEdge && !hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(3 * 18, 5 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (!hasUpEdge && hasRightEdge && hasDownEdge && !hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(0 * 18, 5 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (!hasUpEdge && hasRightEdge && hasDownEdge && hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(1 * 18, 5 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (!hasUpEdge && !hasRightEdge && hasDownEdge && hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(2 * 18, 5 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (hasUpEdge && !hasRightEdge && hasDownEdge && hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(2 * 18, 6 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (hasUpEdge && !hasRightEdge && !hasDownEdge && hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(2 * 18, 7 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (hasUpEdge && hasRightEdge && !hasDownEdge && hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(1 * 18, 7 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (hasUpEdge && hasRightEdge && !hasDownEdge && !hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(0 * 18, 7 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else if (hasUpEdge && hasRightEdge && hasDownEdge && !hasLeftEdge)
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(0 * 18, 6 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
-
-            else
-                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"), 1f, 1f,
-                    new RegionOfInterest(1 * 18, 6 * 18, 16, 16), coordinates.toVector(), 0.6f, 500);
+            if (!hasUpEdge && !hasRightEdge && !hasDownEdge && !hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(3 * 18, 5 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (!hasUpEdge && hasRightEdge && hasDownEdge && !hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(0 * 18, 5 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (!hasUpEdge && hasRightEdge && hasDownEdge && hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(1 * 18, 5 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (!hasUpEdge && !hasRightEdge && hasDownEdge && hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(2 * 18, 5 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (hasUpEdge && !hasRightEdge && hasDownEdge && hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(2 * 18, 6 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (hasUpEdge && !hasRightEdge && !hasDownEdge && hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(2 * 18, 7 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (hasUpEdge && hasRightEdge && !hasDownEdge && hasLeftEdge) {
+                nodeSprite = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(1 * 18, 7 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500);
+            } else if (hasUpEdge && hasRightEdge && !hasDownEdge && !hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(0 * 18, 7 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else if (hasUpEdge && hasRightEdge && hasDownEdge && !hasLeftEdge) {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(0 * 18, 6 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            } else {
+                nodeSprite = new ImageGraphics(
+                    ResourcePath.getSprite("icwars/UIpackSheet"),
+                    1f,
+                    1f,
+                    new RegionOfInterest(1 * 18, 6 * 18, 16, 16),
+                    coordinates.toVector(),
+                    0.6f,
+                    500
+                );
+            }
         }
 
         @Override
