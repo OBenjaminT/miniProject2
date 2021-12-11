@@ -4,11 +4,13 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Actable;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 abstract public class Units extends ICWarsActor {
@@ -19,6 +21,7 @@ abstract public class Units extends ICWarsActor {
     protected int repair;
     protected int radius;
     protected boolean isAlreadyMoved;
+    protected List<Actable> actions; // List of actions the unit can take
     // ui
     protected String name;
     protected Sprite sprite;

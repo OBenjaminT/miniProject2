@@ -30,6 +30,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         this.playerCurrentState = States.IDLE;
     }
 
+    public void setPlayerCurrentState(States playerCurrentState) {
+        this.playerCurrentState = playerCurrentState;
+    }
+
     /**
      * register all the units of the player in the player's ownerArea
      */
