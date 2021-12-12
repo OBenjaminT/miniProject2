@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.Arrays;
@@ -51,12 +52,16 @@ public class ICWarsBehavior extends AreaBehavior {
                 .findFirst() // get the first one, and return it
                 .orElse(NONE); // if there isn't one, return `NONE`
         }
+
+        public int getNumberOfStars() {
+            return numberOfStars;
+        }
     }
 
     /**
      * Cell adapted to the Tuto2 game
      */
-    public static class ICWarsCell extends AreaBehavior.Cell {
+    public static class ICWarsCell extends AreaBehavior.Cell implements Interactable{
 
         /**
          * Default Tuto2Cell Constructor
@@ -73,6 +78,10 @@ public class ICWarsBehavior extends AreaBehavior {
         @Override
         protected boolean canLeave(Interactable entity) {
             return true;
+        }
+        public int getNumberOfStars (){
+            return this.getNumberOfStars();
+
         }
 
         @Override
@@ -96,6 +105,7 @@ public class ICWarsBehavior extends AreaBehavior {
 
         @Override
         public void acceptInteraction(AreaInteractionVisitor v) {
+            ((ICWarsInteractionVisitor) v).interactWith(this);
         }
     }
 }

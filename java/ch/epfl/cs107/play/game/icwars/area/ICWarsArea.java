@@ -95,4 +95,5 @@ public abstract class ICWarsArea extends Area {
             return ret;
         }
     }
+
 }

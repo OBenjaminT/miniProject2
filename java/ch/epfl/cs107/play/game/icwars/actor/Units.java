@@ -5,11 +5,13 @@ import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Actable;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -22,6 +24,7 @@ abstract public class Units extends ICWarsActor {
     protected int radius;
     protected boolean isAlreadyMoved;
     protected List<Actable> actions; // List of actions the unit can take
+    int numberOfStarsofCurrentCell;
     // ui
     protected String name;
     protected Sprite sprite;
@@ -165,6 +168,21 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * @return the indexes of attackble units in the area's list of units
+     */
+    public ArrayList<Integer> getIndexOfAttackableEnnemies() {
+        return this.getOwnerArea().getIndexOfAttackableEnnemies(this.faction, this.range);
+    }
+
+    /**
+     * @param indexOfUnitToAttack the index of the unit in the areas' units list that should be attacked
+     */
+    public void attack(int indexOfUnitToAttack){
+        int dammage = this.getDamage();
+        this.getOwnerArea().attack(indexOfUnitToAttack, dammage, numberOfStarsofCurrentCell);
+    }
+
+    /**
      * @param newPosition new unit's position
      * @return true if super.changePosition does so and if a node with newPosition coordinates
      * exists in the units range. If the move is possible, the unit's radius is adapted to the newPosition
@@ -181,5 +199,22 @@ abstract public class Units extends ICWarsActor {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((ICWarsInteractionVisitor) v).interactWith(this);
+    }
+
+    private static class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
+        Units unit;
+
+        public ICWarsUnitInteractionHandler(Units unit) {
+            this.unit = unit;
+        }
+
+        @Override
+        public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
+            unit.numberOfStarsofCurrentCell = icWarsCell.getNumberOfStars();
+        }
+    }
+
+    public void receivesDammage(int receivedDammage){
+        this.setHp(current_HP-receivedDammage);
     }
 }

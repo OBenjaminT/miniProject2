@@ -6,6 +6,8 @@ import ch.epfl.cs107.play.game.icwars.actor.Units;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.ArrayList;
+
 public class Attack extends Action {
 
     public Attack(Units unit, Area area, String name, int key) {
@@ -17,8 +19,27 @@ public class Attack extends Action {
 
     }
 
+    /**
+     * @param dt same as for the super class
+     * @param player same as for the super class
+     * @param keyboard same as for the super class
+     * within a distance equals the radius attribute of the attacking unit,
+     * an ennemy unit is chosen with the keyboard to be attacked and receives a certain
+     * dammage depending on the attacking unit's dammage and the number of defensiveStars of
+     * the cell where the attacked unit is
+     */
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
-
+        ArrayList<Integer> IndexOfAttackableEnnemies = unit.getIndexOfAttackableEnnemies();
+        int indexOfUnitToAttack = 0;
+        if(keyboard.get(Keyboard.LEFT).isReleased()){
+            indexOfUnitToAttack = (indexOfUnitToAttack-1)/IndexOfAttackableEnnemies.size();
+        }
+        else if(keyboard.get(Keyboard.RIGHT).isReleased()){
+            indexOfUnitToAttack = (indexOfUnitToAttack+1)/IndexOfAttackableEnnemies.size();
+        }
+        else if(keyboard.get(Keyboard.RIGHT).isReleased()){
+            unit.attack(indexOfUnitToAttack);
+        }
     }
 }

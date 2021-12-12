@@ -7,6 +7,9 @@ import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.Draggable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Transform;
@@ -15,10 +18,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Mouse;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -412,5 +412,44 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     @Override
     public final boolean isPaused() {
         return paused;
+    }
+
+
+    /**
+     * @return all the units in the area
+     */
+    private ArrayList<Units> getUnits (){
+        ArrayList<Units> units = new ArrayList<>();
+        for(Actor actor : actors){
+            if(actor instanceof Units){
+                units.add((Units)actor);
+            }
+        }
+        return units;
+    }
+
+    /**
+     * @return a list of integers representing the indexes of attackable units with coordinates
+     * that are in a range
+     * @param faction attable ennemies have a differerent faction from the oe given as a parametter
+     * @param range the range where attackables units can be found
+     */
+    public ArrayList<Integer> getIndexOfAttackableEnnemies (ICWarsActor.Faction faction, ICWarsRange range){
+        ArrayList<Units> units = getUnits();
+        ArrayList<Integer> IndexsOfAttackableEnnemies = new ArrayList<>();
+        for(int i=0; i<units.size(); i++){
+            Units unit=units.get(i);
+            boolean unitIsclose = range.nodeExists(new DiscreteCoordinates((int)unit.getPosition().x, (int)unit.getPosition().y));
+            if(unit.faction!=faction && unitIsclose){
+                IndexsOfAttackableEnnemies.add(i);
+            }
+        }
+        return IndexsOfAttackableEnnemies;
+    }
+
+    public void attack(int indexOfUnitToAttack, int dammage, int numberOfStars){
+        ArrayList<Units> units = getUnits();
+        Units unitToAttack = units.get(indexOfUnitToAttack);
+        unitToAttack.receivesDammage(dammage -numberOfStars);
     }
 }
