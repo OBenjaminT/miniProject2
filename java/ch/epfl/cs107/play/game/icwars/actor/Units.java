@@ -4,7 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.actor.actions.Actable;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -22,7 +22,7 @@ abstract public class Units extends ICWarsActor {
     protected int repair;
     protected int radius;
     protected boolean isAlreadyMoved;
-    protected ArrayList<Actable> actions; // List of actions the unit can take
+    protected ArrayList<Action> actions; // List of actions the unit can take
     int numberOfStarsofCurrentCell;
     // ui
     protected String name;
@@ -184,7 +184,7 @@ abstract public class Units extends ICWarsActor {
     /**
      * @return the list of available actions for the unit (used by the player when he wants to use the unit)
      */
-    protected ArrayList<Actable> getAvailableActions(){
+    protected ArrayList<Action> getAvailableActions(){
         return this.actions;
     }
 

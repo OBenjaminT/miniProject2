@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
@@ -16,6 +17,7 @@ public class RealPlayer extends ICWarsPlayer {
     /// Animation duration in frame number
     private final static int MOVE_DURATION = 6;
     private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
+    private Action ActionToExecute;
 
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction, units);
@@ -74,8 +76,17 @@ public class RealPlayer extends ICWarsPlayer {
                     yield States.NORMAL;
                 } else yield playerCurrentState;
             }
-            case ACTION_SELECTED, ACTION -> {
-                //this.unselectUnit();
+            case ACTION_SELECTED -> {
+                for(Action action: this.SelectedUnit.getAvailableActions()){
+                    if(keyboard.get(action.getKey()).isReleased()) {
+                        this.ActionToExecute = action;
+                        yield(States.ACTION);
+                    }
+                }
+                    yield playerCurrentState;
+            }
+            case ACTION -> {
+                ActionToExecute.doAction(deltaTime, this, keyboard);
                 yield playerCurrentState;
             }
             // TODO
