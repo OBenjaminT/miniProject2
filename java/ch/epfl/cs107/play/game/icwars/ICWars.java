@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
@@ -28,6 +29,7 @@ public class ICWars extends AreaGame {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             // Levels
+            this.resetAreas();
             Arrays.stream(new ICWarsArea[]{
                 new Level0(),
                 new Level1(),
@@ -43,17 +45,10 @@ public class ICWars extends AreaGame {
     private void initArea(String areaKey) {
         try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
             var coordinates = area.getAllyCenter();
-            // units for ally player
-            Tank allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-            Soldier allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-
-            // units for enemy player
-            Tank enemyTank = new Tank(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
-            Soldier enemySoldier = new Soldier(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
 
             Arrays.stream(new ICWarsPlayer[]{
-                new RealPlayer(area, coordinates, ICWarsActor.Faction.ALLY, allyTank, allySoldier),
-                new RealPlayer(area, coordinates, ICWarsActor.Faction.ENEMY, enemyTank, enemySoldier),
+                createAITeam(area, coordinates),
+                createPlayerTeam(area, coordinates),
             }).forEach(player -> {
                 player.enterArea(area, coordinates); // change to get center
                 players.add(player);
@@ -61,8 +56,32 @@ public class ICWars extends AreaGame {
         }
     }
 
+    private ICWarsPlayer createPlayerTeam(ICWarsArea area, DiscreteCoordinates coordinates) {
+        Tank enemyTank = new Tank(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
+        Soldier enemySoldier = new Soldier(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
+        return new RealPlayer(area, coordinates, ICWarsActor.Faction.ENEMY, enemyTank, enemySoldier);
+    }
+
+    private ICWarsPlayer createAITeam(ICWarsArea area, DiscreteCoordinates coordinates) {
+        Tank allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+        Soldier allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+        return new RealPlayer(area, coordinates, ICWarsActor.Faction.ALLY, allyTank, allySoldier);
+    }
+
     @Override
     public void update(float deltaTime) {
+        // Next level with `N`
+        if (keyboard.get(Keyboard.N).isReleased())
+            changeIfNPressed();
+        // Reset to start with `R`
+        if (keyboard.get(Keyboard.R).isReleased())
+            this.begin(this.getWindow(), this.getFileSystem());
+        // Select first unit with `U`
+        if (keyboard.get(Keyboard.U).isReleased())
+            players.get(0).selectUnit(0); // 0, 1 ...
+        // TODO: Close with `Q`
+        if (keyboard.get(Keyboard.Q).isReleased())
+            this.getWindow().isCloseRequested();
         // convention: the first player in `activePlayers` is the one whose turn it is
         this.gameState = switch (gameState) {
             case INIT -> {
@@ -116,18 +135,6 @@ public class ICWars extends AreaGame {
                 yield gameState;
             }
         };
-        // Next level with `N`
-        if (keyboard.get(Keyboard.N).isReleased())
-            changeIfNPressed();
-        // Reset to start with `R`
-        if (keyboard.get(Keyboard.R).isReleased())
-            this.begin(this.getWindow(), this.getFileSystem());
-        // Select first unit with `U`
-        if (keyboard.get(Keyboard.U).isReleased())
-            players.get(0).selectUnit(0); // 0, 1 ...
-        // TODO: Close with `Q`
-        if (keyboard.get(Keyboard.Q).isReleased())
-            this.getWindow().isCloseRequested();
         super.update(deltaTime);
     }
 
