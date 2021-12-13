@@ -24,12 +24,12 @@ abstract public class Units extends ICWarsActor {
     protected int radius;
     protected boolean isAlreadyMoved;
     protected List<Actable> actions; // List of actions the unit can take
-    int numberOfStarsofCurrentCell;
     // ui
     protected String name;
     protected Sprite sprite;
     // path
     ICWarsRange range;
+    private int numberOfStarsOfCurrentCell;
 
     /**
      * @param area       the area in which the unit is
@@ -168,18 +168,21 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
-     * @return the indexes of attackble units in the area's list of units
+     * @return the indexes of attackable units in the area's list of units
      */
-    public ArrayList<Integer> getIndexOfAttackableEnnemies() {
-        return this.getOwnerArea().getIndexOfAttackableEnnemies(this.faction, this.range);
+    public ArrayList<Integer> getIndexOfAttackableEnemies() {
+        return this.getOwnerArea().getIndexOfAttackableEnemies(this.faction, this.range);
     }
 
     /**
      * @param indexOfUnitToAttack the index of the unit in the areas' units list that should be attacked
      */
-    public void attack(int indexOfUnitToAttack){
-        int dammage = this.getDamage();
-        this.getOwnerArea().attack(indexOfUnitToAttack, dammage, numberOfStarsofCurrentCell);
+    public void attack(int indexOfUnitToAttack) {
+        this.getOwnerArea().attack(
+            indexOfUnitToAttack,
+            this.getDamage(),
+            getNumberOfStarsOfCurrentCell()
+        );
     }
 
     /**
@@ -201,6 +204,18 @@ abstract public class Units extends ICWarsActor {
         ((ICWarsInteractionVisitor) v).interactWith(this);
     }
 
+    public int getNumberOfStarsOfCurrentCell() {
+        return numberOfStarsOfCurrentCell;
+    }
+
+    public void setNumberOfStarsOfCurrentCell(int numberOfStarsOfCurrentCell) {
+        this.numberOfStarsOfCurrentCell = numberOfStarsOfCurrentCell;
+    }
+
+    public void receivesDamage(int receivedDamage) {
+        this.setHp(current_HP - receivedDamage);
+    }
+
     private static class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         Units unit;
 
@@ -210,11 +225,7 @@ abstract public class Units extends ICWarsActor {
 
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
-            unit.numberOfStarsofCurrentCell = icWarsCell.getNumberOfStars();
+            unit.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
         }
-    }
-
-    public void receivesDammage(int receivedDammage){
-        this.setHp(current_HP-receivedDammage);
     }
 }

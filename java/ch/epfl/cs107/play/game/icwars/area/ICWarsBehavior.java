@@ -61,7 +61,7 @@ public class ICWarsBehavior extends AreaBehavior {
     /**
      * Cell adapted to the Tuto2 game
      */
-    public static class ICWarsCell extends AreaBehavior.Cell implements Interactable{
+    public static class ICWarsCell extends AreaBehavior.Cell implements Interactable {
 
         /**
          * Default Tuto2Cell Constructor
@@ -79,7 +79,8 @@ public class ICWarsBehavior extends AreaBehavior {
         protected boolean canLeave(Interactable entity) {
             return true;
         }
-        public int getNumberOfStars (){
+
+        public int getNumberOfStars() {
             return this.getNumberOfStars();
 
         }

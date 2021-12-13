@@ -19,6 +19,8 @@ import ch.epfl.cs107.play.window.Mouse;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 /**
@@ -418,38 +420,30 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     /**
      * @return all the units in the area
      */
-    private ArrayList<Units> getUnits (){
-        ArrayList<Units> units = new ArrayList<>();
-        for(Actor actor : actors){
-            if(actor instanceof Units){
-                units.add((Units)actor);
-            }
-        }
-        return units;
+    private ArrayList<Units> getUnits() {
+        return actors.stream()
+            .filter(actor -> actor instanceof Units)
+            .map(actor -> (Units) actor)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
+     * @param faction attackable enemies have a different faction from the oe given as a parameter
+     * @param range   the range where attackable units can be found
      * @return a list of integers representing the indexes of attackable units with coordinates
      * that are in a range
-     * @param faction attable ennemies have a differerent faction from the oe given as a parametter
-     * @param range the range where attackables units can be found
      */
-    public ArrayList<Integer> getIndexOfAttackableEnnemies (ICWarsActor.Faction faction, ICWarsRange range){
+    public ArrayList<Integer> getIndexOfAttackableEnemies(ICWarsActor.Faction faction, ICWarsRange range) {
         ArrayList<Units> units = getUnits();
-        ArrayList<Integer> IndexsOfAttackableEnnemies = new ArrayList<>();
-        for(int i=0; i<units.size(); i++){
-            Units unit=units.get(i);
-            boolean unitIsclose = range.nodeExists(new DiscreteCoordinates((int)unit.getPosition().x, (int)unit.getPosition().y));
-            if(unit.faction!=faction && unitIsclose){
-                IndexsOfAttackableEnnemies.add(i);
-            }
-        }
-        return IndexsOfAttackableEnnemies;
+        return IntStream.range(0, units.size())
+            .filter(i -> units.get(i).faction != faction)
+            .filter(i -> range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y)))
+            .boxed()
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void attack(int indexOfUnitToAttack, int dammage, int numberOfStars){
-        ArrayList<Units> units = getUnits();
-        Units unitToAttack = units.get(indexOfUnitToAttack);
-        unitToAttack.receivesDammage(dammage -numberOfStars);
+    public void attack(int indexOfUnitToAttack, int damage, int numberOfStars) {
+        getUnits().get(indexOfUnitToAttack)
+            .receivesDamage(damage - numberOfStars);
     }
 }
