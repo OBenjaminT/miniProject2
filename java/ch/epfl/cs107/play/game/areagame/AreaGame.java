@@ -41,6 +41,10 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         areas.put(a.getTitle(), a);
     }
 
+    protected final void resetAreas() {
+        areas = new LinkedHashMap<>();
+    }
+
     /**
      * Setter for the current area: Select an Area in the list from its key
      * - the area is then begin or resume depending on if the area is already started or not and if it is forced
@@ -50,25 +54,24 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @return (Area): after setting it, return the new current area
      */
     protected final Area setCurrentArea(String key, boolean forceBegin) {
-        Area newArea = areas.get(key);
+        try (Area newArea = areas.get(key)) {
+            if (newArea == null) {
+                System.out.println("New Area not found, keep previous one");
+            } else {
+                // Stop previous area if it exists
+                if (currentArea != null) {
+                    currentArea.suspend();
+                    currentArea.purgeRegistration(); // Is useful?
+                }
 
-        if (newArea == null) {
-            System.out.println("New Area not found, keep previous one");
-        } else {
-            // Stop previous area if it exists
-            if (currentArea != null) {
-                currentArea.suspend();
-                currentArea.purgeRegistration(); // Is useful?
+                currentArea = newArea;
+
+                // Start/Resume the new one
+                if (forceBegin || !currentArea.isStarted())
+                    currentArea.begin(window, fileSystem);
+                else currentArea.resume(window, fileSystem);
             }
-
-            currentArea = newArea;
-
-            // Start/Resume the new one
-            if (forceBegin || !currentArea.isStarted())
-                currentArea.begin(window, fileSystem);
-            else currentArea.resume(window, fileSystem);
         }
-
         return currentArea;
     }
 
@@ -127,8 +130,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     public void update(float deltaTime) {
         if (paused && menu != null)
             menu.update(deltaTime);
-        else
-            currentArea.update(deltaTime);
+        else currentArea.update(deltaTime);
         paused = requestPause;
     }
 
