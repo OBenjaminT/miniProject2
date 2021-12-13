@@ -6,7 +6,7 @@ import ch.epfl.cs107.play.game.icwars.actor.Unit;
 /**
  * TODO
  */
-abstract class Action implements Actable {
+abstract public class Action implements Actable {
 
     /**
      * TODO
@@ -27,6 +27,10 @@ abstract class Action implements Actable {
      * TODO
      */
     protected final int key;
+
+    public int getKey(){
+        return this.key;
+    }
 
     /**
      * TODO
