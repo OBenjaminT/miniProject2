@@ -12,7 +12,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 /**
@@ -49,7 +48,12 @@ abstract public class Units extends ICWarsActor {
     /**
      * TODO
      */
-    protected List<Actable> actions; // List of actions the unit can take
+    int numberOfStarsofCurrentCell;
+
+    /**
+     * TODO
+     */
+    protected ArrayList<Actable> actions; // List of actions the unit can take
 
     // ui
     /**
@@ -275,6 +279,15 @@ abstract public class Units extends ICWarsActor {
 
     /**
      * TODO
+     * 
+     * @return the list of available actions for the unit (used by the player when he wants to use the unit)
+     */
+    protected ArrayList<Actable> getAvailableActions(){
+        return this.actions;
+    }
+
+    /**
+     * TODO
      *
      * @param newPosition new unit's position
      * @return true if super.changePosition does so and if a node with newPosition coordinates
@@ -353,5 +366,24 @@ abstract public class Units extends ICWarsActor {
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             unit.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
         }
+    }
+
+    /**
+     * TODO
+     *
+     * @param indexOfUnitToAttack will be transmitted to the area and used in the area method
+     * centerCameraOnTargetedEnemy(int indexOfUnitToAttack)
+     */
+    public void centerCameraOnTargetedEnemy(int indexOfUnitToAttack){
+        this.getOwnerArea().centerCameraOnTargetedEnemy(indexOfUnitToAttack);
+    }
+
+    /**
+     * TODO
+     *
+     * @param receivedDamage the amount of damage that will be deduced from the current hp of the unit
+     */
+    public void receivesDammage(int receivedDamage){
+        this.setHp(current_HP-receivedDamage);
     }
 }

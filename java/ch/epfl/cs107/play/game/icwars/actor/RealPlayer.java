@@ -67,6 +67,45 @@ public class RealPlayer extends ICWarsPlayer {
             moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         }
         if (keyboard.get(Keyboard.Q).isDown()) getOwnerArea().close();
+        this.playerCurrentState = switch (playerCurrentState) {
+            case IDLE -> playerCurrentState;
+            case NORMAL -> {
+                System.out.println(EnterWasReleased);
+                if (!keyboard.get(Keyboard.ENTER).isReleased())
+                    EnterWasReleased = false;
+                                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                    yield States.SELECT_CELL;
+                }
+                if (keyboard.get(Keyboard.TAB).isReleased()) {
+                    System.out.println("tab");
+                    EnterWasReleased = false;
+                    yield States.IDLE;
+                } else yield !EnterWasReleased
+                    ? keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState
+                    : playerCurrentState;
+            }
+            case SELECT_CELL -> {
+                System.out.println("select CELL");
+                // TODO select the unit in this cell
+                yield this.selectUnit() != null
+                    ? States.MOVE_UNIT
+                    : playerCurrentState;
+            }
+            case MOVE_UNIT -> {
+                if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                    var pos = this.getPosition();
+                    this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
+                    SelectedUnit.setIsAlreadyMoved(true);
+                    EnterWasReleased = true;
+                    yield States.NORMAL;
+                } else yield playerCurrentState;
+            }
+            case ACTION_SELECTED, ACTION -> {
+                //this.unselectUnit();
+                yield playerCurrentState;
+            }
+            // TODO
+        };
         super.update(deltaTime);
     }
 

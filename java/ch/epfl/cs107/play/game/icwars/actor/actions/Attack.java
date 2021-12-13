@@ -1,28 +1,35 @@
 package ch.epfl.cs107.play.game.icwars.actor.actions;
 
+import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
-
-import java.util.ArrayList;
 
 /**
  * TODO
  */
 public class Attack extends Action {
 
+    int indexOfUnitToAttack = -1;
+    private ImageGraphics cursor = new ImageGraphics(
+        ResourcePath.getSprite(" icwars / UIpackSheet "),
+        1f,
+        1f,
+        new RegionOfInterest(4 * 18, 26 * 18, 16, 16)
+    );
+
     /**
      * TODO
      *
      * @param unit
      * @param area
-     * @param name
-     * @param key
      */
-    public Attack(Units unit, Area area, String name, int key) {
-        super(unit, area, name, key);
+    public Attack(Units unit, Area area) {
+        super(unit, area, "(A)ttack", Keyboard.A);
     }
 
     /**
@@ -32,7 +39,11 @@ public class Attack extends Action {
      */
     @Override
     public void draw(Canvas canvas) {
-
+        if (indexOfUnitToAttack != -1) {
+            unit.centerCameraOnTargetedEnnemy(indexOfUnitToAttack);
+            cursor.setAnchor(canvas.getPosition().add(1, 0));
+            cursor.draw(canvas);
+        }
     }
 
     /**
@@ -48,15 +59,16 @@ public class Attack extends Action {
      */
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
-        ArrayList<Integer> IndexOfAttackableEnemies = unit.getIndexOfAttackableEnemies();
-        int indexOfUnitToAttack = 0;
+        var IndexOfAttackableEnemies = unit.getIndexOfAttackableEnemies();
         if (keyboard.get(Keyboard.LEFT).isReleased()) {
             indexOfUnitToAttack = indexOfUnitToAttack == 0
                 ? IndexOfAttackableEnemies.size() - 1
                 : indexOfUnitToAttack - 1;
         } else if (keyboard.get(Keyboard.RIGHT).isReleased()) {
             indexOfUnitToAttack = (indexOfUnitToAttack + 1) % IndexOfAttackableEnemies.size();
+        } else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+            unit.attack(indexOfUnitToAttack);
+            indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected
         }
-        unit.attack(indexOfUnitToAttack);
     }
 }

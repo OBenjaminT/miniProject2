@@ -4,8 +4,12 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
+
+import java.util.ArrayList;
 
 /**
  * TODO
@@ -29,6 +33,16 @@ public class Tank extends Units {
 
     /**
      * TODO
+     */
+    final Wait TankWait;
+
+    /**
+     * TODO
+     */
+    final Attack TankAttack;
+
+    /**
+     * TODO
      *
      * @param area     the area in which the unit is
      * @param position position of the unit in the area
@@ -39,12 +53,19 @@ public class Tank extends Units {
      */
     public Tank(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
         super(area, position, faction, repair, TankRadius, hp, TankMaxHP);
-        this.sprite = new Sprite(this.getName(),
+        this.sprite = new Sprite(
+            this.getName(),
             1.5f,
             1.5f,
             this,
             null,
-            new Vector(-0.25f, -0.25f));
+            new Vector(-0.25f, -0.25f)
+        );
+        this.actions = new ArrayList<>();
+        this.TankWait = new Wait(this, this.getOwnerArea());
+        this.actions.add(TankWait);
+        this.TankAttack = new Attack(this, this.getOwnerArea());
+        this.actions.add(TankAttack);
     }
 
     /**

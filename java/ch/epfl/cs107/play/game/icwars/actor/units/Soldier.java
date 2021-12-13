@@ -4,8 +4,12 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
+
+import java.util.ArrayList;
 
 public class Soldier extends Units {
 
@@ -23,6 +27,8 @@ public class Soldier extends Units {
      * TODO
      */
     static int SoldierDamage = 7;
+    final Wait SoldierWait;
+    final Attack SoldierAttack;
 
     /**
      * TODO
@@ -38,6 +44,11 @@ public class Soldier extends Units {
         super(area, position, faction, repair, SoldierRadius, hp, SoldierMaxHP);
         this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new
             Vector(-0.25f, -0.25f));
+        this.actions = new ArrayList<>();
+        this.SoldierWait = new Wait(this, this.getOwnerArea());
+        this.actions.add(SoldierWait);
+        this.SoldierAttack = new Attack(this, this.getOwnerArea());
+        this.actions.add(SoldierAttack);
     }
 
     /**
@@ -70,4 +81,5 @@ public class Soldier extends Units {
         if (this.faction.equals(Faction.ALLY)) return "icwars/friendlySoldier";
         else return "icwars/enemySoldier";
     }
+
 }
