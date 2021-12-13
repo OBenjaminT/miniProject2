@@ -9,6 +9,8 @@ import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
+import java.util.ArrayList;
+
 public class Tank extends Units {
     static int TankMaxHP = 10;
     static int TankRadius = 4;
@@ -32,6 +34,7 @@ public class Tank extends Units {
             this,
             null,
             new Vector(-0.25f, -0.25f));
+        this.actions = new ArrayList<>();
         this.TankWait = new Wait(this, this.getOwnerArea());
         this.actions.add(TankWait);
         this.TankAttack = new Attack(this, this.getOwnerArea());

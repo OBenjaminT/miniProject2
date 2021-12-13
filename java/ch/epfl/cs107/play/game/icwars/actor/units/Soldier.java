@@ -9,6 +9,8 @@ import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
+import java.util.ArrayList;
+
 public class Soldier extends Units {
     static int SoldierMaxHP = 10;
     static int SoldierRadius = 2;
@@ -29,6 +31,7 @@ public class Soldier extends Units {
         super(area, position, faction, repair, SoldierRadius, hp, SoldierMaxHP);
         this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new
             Vector(-0.25f, -0.25f));
+        this.actions = new ArrayList<>();
         this.SoldierWait = new Wait(this, this.getOwnerArea());
         this.actions.add(SoldierWait);
         this.SoldierAttack = new Attack(this, this.getOwnerArea());
