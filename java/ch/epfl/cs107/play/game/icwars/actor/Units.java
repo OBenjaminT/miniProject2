@@ -12,7 +12,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 abstract public class Units extends ICWarsActor {
@@ -23,7 +22,7 @@ abstract public class Units extends ICWarsActor {
     protected int repair;
     protected int radius;
     protected boolean isAlreadyMoved;
-    protected List<Actable> actions; // List of actions the unit can take
+    protected ArrayList<Actable> actions; // List of actions the unit can take
     int numberOfStarsofCurrentCell;
     // ui
     protected String name;
@@ -180,6 +179,13 @@ abstract public class Units extends ICWarsActor {
     public void attack(int indexOfUnitToAttack){
         int dammage = this.getDamage();
         this.getOwnerArea().attack(indexOfUnitToAttack, dammage, numberOfStarsofCurrentCell);
+    }
+
+    /**
+     * @return the list of available actions for the unit (used by the player when he wants to use the unit)
+     */
+    protected ArrayList<Actable> getAvailableActions(){
+        return this.actions;
     }
 
     /**

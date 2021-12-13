@@ -56,4 +56,5 @@ public class Soldier extends Units {
         if (this.faction.equals(Faction.ALLY)) return "icwars/friendlySoldier";
         else return "icwars/enemySoldier";
     }
+
 }

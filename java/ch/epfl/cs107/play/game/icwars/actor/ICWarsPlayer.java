@@ -8,7 +8,6 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,15 +66,15 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         var keyboard = this.getOwnerArea().getKeyboard();
         // https://www.baeldung.com/java-switch
         // Ensures all cases are covered, doesn't need break blocks, and assigns value to `yield` result.
-        this.playerCurrentState = switch (playerCurrentState) {
+        /*this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
                 System.out.println(EnterWasReleased);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
                     EnterWasReleased = false;
-                /*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                *//*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
-                }*/
+                }*//*
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     System.out.println("tab");
                     EnterWasReleased = false;
@@ -105,7 +104,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                 yield playerCurrentState;
             }
             // TODO
-        };
+        };*/
     }
 
     public boolean isIdle() {
