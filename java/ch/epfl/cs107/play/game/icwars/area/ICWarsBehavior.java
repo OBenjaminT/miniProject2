@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.actor.Units;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
@@ -53,16 +54,14 @@ public class ICWarsBehavior extends AreaBehavior {
                 .orElse(NONE); // if there isn't one, return `NONE`
         }
 
-        public int getNumberOfStars() {
-            return numberOfStars;
-        }
     }
 
     /**
      * Cell adapted to the Tuto2 game
      */
     public static class ICWarsCell extends AreaBehavior.Cell implements Interactable{
-
+        private int numberOfStars;
+        private ICWarsCellType type;
         /**
          * Default Tuto2Cell Constructor
          *
@@ -72,17 +71,37 @@ public class ICWarsBehavior extends AreaBehavior {
          */
         public ICWarsCell(int x, int y, ICWarsBehavior.ICWarsCellType type) {
             super(x, y);
-            /// Type of the cell following the enum
+            this.type = type;
+            this.numberOfStars=type.numberOfStars;
         }
 
         @Override
         protected boolean canLeave(Interactable entity) {
             return true;
         }
+
         public int getNumberOfStars (){
-            return this.getNumberOfStars();
+            return this.numberOfStars;
 
         }
+
+        public ICWarsCellType getType (){
+            return this.type;//ROAD, NONE...
+        }
+
+        /**
+         * @return the unit on the cell
+         */
+        public Units getUnit(){
+            for(Interactable entity : entities){
+                if(entity instanceof Units){
+                    return (Units) entity;
+                }
+            }
+            return null;
+        }
+
+
 
         @Override
         protected boolean canEnter(Interactable entity) {
