@@ -20,6 +20,13 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     protected List<ICWarsPlayer> players;
     protected List<ICWarsPlayer> PlayersWaitingForNextTurn = new ArrayList<>();
     protected List<ICWarsPlayer> PlayersWaitingForCurrentTurn = new ArrayList<>();
+
+    protected final void resetPlayers() {
+        players = new ArrayList<>();
+        PlayersWaitingForNextTurn = new ArrayList<>();
+        PlayersWaitingForCurrentTurn = new ArrayList<>();
+    }
+
     protected ICWarsPlayer activePlayer;
     // Context objects
     private Window window;

@@ -44,6 +44,7 @@ public class ICWars extends AreaGame {
 
     private void initArea(String areaKey) {
         try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
+            this.resetPlayers();
             var coordinates = area.getAllyCenter();
 
             Arrays.stream(new ICWarsPlayer[]{
@@ -68,6 +69,11 @@ public class ICWars extends AreaGame {
         return new RealPlayer(area, coordinates, ICWarsActor.Faction.ALLY, allyTank, allySoldier);
     }
 
+    private void resetGameState() {
+        this.areaIndex = 0;
+        this.begin(this.getWindow(), this.getFileSystem());
+    }
+
     @Override
     public void update(float deltaTime) {
         // Next level with `N`
@@ -75,7 +81,7 @@ public class ICWars extends AreaGame {
             changeIfNPressed();
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
-            this.begin(this.getWindow(), this.getFileSystem());
+            resetGameState();
         // Select first unit with `U`
         if (keyboard.get(Keyboard.U).isReleased())
             players.get(0).selectUnit(0); // 0, 1 ...
