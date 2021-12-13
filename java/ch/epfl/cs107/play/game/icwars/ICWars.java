@@ -21,7 +21,6 @@ public class ICWars extends AreaGame {
 
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
     States gameState;
-    private int areaIndex;
     private Keyboard keyboard;
 
 
@@ -37,23 +36,31 @@ public class ICWars extends AreaGame {
 
             keyboard = window.getKeyboard();
             initArea(areas[0]);
-            gameState = States.INIT;
             return true;
         } else return false;
     }
 
+    private void initArea() {
+        initArea((ICWarsArea) currentArea);
+    }
+
+    private void initArea(ICWarsArea area) {
+        this.resetPlayers();
+        var coordinates = area.getAllyCenter();
+
+        Arrays.stream(new ICWarsPlayer[]{
+            createAITeam(area, coordinates),
+            createPlayerTeam(area, coordinates),
+        }).forEach(player -> {
+            player.enterArea(area, coordinates); // change to get center
+            players.add(player);
+        });
+        gameState = States.INIT;
+    }
+
     private void initArea(String areaKey) {
         try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
-            this.resetPlayers();
-            var coordinates = area.getAllyCenter();
-
-            Arrays.stream(new ICWarsPlayer[]{
-                createAITeam(area, coordinates),
-                createPlayerTeam(area, coordinates),
-            }).forEach(player -> {
-                player.enterArea(area, coordinates); // change to get center
-                players.add(player);
-            });
+            initArea(area);
         }
     }
 
@@ -70,7 +77,6 @@ public class ICWars extends AreaGame {
     }
 
     private void resetGameState() {
-        this.areaIndex = 0;
         this.begin(this.getWindow(), this.getFileSystem());
     }
 
@@ -78,7 +84,7 @@ public class ICWars extends AreaGame {
     public void update(float deltaTime) {
         // Next level with `N`
         if (keyboard.get(Keyboard.N).isReleased())
-            changeIfNPressed();
+            nextLevel();
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
             resetGameState();
@@ -137,7 +143,8 @@ public class ICWars extends AreaGame {
                 } else yield States.END;
             }
             case END -> {
-                initArea(areas[1]);
+                this.nextLevel();
+                initArea();
                 yield gameState;
             }
         };
@@ -153,15 +160,13 @@ public class ICWars extends AreaGame {
      * else:
      * print "game over"
      */
-    private void changeIfNPressed() {
-        if (areaIndex != areas.length - 1) {
-            ++areaIndex;
-            players.forEach(ICWarsPlayer::leaveArea);
-            try (var currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], true)) {
-                players.get(0).enterArea(currentArea, currentArea.getAllyCenter());
-            }
+    private void nextLevel() {
+        if (this.nextArea()) {
+            initArea();
+            players.get(0).enterArea(currentArea, ((ICWarsArea) currentArea).getAllyCenter());
             players.get(0).centerCamera();
-        } else System.out.println("Game over");
+            this.gameState = States.INIT;
+        }
     }
 
     @Override

@@ -121,7 +121,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
         super.enterArea(area, position);
-        units.forEach(unit -> unit.enterArea(area, new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)));
+        units.forEach(unit -> unit.enterArea(
+                area,
+                new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
+            )
+        );
     }
 
     public void centerCamera() {

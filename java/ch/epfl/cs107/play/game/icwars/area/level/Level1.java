@@ -11,8 +11,15 @@ public class Level1 extends ICWarsArea {
     public final SpawnPoints enemyFactionSpawnPoints;
 
     public Level1() {
-        this.allyFactionSpawnPoints = new SpawnPoints(new ArrayList<>());
-        this.enemyFactionSpawnPoints = new SpawnPoints(new ArrayList<>());
+        var levelAllySpawnPoints = new ArrayList<DiscreteCoordinates>();
+        levelAllySpawnPoints.add(new DiscreteCoordinates(2, 5));
+        levelAllySpawnPoints.add(new DiscreteCoordinates(3, 5));
+        this.allyFactionSpawnPoints = new SpawnPoints(levelAllySpawnPoints);
+
+        var levelEnemySpawnPoints = new ArrayList<DiscreteCoordinates>();
+        levelEnemySpawnPoints.add(new DiscreteCoordinates(3, 8));
+        levelEnemySpawnPoints.add(new DiscreteCoordinates(9, 5));
+        this.enemyFactionSpawnPoints = new SpawnPoints(levelEnemySpawnPoints);
     }
 
     @Override

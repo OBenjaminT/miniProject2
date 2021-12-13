@@ -28,13 +28,13 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     protected ICWarsPlayer activePlayer;
+    /// The current area the game is in
+    protected Area currentArea;
     // Context objects
     private Window window;
     private FileSystem fileSystem;
     /// A map containing all the Area of the Game
     private LinkedHashMap<String, Area> areas;
-    /// The current area the game is in
-    private Area currentArea;
     /// pause mechanics and menu to display. May be null
     private boolean paused, requestPause;
     private PauseMenu menu;
@@ -50,6 +50,22 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
     protected final void resetAreas() {
         areas = new LinkedHashMap<>();
+    }
+
+    protected boolean nextArea() {
+        int index = areas.values().stream().toList().indexOf(currentArea);
+        players.forEach(ICWarsPlayer::leaveArea);
+        if (index < areas.size() - 1) {
+            setCurrentArea(areas.get(areas.keySet().stream().toList().get(index + 1)), true);
+            return true;
+        } else {
+            System.out.println("Game over");
+            return false;
+        }
+    }
+
+    protected final Area setCurrentArea(Area area, boolean forceBegin) {
+        return setCurrentArea(area.getTitle(), forceBegin);
     }
 
     /**
@@ -79,6 +95,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
                 else currentArea.resume(window, fileSystem);
             }
         }
+
         return currentArea;
     }
 
