@@ -20,13 +20,6 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     protected List<ICWarsPlayer> players;
     protected List<ICWarsPlayer> PlayersWaitingForNextTurn = new ArrayList<>();
     protected List<ICWarsPlayer> PlayersWaitingForCurrentTurn = new ArrayList<>();
-
-    protected final void resetPlayers() {
-        players = new ArrayList<>();
-        PlayersWaitingForNextTurn = new ArrayList<>();
-        PlayersWaitingForCurrentTurn = new ArrayList<>();
-    }
-
     protected ICWarsPlayer activePlayer;
     /// The current area the game is in
     protected Area currentArea;
@@ -38,6 +31,12 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     /// pause mechanics and menu to display. May be null
     private boolean paused, requestPause;
     private PauseMenu menu;
+
+    protected final void resetPlayers() {
+        players = new ArrayList<>();
+        PlayersWaitingForNextTurn = new ArrayList<>();
+        PlayersWaitingForCurrentTurn = new ArrayList<>();
+    }
 
     /**
      * Add an Area to the AreaGame list
