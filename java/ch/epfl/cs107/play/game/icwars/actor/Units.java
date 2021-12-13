@@ -214,6 +214,17 @@ abstract public class Units extends ICWarsActor {
         }
     }
 
+    /**
+     * @param indexOfUnitToAttack will be transmitted to the area and used in the area method
+     * centerCameraOnTargetedEnnemy(int indexOfUnitToAttack)
+     */
+    public void centerCameraOnTargetedEnnemy(int indexOfUnitToAttack){
+        this.getOwnerArea().centerCameraOnTargetedEnnemy(indexOfUnitToAttack);
+    }
+
+    /**
+     * @param receivedDammage the amount of dammage that will be deduced from the current hp of the unit
+     */
     public void receivesDammage(int receivedDammage){
         this.setHp(current_HP-receivedDammage);
     }

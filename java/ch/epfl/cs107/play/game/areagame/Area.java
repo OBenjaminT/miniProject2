@@ -447,6 +447,18 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         return IndexsOfAttackableEnnemies;
     }
 
+    /**
+     * @param indexOfUnitToAttack the index of the unit in the unit list that should be the center fo the camera
+     */
+    public void centerCameraOnTargetedEnnemy(int indexOfUnitToAttack){
+        this.setViewCandidate(this.getUnits().get(indexOfUnitToAttack));
+    }
+
+    /**
+     * @param indexOfUnitToAttack  the index of the unit in the unit list that should receive the dammages
+     * @param dammage used to calculate the amount of received damage
+     * @param numberOfStars depends on the type of cell the attacked unit is on and it is used to calculate the actual dammage the unit receives
+     */
     public void attack(int indexOfUnitToAttack, int dammage, int numberOfStars){
         ArrayList<Units> units = getUnits();
         Units unitToAttack = units.get(indexOfUnitToAttack);
