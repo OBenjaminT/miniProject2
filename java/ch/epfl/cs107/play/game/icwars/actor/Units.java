@@ -44,28 +44,24 @@ abstract public class Units extends ICWarsActor {
      * TODO
      */
     protected boolean isAlreadyMoved;
-
-    /**
-     * TODO
-     */
-    int numberOfStarsofCurrentCell;
-
     /**
      * TODO
      */
     protected ArrayList<Actable> actions; // List of actions the unit can take
-
-    // ui
     /**
      * TODO
      */
     protected String name;
 
+    // ui
     /**
      * TODO
      */
     protected Sprite sprite;
-
+    /**
+     * TODO
+     */
+    int numberOfStarsofCurrentCell;
     /**
      * TODO
      */
@@ -279,10 +275,10 @@ abstract public class Units extends ICWarsActor {
 
     /**
      * TODO
-     * 
+     *
      * @return the list of available actions for the unit (used by the player when he wants to use the unit)
      */
-    protected ArrayList<Actable> getAvailableActions(){
+    protected ArrayList<Actable> getAvailableActions() {
         return this.actions;
     }
 
@@ -341,6 +337,25 @@ abstract public class Units extends ICWarsActor {
 
     /**
      * TODO
+     *
+     * @param indexOfUnitToAttack will be transmitted to the area and used in the area method
+     *                            centerCameraOnTargetedEnemy(int indexOfUnitToAttack)
+     */
+    public void centerCameraOnTargetedEnemy(int indexOfUnitToAttack) {
+        this.getOwnerArea().centerCameraOnTargetedEnemy(indexOfUnitToAttack);
+    }
+
+    /**
+     * TODO
+     *
+     * @param receivedDamage the amount of damage that will be deduced from the current hp of the unit
+     */
+    public void receivesDammage(int receivedDamage) {
+        this.setHp(current_HP - receivedDamage);
+    }
+
+    /**
+     * TODO
      */
     private static class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         /**
@@ -366,24 +381,5 @@ abstract public class Units extends ICWarsActor {
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             unit.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
         }
-    }
-
-    /**
-     * TODO
-     *
-     * @param indexOfUnitToAttack will be transmitted to the area and used in the area method
-     * centerCameraOnTargetedEnemy(int indexOfUnitToAttack)
-     */
-    public void centerCameraOnTargetedEnemy(int indexOfUnitToAttack){
-        this.getOwnerArea().centerCameraOnTargetedEnemy(indexOfUnitToAttack);
-    }
-
-    /**
-     * TODO
-     *
-     * @param receivedDamage the amount of damage that will be deduced from the current hp of the unit
-     */
-    public void receivesDammage(int receivedDamage){
-        this.setHp(current_HP-receivedDamage);
     }
 }

@@ -14,13 +14,20 @@ import ch.epfl.cs107.play.window.Keyboard;
  */
 public class Attack extends Action {
 
-    int indexOfUnitToAttack = -1;
-    private ImageGraphics cursor = new ImageGraphics(
+    /**
+     * TODO
+     */
+    private final ImageGraphics cursor = new ImageGraphics(
         ResourcePath.getSprite(" icwars / UIpackSheet "),
         1f,
         1f,
         new RegionOfInterest(4 * 18, 26 * 18, 16, 16)
     );
+
+    /**
+     * TODO
+     */
+    int indexOfUnitToAttack = -1;
 
     /**
      * TODO
@@ -40,7 +47,7 @@ public class Attack extends Action {
     @Override
     public void draw(Canvas canvas) {
         if (indexOfUnitToAttack != -1) {
-            unit.centerCameraOnTargetedEnnemy(indexOfUnitToAttack);
+            unit.centerCameraOnTargetedEnemy(indexOfUnitToAttack);
             cursor.setAnchor(canvas.getPosition().add(1, 0));
             cursor.draw(canvas);
         }
