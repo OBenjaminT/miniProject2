@@ -18,8 +18,8 @@ public class Attack extends Action {
             1f, 1f ,
             new RegionOfInterest(4*18 , 26*18 ,16 ,16) );
 
-    public Attack(Units unit, Area area, String name, int key) {
-        super(unit, area, name, key);
+    public Attack(Units unit, Area area) {
+        super(unit, area, "(A)ttack", Keyboard.A);
     }
 
     @Override

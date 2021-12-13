@@ -4,6 +4,8 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
@@ -11,6 +13,8 @@ public class Tank extends Units {
     static int TankMaxHP = 10;
     static int TankRadius = 4;
     static int TankDamage = 7;
+    final Wait TankWait;
+    final Attack TankAttack;
 
     /**
      * @param area     the area in which the unit is
@@ -28,6 +32,10 @@ public class Tank extends Units {
             this,
             null,
             new Vector(-0.25f, -0.25f));
+        this.TankWait = new Wait(this, this.getOwnerArea());
+        this.actions.add(TankWait);
+        this.TankAttack = new Attack(this, this.getOwnerArea());
+        this.actions.add(TankAttack);
     }
 
     @Override
