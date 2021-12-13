@@ -7,9 +7,8 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -26,7 +25,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     private Window window;
     private FileSystem fileSystem;
     /// A map containing all the Area of the Game
-    private Map<String, Area> areas;
+    private LinkedHashMap<String, Area> areas;
     /// The current area the game is in
     private Area currentArea;
     /// pause mechanics and menu to display. May be null
@@ -118,7 +117,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         this.window = window;
         this.fileSystem = fileSystem;
 
-        areas = new HashMap<>();
+        areas = new LinkedHashMap<>();
         players = new ArrayList<>();
         paused = false;
         return true;
