@@ -10,8 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * TODO
+ */
 public abstract class ICWarsArea extends Area {
     /**
+     * TODO
+     * <p>
      * Create the area by adding it all actors
      * called by begin method
      * Note it set the Behavior as needed !
@@ -19,25 +24,43 @@ public abstract class ICWarsArea extends Area {
     protected abstract void createArea();
 
     /**
+     * TODO
+     * <p>
      * Get the "ally center", currently used as the player spawn point
      */
     public abstract DiscreteCoordinates getAllyCenter();
 
     /**
+     * TODO
+     * <p>
      * Get the "enemy center", currently used as the player spawn point
      */
     public abstract DiscreteCoordinates getEnemyCenter();
 
     /**
+     * TODO
+     * <p>
      * Get a free coordinate that the ally can spawn a unit in
      */
     public abstract DiscreteCoordinates getFreeAllySpawnPosition();
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public final float getCameraScaleFactor() {
         return 10.f;
     }
 
+    /**
+     * TODO
+     *
+     * @param window
+     * @param fileSystem
+     * @return
+     */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
@@ -50,6 +73,11 @@ public abstract class ICWarsArea extends Area {
         return false;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public abstract DiscreteCoordinates getFreeEnemySpawnPosition();
 
     //public abstract DiscreteCoordinates getPlayerSpawnPosition();
@@ -58,13 +86,20 @@ public abstract class ICWarsArea extends Area {
 
 
     /**
+     * TODO
+     * <p>
      * A class that holds a list of `DiscreteCoordinates` and remembers if anything has been spawned there.
      */
     public static class SpawnPoints {
+        /**
+         * TODO
+         */
         // holds a set of coordinates representing potential spawn points. True if available, False if taken.
         private final Map<DiscreteCoordinates, Boolean> spawnPoints = new HashMap<>();
 
         /**
+         * TODO
+         * <p>
          * Register a list of `DiscreteCoordinates` and set their availability to true
          *
          * @param coordinates The list of available spawn coordinates
@@ -74,6 +109,8 @@ public abstract class ICWarsArea extends Area {
         }
 
         /**
+         * TODO
+         * <p>
          * Returns an available coordinate to spawn a unit in.
          * Does lots of null checking.
          * Finds the first coordinate available.

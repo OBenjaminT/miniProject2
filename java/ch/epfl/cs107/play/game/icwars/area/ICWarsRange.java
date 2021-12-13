@@ -9,10 +9,21 @@ import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Canvas;
 
 /**
+ * TODO
+ * <p>
  * A drawable AreaGraph
  */
 public class ICWarsRange extends AreaGraph implements Graphics {
 
+    /**
+     * TODO
+     *
+     * @param coordinates  (DiscreteCoordinate): Position in the graph of the node to add, used as key for the map, not null
+     * @param hasLeftEdge  (boolean): indicate if directed edge to the left direction exists
+     * @param hasUpEdge    (boolean): indicate if directed edge to the up direction exists
+     * @param hasRightEdge (boolean): indicate if directed edge to the right direction exists
+     * @param hasDownEdge  (boolean): indicate if directed edge to the down direction exists
+     */
     @Override
     public void addNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
         getNodes().putIfAbsent(
@@ -21,15 +32,35 @@ public class ICWarsRange extends AreaGraph implements Graphics {
         );
     }
 
+    /**
+     * TODO
+     *
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         getNodes().values()
             .forEach(node -> ((RangeNode) node).draw(canvas));
     }
 
+    /**
+     * TODO
+     */
     private class RangeNode extends AreaNode implements Graphics {
+        /**
+         * TODO
+         */
         private final ImageGraphics nodeSprite;
 
+        /**
+         * TODO
+         *
+         * @param coordinates
+         * @param hasLeftEdge
+         * @param hasUpEdge
+         * @param hasRightEdge
+         * @param hasDownEdge
+         */
         private RangeNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
             super(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 
@@ -134,6 +165,11 @@ public class ICWarsRange extends AreaGraph implements Graphics {
             }
         }
 
+        /**
+         * TODO
+         *
+         * @param canvas target, not null
+         */
         @Override
         public void draw(Canvas canvas) {
             nodeSprite.draw(canvas);

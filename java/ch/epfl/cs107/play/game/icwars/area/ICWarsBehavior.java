@@ -3,14 +3,18 @@ package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.Arrays;
 
+/**
+ * TODO
+ */
 public class ICWarsBehavior extends AreaBehavior {
     /**
+     * TODO
+     * <p>
      * Default Tuto2Behavior Constructor
      *
      * @param window (Window), not null
@@ -29,6 +33,9 @@ public class ICWarsBehavior extends AreaBehavior {
                 );
     }
 
+    /**
+     * TODO
+     */
     public enum ICWarsCellType {
         // https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
         NONE(0x0, 0), // Should never be used except in the toType method
@@ -39,14 +46,33 @@ public class ICWarsBehavior extends AreaBehavior {
         MOUNTAIN(0xff_ff_ff_00, 4),
         CITY(0xff_ff_ff_ff, 2);
 
+        /**
+         * TODO
+         */
         final int type;
+
+        /**
+         * TODO
+         */
         final int numberOfStars;
 
+        /**
+         * TODO
+         *
+         * @param type
+         * @param numberOfStars
+         */
         ICWarsCellType(int type, int numberOfStars) {
             this.type = type;
             this.numberOfStars = numberOfStars;
         }
 
+        /**
+         * TODO
+         *
+         * @param type
+         * @return
+         */
         public static ICWarsBehavior.ICWarsCellType toType(int type) {
             return Arrays.stream(ICWarsCellType.values()) // for each cell type
                 .filter(ict -> ict.type == type) // if it's the type we're looking for
@@ -54,15 +80,26 @@ public class ICWarsBehavior extends AreaBehavior {
                 .orElse(NONE); // if there isn't one, return `NONE`
         }
 
+        /**
+         * TODO
+         *
+         * @return
+         */
+        public int getNumberOfStars() {
+            return numberOfStars;
+        }
     }
 
     /**
+     * TODO
+     * <p>
      * Cell adapted to the Tuto2 game
      */
-    public static class ICWarsCell extends AreaBehavior.Cell implements Interactable{
-        private int numberOfStars;
-        private ICWarsCellType type;
+    public static class ICWarsCell extends AreaBehavior.Cell implements Interactable {
+
         /**
+         * TODO
+         * <p>
          * Default Tuto2Cell Constructor
          *
          * @param x    (int): x coordinate of the cell
@@ -71,38 +108,36 @@ public class ICWarsBehavior extends AreaBehavior {
          */
         public ICWarsCell(int x, int y, ICWarsBehavior.ICWarsCellType type) {
             super(x, y);
-            this.type = type;
-            this.numberOfStars=type.numberOfStars;
+            /// Type of the cell following the enum
         }
 
+        /**
+         * TODO
+         *
+         * @param entity (Interactable), not null
+         * @return
+         */
         @Override
         protected boolean canLeave(Interactable entity) {
             return true;
         }
 
-        public int getNumberOfStars (){
-            return this.numberOfStars;
+        /**
+         * TODO
+         *
+         * @return
+         */
+        public int getNumberOfStars() {
+            return this.getNumberOfStars();
 
-        }
-
-        public ICWarsCellType getType (){
-            return this.type;//ROAD, NONE...
         }
 
         /**
-         * @return the unit on the cell
+         * TODO
+         *
+         * @param entity (Interactable), not null
+         * @return
          */
-        public Units getUnit(){
-            for(Interactable entity : entities){
-                if(entity instanceof Units){
-                    return (Units) entity;
-                }
-            }
-            return null;
-        }
-
-
-
         @Override
         protected boolean canEnter(Interactable entity) {
             // if the entity takes Cell Space else it can enter
@@ -112,16 +147,31 @@ public class ICWarsBehavior extends AreaBehavior {
         }
 
 
+        /**
+         * TODO
+         *
+         * @return
+         */
         @Override
         public boolean isCellInteractable() {
             return true;
         }
 
+        /**
+         * TODO
+         *
+         * @return
+         */
         @Override
         public boolean isViewInteractable() {
             return false;
         }
 
+        /**
+         * TODO
+         *
+         * @param v (AreaInteractionVisitor) : the visitor
+         */
         @Override
         public void acceptInteraction(AreaInteractionVisitor v) {
             ((ICWarsInteractionVisitor) v).interactWith(this);

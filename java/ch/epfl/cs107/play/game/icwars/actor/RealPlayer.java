@@ -14,25 +14,52 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.EnumSet;
 
+/**
+ * TODO
+ */
 public class RealPlayer extends ICWarsPlayer {
-    /// Animation duration in frame number
+
+    /**
+     * TODO
+     * <p>
+     * Animation duration in frame number
+     */
     private final static int MOVE_DURATION = 6;
+
+    /**
+     * TODO
+     */
     private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
     private Action ActionToExecute;
 
-    public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
+    /**
+     * TODO
+     *
+     * @param area
+     * @param position
+     * @param faction
+     * @param units
+     */
+    public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
         this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
     }
 
     /**
+     * TODO
+     *
      * @return the sprite name
      */
     private String getName() {
         if (this.faction == Faction.ALLY) return "icwars/allyCursor";
-        else return "icwars//enemyCursor";
+        else return "icwars/enemyCursor";
     }
 
+    /**
+     * TODO
+     *
+     * @param deltaTime
+     */
     @Override
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
@@ -50,7 +77,7 @@ public class RealPlayer extends ICWarsPlayer {
                 System.out.println(EnterWasReleased);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
                     EnterWasReleased = false;
-                                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
                 }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
@@ -96,6 +123,8 @@ public class RealPlayer extends ICWarsPlayer {
     }
 
     /**
+     * TODO
+     * <p>
      * Orientate and Move this player in the given orientation if the given button is down
      *
      * @param orientation (Orientation): given orientation, not null
@@ -108,12 +137,19 @@ public class RealPlayer extends ICWarsPlayer {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param other
+     */
     @Override
     public void interactWith(Interactable other) {
         other.acceptInteraction(handler);
     }
 
     /**
+     * TODO
+     *
      * @return true only if playerCurrentState = NORMAL, SELECT_UNIT or MOVE_UNIT
      */
     private boolean RealPlayerCanMove() {
@@ -121,15 +157,31 @@ public class RealPlayer extends ICWarsPlayer {
         return movableStates.contains(this.playerCurrentState);
     }
 
+    /**
+     * TODO
+     */
     private static class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
+        /**
+         * TODO
+         */
         RealPlayer player;
 
+        /**
+         * TODO
+         *
+         * @param player
+         */
         public ICWarsPlayerInteractionHandler(RealPlayer player) {
             this.player = player;
         }
 
+        /**
+         * TODO
+         *
+         * @param unit
+         */
         @Override
-        public void interactWith(Units unit) {
+        public void interactWith(Unit unit) {
             if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
                 player.selectUnit(unit);
         }

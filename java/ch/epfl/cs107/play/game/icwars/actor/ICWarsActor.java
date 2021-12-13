@@ -8,10 +8,18 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * TODO
+ */
 abstract public class ICWarsActor extends MovableAreaEntity {
+    /**
+     * TODO
+     */
     public Faction faction;
 
     /**
+     * TODO
+     * <p>
      * Default MovableAreaEntity constructor
      *
      * @param area     (Area): Owner area. Not null
@@ -23,28 +31,57 @@ abstract public class ICWarsActor extends MovableAreaEntity {
         this.faction = faction;
     }
 
+    /**
+     * TODO
+     *
+     * @param area
+     * @param position
+     */
     public void enterArea(Area area, DiscreteCoordinates position) {
         area.registerActor(this);
         setOwnerArea(area);
         setCurrentPosition(position.toVector());
     }
 
+    /**
+     * TODO
+     */
     public void leaveArea() {
         getOwnerArea().unregisterActor(this);
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
     // faction aly is associated to boolean true, enemy to false
-    public enum Faction {
-        ALLY(true),
-        ENEMY(false),
-        ;
 
+    public enum Faction {
+        /**
+         * TODO
+         */
+        ALLY(true),
+
+        /**
+         * TODO
+         */
+        ENEMY(false);
+
+        /**
+         * TODO
+         */
         final boolean isAlly;
 
+        /**
+         * TODO
+         *
+         * @param isAlly
+         */
         Faction(boolean isAlly) {
             this.isAlly = isAlly;
         }

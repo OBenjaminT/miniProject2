@@ -10,23 +10,32 @@ import ch.epfl.cs107.play.window.Window;
 import ch.epfl.cs107.play.window.swing.SwingWindow;
 
 /**
+ * TODO
+ * <p>
  * Main entry point.
  */
 public class Play {
 
     /**
+     * TODO
+     * <p>
      * The game window dimensions
      */
     public static final int WINDOW_WIDTH = 400;
-    //public static final int WINDOW_WIDTH = 1400;
+
+
     public static final int WINDOW_HEIGHT = 300;
-    //public static final int WINDOW_HEIGHT = 900;
+
     /**
+     * TODO
+     * <p>
      * One second in nanoseconds
      */
     private static final float ONE_SEC = 1E9f;
 
     /**
+     * TODO
+     * <p>
      * Main entry point.
      *
      * @param args (Array of String): ignored

@@ -13,27 +13,67 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * TODO
+ */
 public class ICWarsPlayer extends ICWarsActor implements Interactor {
+    /**
+     * TODO
+     */
     public States playerCurrentState;
-    protected ArrayList<Units> units = new ArrayList<>();
+
+    /**
+     * TODO
+     */
+    protected ArrayList<Unit> units = new ArrayList<>();
+
+    /**
+     * TODO
+     */
     protected Sprite sprite;
-    protected Units SelectedUnit;
+
+    /**
+     * TODO
+     */
+    protected Unit SelectedUnit;
+
+    /**
+     * TODO
+     */
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
+
+    /**
+     * TODO
+     */
     boolean EnterWasReleased = false;
 
-    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
+    /**
+     * TODO
+     *
+     * @param area
+     * @param position
+     * @param faction
+     * @param units
+     */
+    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
         this.playerCurrentState = States.IDLE;
     }
 
+    /**
+     * TODO
+     *
+     * @param playerCurrentState
+     */
     public void setPlayerCurrentState(States playerCurrentState) {
         this.playerCurrentState = playerCurrentState;
     }
 
     /**
+     * TODO
+     * <p>
      * register all the units of the player in the player's ownerArea
      */
     private void RegisterUnitsAsActors() {
@@ -43,6 +83,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         ));
     }
 
+    /**
+     * TODO
+     *
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         if (this.playerCurrentState != States.IDLE) {
@@ -52,12 +97,17 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param deltaTime
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
         units.stream()
-            .filter(Units::isDead)
+            .filter(Unit::isDead)
             .forEach(unit -> {
                 units.remove(unit);
                 unit.leaveArea();
@@ -80,7 +130,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                     EnterWasReleased = false;
                     yield States.IDLE;
                 } else yield !EnterWasReleased
-                    ? keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState
+                    ? (keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState)
                     : playerCurrentState;
             }
             case SELECT_CELL -> {
@@ -107,27 +157,50 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         };*/
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public boolean isIdle() {
         return playerCurrentState.equals(States.IDLE);
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void leaveArea() {
         units.forEach(ICWarsActor::leaveArea);
         super.leaveArea();
     }
 
+    /**
+     * TODO
+     *
+     * @param area
+     * @param position
+     */
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
         super.enterArea(area, position);
-        units.forEach(unit -> unit.enterArea(area, new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)));
+        units.forEach(unit -> unit.enterArea(
+                area,
+                new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
+            )
+        );
     }
 
+    /**
+     * TODO
+     */
     public void centerCamera() {
         getOwnerArea().setViewCandidate(this);
     }
 
     /**
+     * TODO
+     * <p>
      * a unit doesn't take spaceCellSpace
      */
     @Override
@@ -136,6 +209,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit is not ViewInteractable
      */
     @Override
@@ -144,6 +219,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit is CellInteractable
      */
     @Override
@@ -152,6 +229,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @return true if the arraylist of units is empty
      */
     public boolean isDefeated() {
@@ -159,6 +238,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @param index the index of the selected Unit in the player's units list
      *              SelectedUnit parameter is associated to the proper Unit
      *              SelectedUnit is also transmitter to the playerGUI with the setter
@@ -169,23 +250,27 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @param unit the unit the player wants to select
      *             SelectedUnit parameter is associated to the proper Unit
      *             SelectedUnit is also transmitter to the playerGUI with the setter
      */
-    public void selectUnit(Units unit) {
+    public void selectUnit(Unit unit) {
         SelectedUnit = unit;
         playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
     }
 
     /**
+     * TODO
+     * <p>
      * if a unit `UNIT` has the same position as the player, and he hasn't already been moved, we call SelectedUnit(UNIT)
      * else SelectedUnit is set to null
      */
-    public Units selectUnit() {
+    public Unit selectUnit() {
         units.stream() // for all units
             .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
-            .filter(Units::hasNotAlreadyMoved) // and haven't already moved
+            .filter(Unit::hasNotAlreadyMoved) // and haven't already moved
             .findFirst() // find the first one
             .ifPresentOrElse( // if there is one that fits the criteria
                 this::selectUnit, // select it
@@ -194,6 +279,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * SelectedUnit is set to null
      */
     public void unselectUnit() {
@@ -201,6 +288,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * when the turn starts for the player, he enters the NORMAL state,
      * the camera is centered on him,
      * all his units can be moved
@@ -211,11 +300,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
+    /**
+     * TODO
+     */
     public void endTurn() {
         this.units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
     /**
+     * TODO
+     *
      * @param coordinates used for `super.onLeaving(coordinates)`
      *                    in addition, playerCurrentState is set to NORMAl so that the player is available for future interactions
      */
@@ -228,48 +322,100 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         };
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
         return null;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public boolean wantsCellInteraction() {
         return true;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public boolean wantsViewInteraction() {
         return false;
     }
 
+    /**
+     * TODO
+     *
+     * @param other (Interactable). Not null
+     */
     @Override
     public void interactWith(Interactable other) {
 
     }
 
+    /**
+     * TODO
+     *
+     * @param v (AreaInteractionVisitor) : the visitor
+     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         v.interactWith(this);
     }
 
     /**
+     * TODO
+     * <p>
      * the sprite of the already moved units has a smaller opacity
      * than the sprite of other  units
      */
     private void drawOpacityOfUnits() {
-        this.units.forEach(unit -> unit.sprite.setAlpha(unit.isAlreadyMoved ? 0.1f : 1.0f));
+        this.units.forEach(unit -> unit.sprite.setAlpha(unit.hasAlreadyMoved ? 0.1f : 1.0f));
     }
 
     /**
+     * TODO
+     * <p>
      * states that an `ICWarsPlayer` can be in
      */
     public enum States {
+        /**
+         * TODO
+         */
         IDLE,
+
+        /**
+         * TODO
+         */
         NORMAL,
+
+        /**
+         * TODO
+         */
         SELECT_CELL,
+
+        /**
+         * TODO
+         */
         MOVE_UNIT,
+
+        /**
+         * TODO
+         */
         ACTION_SELECTED,
+
+        /**
+         * TODO
+         */
         ACTION,
     }
 }
