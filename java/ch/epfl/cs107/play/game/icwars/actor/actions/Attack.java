@@ -33,11 +33,12 @@ public class Attack extends Action {
         ArrayList<Integer> IndexOfAttackableEnemies = unit.getIndexOfAttackableEnemies();
         int indexOfUnitToAttack = 0;
         if (keyboard.get(Keyboard.LEFT).isReleased()) {
-            indexOfUnitToAttack = (indexOfUnitToAttack - 1) / IndexOfAttackableEnemies.size();
+            indexOfUnitToAttack = indexOfUnitToAttack == 0
+                ? IndexOfAttackableEnemies.size() - 1
+                : indexOfUnitToAttack - 1;
         } else if (keyboard.get(Keyboard.RIGHT).isReleased()) {
-            indexOfUnitToAttack = (indexOfUnitToAttack + 1) / IndexOfAttackableEnemies.size();
-        } else if (keyboard.get(Keyboard.RIGHT).isReleased()) {
-            unit.attack(indexOfUnitToAttack);
+            indexOfUnitToAttack = (indexOfUnitToAttack + 1) % IndexOfAttackableEnemies.size();
         }
+        unit.attack(indexOfUnitToAttack);
     }
 }
