@@ -12,26 +12,79 @@ import java.util.List;
 
 
 /**
+ * TODO
+ * <p>
  * AreaGames are a concept of Game which is displayed in a (MxN) Grid which is called an Area
  * An AreaGame has multiple Areas
  */
 abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
+    /**
+     * TODO
+     */
     protected List<ICWarsPlayer> players;
+
+    /**
+     * TODO
+     */
     protected List<ICWarsPlayer> PlayersWaitingForNextTurn = new ArrayList<>();
+
+    /**
+     * TODO
+     */
     protected List<ICWarsPlayer> PlayersWaitingForCurrentTurn = new ArrayList<>();
+
+    /**
+     * TODO
+     */
     protected ICWarsPlayer activePlayer;
-    /// The current area the game is in
+
+    /**
+     * TODO
+     * <p>
+     * The current area the game is in
+     */
     protected Area currentArea;
-    // Context objects
+
+    /// Context objects
+
+    /**
+     * TODO
+     */
     private Window window;
+
+    /**
+     * TODO
+     */
     private FileSystem fileSystem;
+
     /// A map containing all the Area of the Game
+
+    /**
+     * TODO
+     */
     private LinkedHashMap<String, Area> areas;
+
     /// pause mechanics and menu to display. May be null
-    private boolean paused, requestPause;
+
+    /**
+     * TODO
+     */
+    private boolean paused;
+
+    /**
+     * TODO
+     */
+    private boolean requestPause;
+
+    /**
+     * TODO
+     */
     private PauseMenu menu;
 
+    /**
+     * TODO
+     */
     protected final void resetPlayers() {
         players = new ArrayList<>();
         PlayersWaitingForNextTurn = new ArrayList<>();
@@ -39,6 +92,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Add an Area to the AreaGame list
      *
      * @param a (Area): The area to add, not null
@@ -47,10 +102,18 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         areas.put(a.getTitle(), a);
     }
 
+    /**
+     * TODO
+     */
     protected final void resetAreas() {
         areas = new LinkedHashMap<>();
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     protected boolean nextArea() {
         int index = areas.values().stream().toList().indexOf(currentArea);
         players.forEach(ICWarsPlayer::leaveArea);
@@ -63,11 +126,20 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param area
+     * @param forceBegin
+     * @return
+     */
     protected final Area setCurrentArea(Area area, boolean forceBegin) {
         return setCurrentArea(area.getTitle(), forceBegin);
     }
 
     /**
+     * TODO
+     * <p>
      * Setter for the current area: Select an Area in the list from its key
      * - the area is then begin or resume depending on if the area is already started or not and if it is forced
      *
@@ -99,6 +171,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Set the pause menu
      *
      * @param menu (PauseMenu) : the new pause menu, not null
@@ -112,6 +186,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return (Window) : the Graphic and Audio context
      */
     protected final Window getWindow() {
@@ -119,6 +195,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return (FIleSystem): the linked file system
      */
     protected final FileSystem getFileSystem() {
@@ -126,6 +204,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Getter for the current area
      *
      * @return (Area)
@@ -136,6 +216,13 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
     /// AreaGame implements Playable
 
+    /**
+     * TODO
+     *
+     * @param window     (Window): display context. Not null
+     * @param fileSystem (FileSystem): given file system. Not null
+     * @return
+     */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
 
@@ -149,6 +236,11 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         return true;
     }
 
+    /**
+     * TODO
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
         if (paused && menu != null)
@@ -157,16 +249,27 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         paused = requestPause;
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void requestPause() {
         requestPause = true;
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void requestResume() {
         requestPause = false;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public boolean isPaused() {
         return paused;

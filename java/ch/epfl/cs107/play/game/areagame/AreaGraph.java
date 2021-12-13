@@ -8,6 +8,8 @@ import java.util.*;
 
 
 /**
+ * TODO
+ * <p>
  * AreaGraph is a specific kind of graph apply to Area.
  * The graph is composed of AreaNodes which are defined by their position in the graph (DiscreteCoordinates)
  * and the existence of directed edge between them (from) and their four neighbors (to).
@@ -18,20 +20,30 @@ import java.util.*;
 public class AreaGraph {
 
     /// Map containing all the node or vertices of the area graph
+    /**
+     * TODO
+     */
     private final Map<DiscreteCoordinates, AreaNode> nodes;
 
     /**
+     * TODO
+     * <p>
      * Default AreaGraph Constructor
      */
     public AreaGraph() {
         nodes = new HashMap<>();
     }
 
+    /**
+     * TODO
+     */
     public void debugPrint() {
         nodes.forEach((key1, value) -> System.out.println(key1.x + ", " + key1.y));
     }
 
     /**
+     * TODO
+     * <p>
      * Add if absent a new Node into the graph.
      * Create a new Node and put it in the nodes map at given coordinates key.
      * Note: DiscreteCoordinate are serializable reimplementing hashCode() and equals() making the keys dependant only from
@@ -47,12 +59,19 @@ public class AreaGraph {
         nodes.putIfAbsent(coordinates, new AreaNode(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge));
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     protected Map<DiscreteCoordinates, AreaNode> getNodes() {
         return nodes;
     }
 
 
     /**
+     * TODO
+     * <p>
      * Return if a node exists in the graph
      *
      * @param coordinates (DiscreteCoordinates): may be null
@@ -62,6 +81,12 @@ public class AreaGraph {
         return nodes.containsKey(coordinates);
     }
 
+    /**
+     * TODO
+     *
+     * @param coordinates
+     * @param signal
+     */
     public void setSignal(DiscreteCoordinates coordinates, Logic signal) {
         if (!nodes.containsKey(coordinates))
             throw new IllegalArgumentException("The node do not exist");
@@ -69,6 +94,8 @@ public class AreaGraph {
     }
 
     /**
+     * TODO
+     * <p>
      * Compute the shortest path in this AreaGraph from given DiscreteCoordinate to given DiscreteCoordinates
      *
      * @param from (DiscreteCoordinates): source node of the desired path, not null
@@ -76,7 +103,6 @@ public class AreaGraph {
      * @return (Iterator of Orientation): return an iterator containing the shortest path from source to sink, or null if the path does not exist!
      */
     public Queue<Orientation> shortestPath(DiscreteCoordinates from, DiscreteCoordinates to) {
-
         AreaNode start = nodes.get(from);
         AreaNode goal = nodes.get(to);
 
@@ -126,6 +152,13 @@ public class AreaGraph {
         return null;
     }
 
+    /**
+     * TODO
+     *
+     * @param cameFrom
+     * @param current
+     * @return
+     */
     private Queue<Orientation> reconstructPath(Map<AreaNode, AreaNode> cameFrom, AreaNode current) {
         final List<Orientation> totalPath = new ArrayList<>();
 
@@ -151,17 +184,38 @@ public class AreaGraph {
         return new LinkedList<>(totalPath);
     }
 
+    /**
+     * TODO
+     */
     protected class AreaNode {
+
         /// Position of the node into the graph, used as key for the map
+        /**
+         * TODO
+         */
         private final DiscreteCoordinates coordinates;
+
         /// Flag: true if a directed edge between this and indicated direction (left, up, right, down) exists
+        /**
+         * TODO
+         */
         private final boolean hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge;
+
         /// a List of the connectedNode. May be null if getConnectedNodes is never called
+        /**
+         * TODO
+         */
         private List<AreaNode> connectedNodes;
+
         // Signal indicating it the node is active
+        /**
+         * TODO
+         */
         private Logic isActive;
 
         /**
+         * TODO
+         * <p>
          * Default AreaNode Constructor
          *
          * @param coordinates  (DiscreteCoordinate): Position in the graph of the node to add, used as key for the map, not null
@@ -181,6 +235,8 @@ public class AreaGraph {
         }
 
         /**
+         * TODO
+         * <p>
          * Neighbors getter
          * see method addNeighbor()
          *
@@ -199,20 +255,24 @@ public class AreaGraph {
             return connectedNodes;
         }
 
+        /**
+         * TODO
+         *
+         * @param neighborString
+         * @param hasNeighbor
+         * @param c
+         */
         private void addNeighbor(String neighborString, boolean hasNeighbor, DiscreteCoordinates c) {
-
-            if (hasNeighbor) {
-                if (nodes.containsKey(c)) {
-                    connectedNodes.add(nodes.get(c));
-                } else {
-                    // TODO throw exception
-                    System.out.println(neighborString + " neighbor for " + coordinates.toString() + " Node does not exists");
-                }
-            }
+            if (nodes.containsKey(c) && hasNeighbor)
+                connectedNodes.add(nodes.get(c));
+            else if (hasNeighbor) // TODO throw exception
+                System.out.println(neighborString + " neighbor for " + coordinates.toString() + " Node does not exists");
         }
 
 
         /**
+         * TODO
+         * <p>
          * Indicate the orientation we need to follow to reach previous node from this one
          * Assume the previous node is a neighbor node
          *
@@ -234,10 +294,20 @@ public class AreaGraph {
             return null;
         }
 
+        /**
+         * TODO
+         *
+         * @param signal
+         */
         public void setSignal(Logic signal) {
             isActive = signal;
         }
 
+        /**
+         * TODO
+         *
+         * @return
+         */
         public boolean isActive() {
             return isActive.isOn();
         }

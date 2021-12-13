@@ -209,7 +209,7 @@ public final class Vector implements Serializable {
     }
 
     /**
-     * Resizes vector to specified length, or (<code>length</code>, 0) if zero.
+     * Resizes vector to specified length, or ({@code length}, 0) if zero.
      *
      * @param length (float): new length
      * @return (Vector): rescaled vector, not null

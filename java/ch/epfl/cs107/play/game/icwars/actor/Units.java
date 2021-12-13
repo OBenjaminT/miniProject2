@@ -15,23 +15,66 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * TODO
+ */
 abstract public class Units extends ICWarsActor {
 
     // data
+    /**
+     * TODO
+     */
     protected int current_HP;
+
+    /**
+     * TODO
+     */
     protected int maxHP;
+
+    /**
+     * TODO
+     */
     protected int repair;
+
+    /**
+     * TODO
+     */
     protected int radius;
+
+    /**
+     * TODO
+     */
     protected boolean isAlreadyMoved;
+
+    /**
+     * TODO
+     */
     protected List<Actable> actions; // List of actions the unit can take
+
     // ui
+    /**
+     * TODO
+     */
     protected String name;
+
+    /**
+     * TODO
+     */
     protected Sprite sprite;
-    // path
+
+    /**
+     * TODO
+     */
     ICWarsRange range;
+
+    /**
+     * TODO
+     */
     private int numberOfStarsOfCurrentCell;
 
     /**
+     * TODO
+     *
      * @param area       the area in which the unit is
      * @param position   position of the unit in the area
      * @param faction    faction to which the units belong (eiter ALLY or ENEMY
@@ -57,9 +100,16 @@ abstract public class Units extends ICWarsActor {
         completeUnitsRange();
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     protected abstract int getDamage();
 
     /**
+     * TODO
+     * <p>
      * if the HP are given negative, they are set to 0
      * if they are given above maxHP, they are set to maxHP
      * else they are set to the given @param hp
@@ -70,31 +120,55 @@ abstract public class Units extends ICWarsActor {
         this.current_HP = HP < 0 ? 0 : Math.min(HP, maxHP);
     }
 
+    /**
+     * TODO
+     *
+     * @param isAlreadyMoved
+     */
     public void setIsAlreadyMoved(boolean isAlreadyMoved) {
         this.isAlreadyMoved = isAlreadyMoved;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public boolean hasNotAlreadyMoved() {
         return !isAlreadyMoved;
     }
 
     /**
+     * TODO
+     *
      * @return true if the unit's hp are positive
      */
     public boolean isAlive() {
         return this.current_HP > 0;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public boolean isDead() {
         return !isAlive();
     }
 
+    /**
+     * TODO
+     *
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
 
     /**
+     * TODO
+     *
      * @return unit name
      */
     protected String getName() {
@@ -102,6 +176,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     * <p>
      * fills the unit's range attribute with nodes that are both
      * within a radius range of the unit's coordinates and in the grid
      */
@@ -127,6 +203,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit doesn't take spaceCellSpace
      */
     @Override
@@ -135,6 +213,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit is not ViewInteractable
      */
     @Override
@@ -143,6 +223,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit is CellInteractable
      */
     @Override
@@ -151,6 +233,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     * <p>
      * Draw the unit's range and a path from the unit position to
      * destination
      *
@@ -168,6 +252,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     *
      * @return the indexes of attackable units in the area's list of units
      */
     public ArrayList<Integer> getIndexOfAttackableEnemies() {
@@ -175,6 +261,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     *
      * @param indexOfUnitToAttack the index of the unit in the areas' units list that should be attacked
      */
     public void attack(int indexOfUnitToAttack) {
@@ -186,6 +274,8 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
+     * TODO
+     *
      * @param newPosition new unit's position
      * @return true if super.changePosition does so and if a node with newPosition coordinates
      * exists in the units range. If the move is possible, the unit's radius is adapted to the newPosition
@@ -199,30 +289,66 @@ abstract public class Units extends ICWarsActor {
         } else return false;
     }
 
+    /**
+     * TODO
+     *
+     * @param v (AreaInteractionVisitor) : the visitor
+     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((ICWarsInteractionVisitor) v).interactWith(this);
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public int getNumberOfStarsOfCurrentCell() {
         return numberOfStarsOfCurrentCell;
     }
 
+    /**
+     * TODO
+     *
+     * @param numberOfStarsOfCurrentCell
+     */
     public void setNumberOfStarsOfCurrentCell(int numberOfStarsOfCurrentCell) {
         this.numberOfStarsOfCurrentCell = numberOfStarsOfCurrentCell;
     }
 
+    /**
+     * TODO
+     *
+     * @param receivedDamage
+     */
     public void receivesDamage(int receivedDamage) {
         this.setHp(current_HP - receivedDamage);
     }
 
+    /**
+     * TODO
+     */
     private static class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
+        /**
+         * TODO
+         */
         Units unit;
 
+        /**
+         * TODO
+         *
+         * @param unit
+         */
         public ICWarsUnitInteractionHandler(Units unit) {
             this.unit = unit;
         }
 
+        /**
+         * TODO
+         *
+         * @param icWarsCell
+         */
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             unit.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());

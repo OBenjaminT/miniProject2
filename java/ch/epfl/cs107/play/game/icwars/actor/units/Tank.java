@@ -7,12 +7,29 @@ import ch.epfl.cs107.play.game.icwars.actor.Units;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
+/**
+ * TODO
+ */
 public class Tank extends Units {
+
+    /**
+     * TODO
+     */
     static int TankMaxHP = 10;
+
+    /**
+     * TODO
+     */
     static int TankRadius = 4;
+
+    /**
+     * TODO
+     */
     static int TankDamage = 7;
 
     /**
+     * TODO
+     *
      * @param area     the area in which the unit is
      * @param position position of the unit in the area
      * @param faction  faction to which the units belong (eiter ALLY or ENEMY
@@ -30,17 +47,29 @@ public class Tank extends Units {
             new Vector(-0.25f, -0.25f));
     }
 
+    /**
+     * TODO
+     *
+     * @param v (AreaInteractionVisitor) : the visitor
+     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         //TODO define this
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     protected int getDamage() {
         return TankDamage;
     }
 
     /**
+     * TODO
+     *
      * @return the name of the tank depending on its faction (it will be useful to draw the sprite in the constructor)
      */
     @Override

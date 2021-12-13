@@ -14,15 +14,48 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * TODO
+ */
 public class ICWarsPlayer extends ICWarsActor implements Interactor {
+    /**
+     * TODO
+     */
     public States playerCurrentState;
+
+    /**
+     * TODO
+     */
     protected ArrayList<Units> units = new ArrayList<>();
+
+    /**
+     * TODO
+     */
     protected Sprite sprite;
+
+    /**
+     * TODO
+     */
     protected Units SelectedUnit;
+
+    /**
+     * TODO
+     */
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
+
+    /**
+     * TODO
+     */
     boolean EnterWasReleased = false;
 
+    /**
+     * TODO
+     *
+     * @param area
+     * @param position
+     * @param faction
+     * @param units
+     */
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
@@ -30,11 +63,18 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         this.playerCurrentState = States.IDLE;
     }
 
+    /**
+     * TODO
+     *
+     * @param playerCurrentState
+     */
     public void setPlayerCurrentState(States playerCurrentState) {
         this.playerCurrentState = playerCurrentState;
     }
 
     /**
+     * TODO
+     * <p>
      * register all the units of the player in the player's ownerArea
      */
     private void RegisterUnitsAsActors() {
@@ -44,6 +84,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         ));
     }
 
+    /**
+     * TODO
+     *
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         if (this.playerCurrentState != States.IDLE) {
@@ -53,6 +98,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param deltaTime
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -108,16 +158,30 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         };
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public boolean isIdle() {
         return playerCurrentState.equals(States.IDLE);
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void leaveArea() {
         units.forEach(ICWarsActor::leaveArea);
         super.leaveArea();
     }
 
+    /**
+     * TODO
+     *
+     * @param area
+     * @param position
+     */
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
         super.enterArea(area, position);
@@ -128,11 +192,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         );
     }
 
+    /**
+     * TODO
+     */
     public void centerCamera() {
         getOwnerArea().setViewCandidate(this);
     }
 
     /**
+     * TODO
+     * <p>
      * a unit doesn't take spaceCellSpace
      */
     @Override
@@ -141,6 +210,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit is not ViewInteractable
      */
     @Override
@@ -149,6 +220,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * a unit is CellInteractable
      */
     @Override
@@ -157,6 +230,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @return true if the arraylist of units is empty
      */
     public boolean isDefeated() {
@@ -164,6 +239,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @param index the index of the selected Unit in the player's units list
      *              SelectedUnit parameter is associated to the proper Unit
      *              SelectedUnit is also transmitter to the playerGUI with the setter
@@ -174,6 +251,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @param unit the unit the player wants to select
      *             SelectedUnit parameter is associated to the proper Unit
      *             SelectedUnit is also transmitter to the playerGUI with the setter
@@ -184,6 +263,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * if a unit `UNIT` has the same position as the player, and he hasn't already been moved, we call SelectedUnit(UNIT)
      * else SelectedUnit is set to null
      */
@@ -199,6 +280,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * SelectedUnit is set to null
      */
     public void unselectUnit() {
@@ -206,6 +289,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * when the turn starts for the player, he enters the NORMAL state,
      * the camera is centered on him,
      * all his units can be moved
@@ -216,11 +301,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
+    /**
+     * TODO
+     */
     public void endTurn() {
         this.units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
     /**
+     * TODO
+     *
      * @param coordinates used for `super.onLeaving(coordinates)`
      *                    in addition, playerCurrentState is set to NORMAl so that the player is available for future interactions
      */
@@ -233,32 +323,59 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         };
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
         return null;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public boolean wantsCellInteraction() {
         return true;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public boolean wantsViewInteraction() {
         return false;
     }
 
+    /**
+     * TODO
+     *
+     * @param other (Interactable). Not null
+     */
     @Override
     public void interactWith(Interactable other) {
 
     }
 
+    /**
+     * TODO
+     *
+     * @param v (AreaInteractionVisitor) : the visitor
+     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         v.interactWith(this);
     }
 
     /**
+     * TODO
+     * <p>
      * the sprite of the already moved units has a smaller opacity
      * than the sprite of other  units
      */
@@ -267,14 +384,39 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     * <p>
      * states that an `ICWarsPlayer` can be in
      */
     public enum States {
+        /**
+         * TODO
+         */
         IDLE,
+
+        /**
+         * TODO
+         */
         NORMAL,
+
+        /**
+         * TODO
+         */
         SELECT_CELL,
+
+        /**
+         * TODO
+         */
         MOVE_UNIT,
+
+        /**
+         * TODO
+         */
         ACTION_SELECTED,
+
+        /**
+         * TODO
+         */
         ACTION,
     }
 }

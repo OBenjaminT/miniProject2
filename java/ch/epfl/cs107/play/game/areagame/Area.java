@@ -24,38 +24,107 @@ import java.util.stream.IntStream;
 
 
 /**
+ * TODO
+ * <p>
  * Area is a "Part" of the AreaGame. An Area is made of a Behavior, and a List of Actors
  */
 public abstract class Area implements Playable, PauseMenu.Pausable {
 
     // Context objects
+    /**
+     * TODO
+     */
     private Window window;
+
+    /**
+     * TODO
+     */
     private FileSystem fileSystem;
+
     // Camera Parameter
+
+    /**
+     * TODO
+     */
     private Actor viewCandidate;
+
+    /**
+     * TODO
+     */
     private Vector viewCenter;
+
     /// List of Actors inside the area
+
+    /**
+     * TODO
+     */
     private List<Actor> actors;
+
     /// List of Actors we want to register/unregistered from the area for next update iteration
+
+    /**
+     * TODO
+     */
     private List<Actor> registeredActors;
+
+    /**
+     * TODO
+     */
     private List<Actor> unregisteredActors;
+
     /// Sublist of actor (interactors) inside the area
+
+    /**
+     * TODO
+     */
     private List<Interactor> interactors;
+
+    /**
+     * TODO
+     */
     private Map<Interactable, List<DiscreteCoordinates>> interactablesToEnter;
+
+    /**
+     * TODO
+     */
     private Map<Interactable, List<DiscreteCoordinates>> interactablesToLeave;
+
     /// The behavior Map
+
+    /**
+     * TODO
+     */
     private AreaBehavior areaBehavior;
-    /// pause mechanics and menu to display. May be null - start indicate if area already begins, paused indicate if we display the pause menu
-    private boolean started, paused;
+
+    /// pause mechanics and menu to display. May be null - start indicate if area already begins, paused indicate if we
+    // display the pause menu
+
+    /**
+     * TODO
+     */
+    private boolean started;
+
+    /**
+     * TODO
+     */
+    private boolean paused;
+
+    /**
+     * TODO
+     */
     private AreaPauseMenu menu;
 
 
     /**
+     * TODO
+     *
      * @return (float): camera scale factor, assume it is the same in x and y direction
      */
     public abstract float getCameraScaleFactor();
 
     /**
+     * TODO
+     * <p>
      * Setter for the Behavior of this Area
      * Please call this method in the `begin` method of every subclass
      *
@@ -66,6 +135,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Setter for the view Candidate
      *
      * @param a (Actor), not null
@@ -76,6 +147,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
 
     /**
+     * TODO
+     * <p>
      * Add an actor to the actors list
      * and to the behavior area cell if the actor is an Interactable
      * and to the interactor list if the actor is an Interactor
@@ -100,6 +173,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Remove an actor form the actor list
      * and from the behavior area cell if the actor is an Interactable
      * and from the interactor list if the actor is an Interactor
@@ -124,6 +199,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Register an actor : will be added at next update
      *
      * @param a (Actor): the actor to register, not null
@@ -135,6 +212,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Unregister an actor : will be removed at next update
      *
      * @param a (Actor): the actor to unregister, not null
@@ -146,6 +225,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Indicate if the given actor exists into the actor list
      *
      * @param a (Actor): the given actor, may be null
@@ -157,6 +238,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
 
     /**
+     * TODO
+     * <p>
      * Getter for the area width
      *
      * @return (int) : the width in number of cols
@@ -166,6 +249,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Getter for the area height
      *
      * @return (int) : the height in number of rows
@@ -175,6 +260,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return the Window Keyboard for inputs
      */
     public final Keyboard getKeyboard() {
@@ -182,6 +269,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return the Window Mouse for inputs
      */
     public final Mouse getMouse() {
@@ -189,6 +278,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return the mouse position relatively to the area and the cells
      */
     public Vector getRelativeMousePosition() {
@@ -198,6 +289,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return the mouse coordinates relatively to the area and the cells
      */
     public DiscreteCoordinates getRelativeMouseCoordinates() {
@@ -206,6 +299,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @return (boolean): true if the method begin already called once. You can use resume() instead
      */
     public final boolean isStarted() {
@@ -213,6 +308,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * If possible make the given interactable entity leave the given area cells
      *
      * @param entity      (Interactable), not null
@@ -229,6 +326,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * If possible make the given interactable entity enter the given area cells
      *
      * @param entity      (Interactable), not null
@@ -245,6 +344,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Inform if the entity can enter the area cells
      *
      * @param entity      (Interactable), not null
@@ -258,6 +359,13 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
     /// Area implements Playable
 
+    /**
+     * TODO
+     *
+     * @param window     (Window): display context. Not null
+     * @param fileSystem (FileSystem): given file system. Not null
+     * @return
+     */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         this.window = window;
@@ -275,6 +383,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Resume method: Can be overridden
      *
      * @param window     (Window): display context, not null
@@ -285,6 +395,11 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         return true;
     }
 
+    /**
+     * TODO
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
         purgeRegistration();
@@ -319,6 +434,9 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         }
     }
 
+    /**
+     * TODO
+     */
     final void purgeRegistration() {
         // PART 1
         // - Register actors
@@ -346,6 +464,9 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
 
+    /**
+     * TODO
+     */
     private void updateCamera() {
 
         // Update expected viewport center
@@ -360,6 +481,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Suspend method: Can be overridden, called before resume other
      */
     public void suspend() {
@@ -367,6 +490,9 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
 
+    /**
+     * TODO
+     */
     @Override
     public void close() {
         System.out.println("Close requested");
@@ -376,6 +502,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     /// Area Implements `PauseMenu.Pausable`
 
     /**
+     * TODO
+     * <p>
      * Can be called by any possessor of this Area.
      * Caller indicate it requests a pause with given menu displayed.
      * Notice: this method chooses if the request ends up or not
@@ -394,6 +522,9 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         requestPause();
     }
 
+    /**
+     * TODO
+     */
     @Override
     public final void requestPause() {
         // TODO if the request end up: It is this Area decision, implement a strategy
@@ -401,6 +532,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     * <p>
      * Can be called by anny possessor of this Area
      * Caller indicates it requests a resume of the pause state to the game
      * Notice: this method chooses if the request ends up or not
@@ -411,6 +544,11 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         this.paused = false;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     @Override
     public final boolean isPaused() {
         return paused;
@@ -418,6 +556,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
 
     /**
+     * TODO
+     *
      * @return all the units in the area
      */
     private ArrayList<Units> getUnits() {
@@ -428,6 +568,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @param faction attackable enemies have a different faction from the oe given as a parameter
      * @param range   the range where attackable units can be found
      * @return a list of integers representing the indexes of attackable units with coordinates
@@ -442,6 +584,13 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * TODO
+     *
+     * @param indexOfUnitToAttack
+     * @param damage
+     * @param numberOfStars
+     */
     public void attack(int indexOfUnitToAttack, int damage, int numberOfStars) {
         getUnits().get(indexOfUnitToAttack)
             .receivesDamage(damage - numberOfStars);

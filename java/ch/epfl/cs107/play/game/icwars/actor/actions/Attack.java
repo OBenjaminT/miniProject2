@@ -8,18 +8,36 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.ArrayList;
 
+/**
+ * TODO
+ */
 public class Attack extends Action {
 
+    /**
+     * TODO
+     *
+     * @param unit
+     * @param area
+     * @param name
+     * @param key
+     */
     public Attack(Units unit, Area area, String name, int key) {
         super(unit, area, name, key);
     }
 
+    /**
+     * TODO
+     *
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
 
     }
 
     /**
+     * TODO
+     * <p>
      * within a distance equals the radius attribute of the attacking unit, an enemy unit is chosen with the keyboard to
      * be attacked and receives a certain damage depending on the attacking unit's damage and the number of
      * defensiveStars of the cell where the attacked unit is

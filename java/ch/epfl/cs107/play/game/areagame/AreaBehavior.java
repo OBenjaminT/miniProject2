@@ -23,12 +23,25 @@ import java.util.Set;
 public abstract class AreaBehavior implements Interactable.Listener, Interactor.Listener {
 
     /// The behavior is an Image of size height x width
+    /**
+     * TODO
+     */
     private final Image behaviorMap;
+
+    /**
+     * TODO
+     */
     private final int width, height;
+
     /// We will convert the image into an array of cells
+    /**
+     * TODO
+     */
     private final Cell[][] cells;
 
     /**
+     * TODO
+     * <p>
      * Default AreaBehavior Constructor
      *
      * @param window (Window): graphic context, not null
@@ -44,6 +57,12 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         cells = new Cell[width][height];
     }
 
+    /**
+     * TODO
+     *
+     * @param draggable
+     * @param mouseCoordinates
+     */
     public void dropInteractionOf(Draggable draggable, DiscreteCoordinates mouseCoordinates) {
         if (mouseCoordinates.x >= 0 && mouseCoordinates.y >= 0 && mouseCoordinates.x < width && mouseCoordinates.y < height) {
             cells[mouseCoordinates.x][mouseCoordinates.y].dropInteractionOf(draggable);
@@ -52,6 +71,11 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
 
     /// AreaBehavior implements Interactor.Listener
 
+    /**
+     * TODO
+     *
+     * @param interactor (Interactor). Not null
+     */
     @Override
     public void cellInteractionOf(Interactor interactor) {
         interactor.getCurrentCells()
@@ -63,6 +87,11 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
             .forEach(dc -> cells[dc.x][dc.y].cellInteractionOf(interactor));
     }
 
+    /**
+     * TODO
+     *
+     * @param interactor (Interactor). Not null
+     */
     @Override
     public void viewInteractionOf(Interactor interactor) {
         interactor.getFieldOfViewCells()
@@ -74,22 +103,53 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
             .forEach(dc -> cells[dc.x][dc.y].viewInteractionOf(interactor));
     }
 
+    /**
+     * TODO
+     *
+     * @param x
+     * @param y
+     * @param cell
+     */
     protected void setCell(int x, int y, Cell cell) {
         cells[x][y] = cell;
     }
 
+    /**
+     * TODO
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     protected Cell getCell(int x, int y) {
         return cells[x][y];
     }
 
+    /**
+     * TODO
+     *
+     * @param r
+     * @param c
+     * @return
+     */
     protected int getRGB(int r, int c) {
         return behaviorMap.getRGB(r, c);
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     protected int getHeight() {
         return height;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     protected int getWidth() {
         return width;
     }
@@ -97,6 +157,13 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
 
     /// AreaBehavior implements Interactable.Listener
 
+    /**
+     * TODO
+     *
+     * @param entity      (Interactable). Not null
+     * @param coordinates (List of DiscreteCoordinates). Not null
+     * @return
+     */
     @Override
     public boolean canLeave(Interactable entity, List<DiscreteCoordinates> coordinates) {
         return coordinates.stream()
@@ -107,6 +174,13 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
                 || !cells[c.x][c.y].canLeave(entity));
     }
 
+    /**
+     * TODO
+     *
+     * @param entity      (Interactable). Not null
+     * @param coordinates (List of DiscreteCoordinates). Not null
+     * @return
+     */
     @Override
     public boolean canEnter(Interactable entity, List<DiscreteCoordinates> coordinates) {
         return coordinates.stream()
@@ -117,28 +191,50 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
                 || !cells[c.x][c.y].canEnter(entity));
     }
 
+    /**
+     * TODO
+     *
+     * @param entity      (Interactable). Not null
+     * @param coordinates (List of DiscreteCoordinates). Not null
+     */
     @Override
     public void leave(Interactable entity, List<DiscreteCoordinates> coordinates) {
         coordinates.forEach(c -> cells[c.x][c.y].leave(entity));
     }
 
+    /**
+     * TODO
+     *
+     * @param entity      (Interactable). Not null
+     * @param coordinates (List of DiscreteCoordinates). Not null
+     */
     @Override
     public void enter(Interactable entity, List<DiscreteCoordinates> coordinates) {
         coordinates.forEach(c -> cells[c.x][c.y].enter(entity));
     }
 
     /**
+     * TODO
+     * <p>
      * Each AreaGame will have its own Cell extension.
      * At minimum a cell is linked to its content
      */
     public abstract static class Cell implements Interactable {
 
         /// Content of the cell as a set of Interactable
+        /**
+         * TODO
+         */
         protected Set<Interactable> entities;
+        /**
+         * TODO
+         */
         protected DiscreteCoordinates coordinates;
 
 
         /**
+         * TODO
+         * <p>
          * Default Cell constructor
          *
          * @param x (int): x-coordinate of this cell
@@ -150,6 +246,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         }
 
         /**
+         * TODO
+         * <p>
          * Do the given draggableAreaEntity interacts with all Droppable sharing the same cell
          * // @param interactor (Interactor), not null
          */
@@ -164,6 +262,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         }
 
         /**
+         * TODO
+         * <p>
          * Do the given interactor interacts with all Interactable sharing the same cell
          *
          * @param interactor (Interactor), not null
@@ -176,6 +276,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         }
 
         /**
+         * TODO
+         * <p>
          * Do the given interactor interacts with all Interactable sharing the same cell
          *
          * @param interactor (Interactor), not null
@@ -188,6 +290,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         }
 
         /**
+         * TODO
+         * <p>
          * Do the given interactable enter into this Cell
          *
          * @param entity (Interactable), not null
@@ -197,6 +301,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         }
 
         /**
+         * TODO
+         * <p>
          * Do the given Interactable leave this Cell
          *
          * @param entity (Interactable), not null
@@ -206,6 +312,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         }
 
         /**
+         * TODO
+         * <p>
          * Indicate if the given Interactable can leave this Cell
          *
          * @param entity (Interactable), not null
@@ -214,6 +322,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
         protected abstract boolean canLeave(Interactable entity);
 
         /**
+         * TODO
+         * <p>
          * Indicate if the given Interactable can enter this Cell
          *
          * @param entity (Interactable), not null
@@ -223,23 +333,42 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
 
         /// Cell implements Interactable
 
+        /**
+         * TODO
+         *
+         * @return
+         */
         @Override
         public boolean takeCellSpace() {
             return false;
         }
 
+        /**
+         * TODO
+         *
+         * @param coordinates left cell coordinates
+         */
         @Override
         public void onLeaving(List<DiscreteCoordinates> coordinates) {
         }
 
+        /**
+         * TODO
+         *
+         * @param coordinates entered cell coordinates
+         */
         @Override
         public void onEntering(List<DiscreteCoordinates> coordinates) {
         }
 
+        /**
+         * TODO
+         *
+         * @return
+         */
         @Override
         public List<DiscreteCoordinates> getCurrentCells() {
             return Collections.singletonList(coordinates);
         }
-
     }
 }
