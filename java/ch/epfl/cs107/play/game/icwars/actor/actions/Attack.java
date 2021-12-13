@@ -4,7 +4,7 @@ import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -35,7 +35,7 @@ public class Attack extends Action {
      * @param unit
      * @param area
      */
-    public Attack(Units unit, Area area) {
+    public Attack(Unit unit, Area area) {
         super(unit, area, "(A)ttack", Keyboard.A);
     }
 

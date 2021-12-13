@@ -2,7 +2,7 @@ package ch.epfl.cs107.play.game.icwars.handler;
 
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 
 /**
@@ -14,7 +14,7 @@ public interface ICWarsInteractionVisitor extends AreaInteractionVisitor {
      *
      * @param unit
      */
-    default void interactWith(Units unit) {
+    default void interactWith(Unit unit) {
         //empty by default
     }
 

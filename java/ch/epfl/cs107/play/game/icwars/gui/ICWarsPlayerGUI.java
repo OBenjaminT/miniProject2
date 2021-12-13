@@ -2,7 +2,7 @@ package ch.epfl.cs107.play.game.icwars.gui;
 
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -16,7 +16,7 @@ public class ICWarsPlayerGUI implements Graphics {
     /**
      * TODO
      */
-    Units PlayerSelectedUnit;
+    Unit PlayerSelectedUnit;
 
     /**
      * TODO
@@ -41,7 +41,7 @@ public class ICWarsPlayerGUI implements Graphics {
      *
      * @param playerSelectedUnit is given as a value to the ICWarsPlayerGUI' playerSelectedUnit
      */
-    public void setPlayerSelectedUnit(Units playerSelectedUnit) {
+    public void setPlayerSelectedUnit(Unit playerSelectedUnit) {
         this.PlayerSelectedUnit = playerSelectedUnit;
     }
 

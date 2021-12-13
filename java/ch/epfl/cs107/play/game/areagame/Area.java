@@ -8,7 +8,7 @@ import ch.epfl.cs107.play.game.actor.Draggable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -560,10 +560,10 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      *
      * @return all the units in the area
      */
-    private ArrayList<Units> getUnits() {
+    private ArrayList<Unit> getUnits() {
         return actors.stream()
-            .filter(actor -> actor instanceof Units)
-            .map(actor -> (Units) actor)
+            .filter(actor -> actor instanceof Unit)
+            .map(actor -> (Unit) actor)
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -576,7 +576,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * that are in a range
      */
     public ArrayList<Integer> getIndexOfAttackableEnemies(ICWarsActor.Faction faction, ICWarsRange range) {
-        ArrayList<Units> units = getUnits();
+        ArrayList<Unit> units = getUnits();
         return IntStream.range(0, units.size())
             .filter(i -> units.get(i).faction != faction)
             .filter(i -> range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y)))

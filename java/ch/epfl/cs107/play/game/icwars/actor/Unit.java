@@ -17,16 +17,17 @@ import java.util.stream.IntStream;
 /**
  * TODO
  */
-abstract public class Units extends ICWarsActor {
+abstract public class Unit extends ICWarsActor {
 
     // data
     /**
-     * TODO
+     * The {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}'s current health points. When
+     * this is less than {@code 0} the unit is dead.
      */
     protected int current_HP;
 
     /**
-     * TODO
+     * The maximum health points of the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int) Unit}.
      */
     protected int maxHP;
 
@@ -41,27 +42,28 @@ abstract public class Units extends ICWarsActor {
     protected int radius;
 
     /**
-     * TODO
+     * If this is {@code true} then the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit} has
+     * already been moved this turn.
      */
-    protected boolean isAlreadyMoved;
+    protected boolean hasAlreadyMoved;
+
     /**
      * TODO
      */
     protected ArrayList<Actable> actions; // List of actions the unit can take
+
     /**
-     * TODO
+     * The name of the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}.
      */
     protected String name;
 
     // ui
     /**
-     * TODO
+     * The {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}'s visual representation in the
+     * game.
      */
     protected Sprite sprite;
-    /**
-     * TODO
-     */
-    int numberOfStarsofCurrentCell;
+
     /**
      * TODO
      */
@@ -83,20 +85,20 @@ abstract public class Units extends ICWarsActor {
      * @param current_HP the number of HP a unit has
      * @param maxHP      the maximum HP the unit has
      */
-    public Units(Area area,
-                 DiscreteCoordinates position,
-                 Faction faction,
-                 int repair,
-                 int radius,
-                 int current_HP,
-                 int maxHP) {
+    public Unit(Area area,
+                DiscreteCoordinates position,
+                Faction faction,
+                int repair,
+                int radius,
+                int current_HP,
+                int maxHP) {
         super(area, position, faction);
         this.maxHP = maxHP;
         this.radius = radius;
         this.setHp(current_HP);
         this.repair = repair;
         this.range = new ICWarsRange();
-        this.isAlreadyMoved = false; // at its creation a unit hasn't already been moved
+        this.hasAlreadyMoved = false; // at its creation a unit hasn't already been moved
         completeUnitsRange();
     }
 
@@ -126,31 +128,37 @@ abstract public class Units extends ICWarsActor {
      * @param isAlreadyMoved
      */
     public void setIsAlreadyMoved(boolean isAlreadyMoved) {
-        this.isAlreadyMoved = isAlreadyMoved;
+        this.hasAlreadyMoved = isAlreadyMoved;
     }
 
     /**
-     * TODO
+     * Tells you if the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit} has not moved this
+     * turn.
      *
-     * @return
+     * @return {@code true} if the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit} hasn't
+     * moved on this turn yet, {@code false} if it has.
      */
     public boolean hasNotAlreadyMoved() {
-        return !isAlreadyMoved;
+        return !hasAlreadyMoved;
     }
 
     /**
-     * TODO
+     * Tells you if the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit} is alive.
      *
-     * @return true if the unit's hp are positive
+     * @return {@code true} if the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}'s HP is
+     * positive.
      */
     public boolean isAlive() {
         return this.current_HP > 0;
     }
 
     /**
-     * TODO
+     * Tells you if the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit} is dead.
+     * <p>
+     * Is the boolean opposite of {@link #isAlive()}.
      *
-     * @return
+     * @return {@code true} if the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}'s HP
+     * isn't positive.
      */
     public boolean isDead() {
         return !isAlive();
@@ -167,9 +175,9 @@ abstract public class Units extends ICWarsActor {
     }
 
     /**
-     * TODO
+     * Tells you the name of the {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}.
      *
-     * @return unit name
+     * @return The {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int)  Unit}'s name.
      */
     protected String getName() {
         return this.name;
@@ -329,7 +337,7 @@ abstract public class Units extends ICWarsActor {
     /**
      * TODO
      *
-     * @param receivedDamage
+     * @param receivedDamage the amount of damage that will be deduced from the current hp of the unit
      */
     public void receivesDamage(int receivedDamage) {
         this.setHp(current_HP - receivedDamage);
@@ -347,28 +355,19 @@ abstract public class Units extends ICWarsActor {
 
     /**
      * TODO
-     *
-     * @param receivedDamage the amount of damage that will be deduced from the current hp of the unit
-     */
-    public void receivesDammage(int receivedDamage) {
-        this.setHp(current_HP - receivedDamage);
-    }
-
-    /**
-     * TODO
      */
     private static class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         /**
          * TODO
          */
-        Units unit;
+        Unit unit;
 
         /**
          * TODO
          *
          * @param unit
          */
-        public ICWarsUnitInteractionHandler(Units unit) {
+        public ICWarsUnitInteractionHandler(Unit unit) {
             this.unit = unit;
         }
 

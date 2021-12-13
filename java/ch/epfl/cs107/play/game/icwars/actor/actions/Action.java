@@ -1,7 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor.actions;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 
 /**
  * TODO
@@ -11,7 +11,7 @@ abstract class Action implements Actable {
     /**
      * TODO
      */
-    protected final Units unit;
+    protected final Unit unit;
 
     /**
      * TODO
@@ -36,7 +36,7 @@ abstract class Action implements Actable {
      * @param name
      * @param key
      */
-    public Action(Units unit, Area area, String name, int key) {
+    public Action(Unit unit, Area area, String name, int key) {
         this.unit = unit;
         this.area = area;
         this.name = name;

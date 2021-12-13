@@ -3,7 +3,7 @@ package ch.epfl.cs107.play.game.icwars.actor.units;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -11,7 +11,7 @@ import ch.epfl.cs107.play.math.Vector;
 
 import java.util.ArrayList;
 
-public class Soldier extends Units {
+public class Soldier extends Unit {
 
     /**
      * TODO

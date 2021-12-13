@@ -16,10 +16,11 @@ import java.util.EnumSet;
  * TODO
  */
 public class RealPlayer extends ICWarsPlayer {
-    /// Animation duration in frame number
 
     /**
      * TODO
+     * <p>
+     * Animation duration in frame number
      */
     private final static int MOVE_DURATION = 6;
 
@@ -36,7 +37,7 @@ public class RealPlayer extends ICWarsPlayer {
      * @param faction
      * @param units
      */
-    public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
+    public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
         this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
     }
@@ -48,7 +49,7 @@ public class RealPlayer extends ICWarsPlayer {
      */
     private String getName() {
         if (this.faction == Faction.ALLY) return "icwars/allyCursor";
-        else return "icwars//enemyCursor";
+        else return "icwars/enemyCursor";
     }
 
     /**
@@ -168,7 +169,7 @@ public class RealPlayer extends ICWarsPlayer {
          * @param unit
          */
         @Override
-        public void interactWith(Units unit) {
+        public void interactWith(Unit unit) {
             if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
                 player.selectUnit(unit);
         }

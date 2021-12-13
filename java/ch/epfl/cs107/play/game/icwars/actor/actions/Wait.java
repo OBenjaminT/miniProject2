@@ -2,7 +2,7 @@ package ch.epfl.cs107.play.game.icwars.actor.actions;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.Units;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
@@ -16,7 +16,7 @@ public class Wait extends Action {
      * @param unit
      * @param area
      */
-    public Wait(Units unit, Area area) {
+    public Wait(Unit unit, Area area) {
         super(unit, area, "(W)ait", Keyboard.W);
     }
 

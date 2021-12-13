@@ -25,7 +25,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     /**
      * TODO
      */
-    protected ArrayList<Units> units = new ArrayList<>();
+    protected ArrayList<Unit> units = new ArrayList<>();
 
     /**
      * TODO
@@ -35,7 +35,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     /**
      * TODO
      */
-    protected Units SelectedUnit;
+    protected Unit SelectedUnit;
 
     /**
      * TODO
@@ -55,7 +55,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @param faction
      * @param units
      */
-    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Units... units) {
+    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
@@ -107,7 +107,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
         units.stream()
-            .filter(Units::isDead)
+            .filter(Unit::isDead)
             .forEach(unit -> {
                 units.remove(unit);
                 unit.leaveArea();
@@ -256,7 +256,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      *             SelectedUnit parameter is associated to the proper Unit
      *             SelectedUnit is also transmitter to the playerGUI with the setter
      */
-    public void selectUnit(Units unit) {
+    public void selectUnit(Unit unit) {
         SelectedUnit = unit;
         playerGUI.setPlayerSelectedUnit(this.SelectedUnit);
     }
@@ -267,10 +267,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * if a unit `UNIT` has the same position as the player, and he hasn't already been moved, we call SelectedUnit(UNIT)
      * else SelectedUnit is set to null
      */
-    public Units selectUnit() {
+    public Unit selectUnit() {
         units.stream() // for all units
             .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
-            .filter(Units::hasNotAlreadyMoved) // and haven't already moved
+            .filter(Unit::hasNotAlreadyMoved) // and haven't already moved
             .findFirst() // find the first one
             .ifPresentOrElse( // if there is one that fits the criteria
                 this::selectUnit, // select it
@@ -379,7 +379,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * than the sprite of other  units
      */
     private void drawOpacityOfUnits() {
-        this.units.forEach(unit -> unit.sprite.setAlpha(unit.isAlreadyMoved ? 0.1f : 1.0f));
+        this.units.forEach(unit -> unit.sprite.setAlpha(unit.hasAlreadyMoved ? 0.1f : 1.0f));
     }
 
     /**
