@@ -36,7 +36,6 @@ public final class XMLTexts {
      *                     - assume the file is a XML one
      */
     public static void initialize(FileSystem fileSystem, String textFileName) {
-
         try {
             InputStream input = fileSystem.read(textFileName);
 

@@ -39,10 +39,9 @@ public class FolderFileSystem implements FileSystem {
         // File constructor on the given child pathname string.
         File file = new File(folder, name);
         System.out.println(file.getAbsolutePath());
-        if (file.canRead()) {
-            return new FileInputStream(file);
-        }
-        return fallback.read(name);
+        return file.canRead()
+            ? new FileInputStream(file)
+            : fallback.read(name);
     }
 
     @Override

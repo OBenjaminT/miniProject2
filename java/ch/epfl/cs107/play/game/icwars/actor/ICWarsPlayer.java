@@ -81,7 +81,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                     EnterWasReleased = false;
                     yield States.IDLE;
                 } else yield !EnterWasReleased
-                    ? keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState
+                    ? (keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState)
                     : playerCurrentState;
             }
             case SELECT_CELL -> {
