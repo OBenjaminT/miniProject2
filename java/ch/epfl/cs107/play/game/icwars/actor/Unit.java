@@ -131,8 +131,8 @@ abstract public class Unit extends ICWarsActor {
         super(area, position, faction);
         this.repair = repair;
         this.radius = radius;
+        this.maxHP = maxHP; // maxHP *must* be set before current_HP
         this.setHp(current_HP);
-        this.maxHP = maxHP;
         this.damage = damage;
         this.range = new ICWarsRange();
         completeUnitsRange();
