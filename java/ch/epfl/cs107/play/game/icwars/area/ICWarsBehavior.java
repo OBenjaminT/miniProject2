@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
@@ -152,19 +151,6 @@ public class ICWarsBehavior extends AreaBehavior {
          */
         public ICWarsCellType getType() {
             return this.type; // ROAD, NONE...
-        }
-
-        /**
-         * TODO
-         *
-         * @return the unit on the cell
-         */
-        public Unit getUnit() {
-            return (Unit) entities
-                .stream()
-                .filter(entity -> entity instanceof Unit)
-                .findFirst()
-                .orElse(null);
         }
 
         /**
