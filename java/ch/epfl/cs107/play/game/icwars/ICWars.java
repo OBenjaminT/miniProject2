@@ -103,24 +103,26 @@ public class ICWars extends AreaGame {
      */
     private void initArea(ICWarsArea area) {
         this.resetPlayers();
-        var coordinates = area.getAllyCenter();
 
         Arrays.stream(new ICWarsPlayer[]{
             new RealPlayer(
                 area,
-                coordinates,
+                area.getFactionCenter(ICWarsActor.Faction.ALLY),
                 ICWarsActor.Faction.ALLY,
                 area.factionUnits(ICWarsActor.Faction.ALLY).toArray(new Unit[0])
             ),
             new RealPlayer(
                 area,
-                coordinates,
+                area.getFactionCenter(ICWarsActor.Faction.ENEMY),
                 ICWarsActor.Faction.ENEMY,
                 area.factionUnits(ICWarsActor.Faction.ENEMY).toArray(new Unit[0])
             ),
         }).forEach(player -> {
             players.add(player);
-            player.enterArea(area, coordinates); // change to get center
+            player.enterArea(
+                area,
+                area.getFactionCenter(player.faction)
+            ); // change to get center
         });
         gameState = States.INIT;
     }
@@ -223,8 +225,9 @@ public class ICWars extends AreaGame {
     private void nextLevel() {
         if (this.nextArea()) {
             initArea();
-            players.get(0).enterArea(currentArea, ((ICWarsArea) currentArea).getAllyCenter());
-            players.get(0).centerCamera();
+            var player = players.get(0);
+            player.enterArea(currentArea, ((ICWarsArea) currentArea).getFactionCenter(player.faction));
+            player.centerCamera();
             this.gameState = States.INIT;
         }
     }
