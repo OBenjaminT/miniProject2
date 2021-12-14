@@ -31,7 +31,6 @@ public class RealPlayer extends ICWarsPlayer {
      */
     private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
     private Action ActionToExecute;
-
     /**
      * TODO
      *
@@ -184,6 +183,7 @@ public class RealPlayer extends ICWarsPlayer {
         public void interactWith(Unit unit) {
             if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
                 player.selectUnit(unit);
+            player.playerGUI.setUnitOnCell(unit);
         }
 
         /**
@@ -195,7 +195,6 @@ public class RealPlayer extends ICWarsPlayer {
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             player.playerGUI.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
             player.playerGUI.setTypeOfCurrentCell(icWarsCell.getType());
-            player.playerGUI.setUnitOnCell(icWarsCell.getUnit());
         }
     }
 }
