@@ -30,7 +30,12 @@ public class RealPlayer extends ICWarsPlayer {
      * TODO
      */
     private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
+
+    /**
+     * TODO
+     */
     private Action ActionToExecute;
+
     /**
      * TODO
      *
