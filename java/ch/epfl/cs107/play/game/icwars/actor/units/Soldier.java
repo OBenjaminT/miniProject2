@@ -16,19 +16,23 @@ public class Soldier extends Unit {
     /**
      * TODO
      */
-    static int SoldierMaxHP = 10;
-
-    /**
-     * TODO
-     */
-    static int SoldierRadius = 2;
-
-    /**
-     * TODO
-     */
-    static int SoldierDamage = 7;
     final Wait SoldierWait;
+
+    /**
+     * TODO
+     */
     final Attack SoldierAttack;
+
+    /**
+     * TODO
+     *
+     * @param area     the area in which the unit is
+     * @param position position of the unit in the area
+     * @param faction  faction to which the units belong (eiter ALLY or ENEMY
+     */
+    public Soldier(Area area, DiscreteCoordinates position, Faction faction) {
+        this(area, position, faction, 5, 10);
+    }
 
     /**
      * TODO
@@ -41,9 +45,15 @@ public class Soldier extends Unit {
      *                 the sprite of the soldier is also initiated
      */
     public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
-        super(area, position, faction, repair, SoldierRadius, hp, SoldierMaxHP);
-        this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new
-            Vector(-0.25f, -0.25f));
+        super(area, position, faction, repair, 2, hp, 10, 7);
+        this.sprite = new Sprite(
+            this.getName(),
+            1.5f,
+            1.5f,
+            this,
+            null,
+            new Vector(-0.25f, -0.25f)
+        );
         this.actions = new ArrayList<>();
         this.SoldierWait = new Wait(this, this.getOwnerArea());
         this.actions.add(SoldierWait);
@@ -54,21 +64,11 @@ public class Soldier extends Unit {
     /**
      * TODO
      *
-     * @param v (AreaInteractionVisitor) : the visitor
+     * @param areaInteractionVisitor (AreaInteractionVisitor) : the visitor
      */
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
+    public void acceptInteraction(AreaInteractionVisitor areaInteractionVisitor) {
         //TODO define this
-    }
-
-    /**
-     * TODO
-     *
-     * @return
-     */
-    @Override
-    protected int getDamage() {
-        return SoldierDamage;
     }
 
     /**

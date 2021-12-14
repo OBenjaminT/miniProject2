@@ -16,30 +16,27 @@ import java.util.ArrayList;
  */
 public class Tank extends Unit {
 
-    /**
-     * TODO
-     */
-    static int TankMaxHP = 10;
 
     /**
      * TODO
      */
-    static int TankRadius = 4;
+    final Wait wait;
 
     /**
      * TODO
      */
-    static int TankDamage = 7;
+    final Attack attack;
 
     /**
      * TODO
+     *  @param area     the area in which the unit is
+     *
+     * @param position position of the unit in the area
+     * @param faction  faction to which the units belong (eiter ALLY or ENEMY
      */
-    final Wait TankWait;
-
-    /**
-     * TODO
-     */
-    final Attack TankAttack;
+    public Tank(Area area, DiscreteCoordinates position, Faction faction) {
+        this(area, position, faction, 5, 10);
+    }
 
     /**
      * TODO
@@ -52,7 +49,7 @@ public class Tank extends Unit {
      *                 the sprite of the tank is also initiated
      */
     public Tank(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
-        super(area, position, faction, repair, TankRadius, hp, TankMaxHP);
+        super(area, position, faction, repair, 4, hp, 10, 7);
         this.sprite = new Sprite(
             this.getName(),
             1.5f,
@@ -62,30 +59,20 @@ public class Tank extends Unit {
             new Vector(-0.25f, -0.25f)
         );
         this.actions = new ArrayList<>();
-        this.TankWait = new Wait(this, this.getOwnerArea());
-        this.actions.add(TankWait);
-        this.TankAttack = new Attack(this, this.getOwnerArea());
-        this.actions.add(TankAttack);
+        this.wait = new Wait(this, this.getOwnerArea());
+        this.actions.add(wait);
+        this.attack = new Attack(this, this.getOwnerArea());
+        this.actions.add(attack);
     }
 
     /**
      * TODO
      *
-     * @param v (AreaInteractionVisitor) : the visitor
+     * @param areaInteractionVisitor (AreaInteractionVisitor) : the visitor
      */
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
+    public void acceptInteraction(AreaInteractionVisitor areaInteractionVisitor) {
         //TODO define this
-    }
-
-    /**
-     * TODO
-     *
-     * @return
-     */
-    @Override
-    protected int getDamage() {
-        return TankDamage;
     }
 
     /**
@@ -97,6 +84,5 @@ public class Tank extends Unit {
     protected String getName() {
         if (this.faction.equals(Faction.ALLY)) return "icwars/friendlyTank";
         else return "icwars/enemyTank";
-
     }
 }

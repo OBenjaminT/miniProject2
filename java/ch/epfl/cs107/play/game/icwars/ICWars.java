@@ -125,8 +125,8 @@ public class ICWars extends AreaGame {
      * @return
      */
     private ICWarsPlayer createPlayerTeam(ICWarsArea area, DiscreteCoordinates coordinates) {
-        Tank enemyTank = new Tank(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
-        Soldier enemySoldier = new Soldier(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY, 5, 10);
+        Tank enemyTank = new Tank(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY);
+        Soldier enemySoldier = new Soldier(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY);
         return new RealPlayer(area, coordinates, ICWarsActor.Faction.ENEMY, enemyTank, enemySoldier);
     }
 
@@ -138,8 +138,8 @@ public class ICWars extends AreaGame {
      * @return
      */
     private ICWarsPlayer createAITeam(ICWarsArea area, DiscreteCoordinates coordinates) {
-        Tank allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
-        Soldier allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY, 5, 10);
+        Tank allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY);
+        Soldier allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY);
         return new RealPlayer(area, coordinates, ICWarsActor.Faction.ALLY, allyTank, allySoldier);
     }
 
