@@ -4,7 +4,6 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
-import ch.epfl.cs107.play.game.icwars.actor.actions.Actable;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -32,7 +31,6 @@ public class RealPlayer extends ICWarsPlayer {
      */
     private final ICWarsPlayerInteractionHandler handler = new ICWarsPlayerInteractionHandler(this);
     private Action ActionToExecute;
-
     /**
      * TODO
      *
@@ -185,13 +183,13 @@ public class RealPlayer extends ICWarsPlayer {
         public void interactWith(Unit unit) {
             if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
                 player.selectUnit(unit);
+            player.playerGUI.setUnitOnCell(unit);
         }
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
 
             player.playerGUI.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
             player.playerGUI.setTypeOfCurrentCell(icWarsCell.getType());
-            player.playerGUI.setUnitOnCell(icWarsCell.getUnit());
         }
     }
 }
