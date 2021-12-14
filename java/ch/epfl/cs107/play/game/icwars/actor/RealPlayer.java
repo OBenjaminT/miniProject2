@@ -4,7 +4,6 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
-import ch.epfl.cs107.play.game.icwars.actor.actions.Actable;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -106,13 +105,13 @@ public class RealPlayer extends ICWarsPlayer {
                 } else yield playerCurrentState;
             }
             case ACTION_SELECTED -> {
-                for(Action action: this.SelectedUnit.getAvailableActions()){
-                    if(keyboard.get(action.getKey()).isReleased()) {
+                for (Action action : this.SelectedUnit.getAvailableActions()) {
+                    if (keyboard.get(action.getKey()).isReleased()) {
                         this.ActionToExecute = action;
-                        yield(States.ACTION);
+                        yield (States.ACTION);
                     }
                 }
-                    yield playerCurrentState;
+                yield playerCurrentState;
             }
             case ACTION -> {
                 ActionToExecute.doAction(deltaTime, this, keyboard);
@@ -186,9 +185,14 @@ public class RealPlayer extends ICWarsPlayer {
             if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
                 player.selectUnit(unit);
         }
+
+        /**
+         * TODO
+         *
+         * @param icWarsCell
+         */
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
-
             player.playerGUI.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
             player.playerGUI.setTypeOfCurrentCell(icWarsCell.getType());
             player.playerGUI.setUnitOnCell(icWarsCell.getUnit());

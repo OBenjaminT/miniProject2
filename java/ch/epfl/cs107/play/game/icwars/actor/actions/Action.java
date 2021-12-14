@@ -28,10 +28,6 @@ abstract public class Action implements Actable {
      */
     protected final int key;
 
-    public int getKey(){
-        return this.key;
-    }
-
     /**
      * TODO
      *
@@ -45,5 +41,9 @@ abstract public class Action implements Actable {
         this.area = area;
         this.name = name;
         this.key = key;
+    }
+
+    public int getKey() {
+        return this.key;
     }
 }
