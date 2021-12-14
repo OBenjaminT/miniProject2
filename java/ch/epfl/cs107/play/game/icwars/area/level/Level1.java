@@ -1,39 +1,36 @@
 package ch.epfl.cs107.play.game.icwars.area.level;
 
 import ch.epfl.cs107.play.game.areagame.actor.Background;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.units.Soldier;
+import ch.epfl.cs107.play.game.icwars.actor.units.Tank;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TODO
  */
 public class Level1 extends ICWarsArea {
-
-    /**
-     * TODO
-     */
-    public final SpawnPoints allyFactionSpawnPoints;
-
-    /**
-     * TODO
-     */
-    public final SpawnPoints enemyFactionSpawnPoints;
-
     /**
      * TODO
      */
     public Level1() {
-        var levelAllySpawnPoints = new ArrayList<DiscreteCoordinates>();
-        levelAllySpawnPoints.add(new DiscreteCoordinates(2, 5));
-        levelAllySpawnPoints.add(new DiscreteCoordinates(3, 5));
-        this.allyFactionSpawnPoints = new SpawnPoints(levelAllySpawnPoints);
-
-        var levelEnemySpawnPoints = new ArrayList<DiscreteCoordinates>();
-        levelEnemySpawnPoints.add(new DiscreteCoordinates(3, 8));
-        levelEnemySpawnPoints.add(new DiscreteCoordinates(9, 5));
-        this.enemyFactionSpawnPoints = new SpawnPoints(levelEnemySpawnPoints);
+        super(
+            new SpawnPoints(Arrays.stream(new DiscreteCoordinates[]{
+                new DiscreteCoordinates(2, 5),
+                new DiscreteCoordinates(3, 5),
+            }).collect(Collectors.toList())),
+            new SpawnPoints(Arrays.stream(new DiscreteCoordinates[]{
+                new DiscreteCoordinates(3, 8),
+                new DiscreteCoordinates(9, 5),
+            }).collect(Collectors.toList()))
+        );
     }
 
     /**
@@ -55,6 +52,35 @@ public class Level1 extends ICWarsArea {
     }
 
 
+    public List<Unit> factionUnits(ICWarsActor.Faction faction) {
+        return switch (faction) {
+            case ENEMY -> new ArrayList<>(List.of(new Unit[]{
+                new Tank(
+                    this,
+                    this.getFreeAllySpawnPosition().orElse(new DiscreteCoordinates(0, 0)),
+                    ICWarsActor.Faction.ALLY
+                ),
+                new Soldier(
+                    this,
+                    this.getFreeAllySpawnPosition().orElse(new DiscreteCoordinates(0, 0)),
+                    ICWarsActor.Faction.ALLY
+                )})
+            );
+            case ALLY -> new ArrayList<>(List.of(new Unit[]{
+                new Tank(
+                    this,
+                    this.getFreeEnemySpawnPosition().orElse(new DiscreteCoordinates(0, 0)),
+                    ICWarsActor.Faction.ENEMY
+                ),
+                new Soldier(
+                    this,
+                    this.getFreeEnemySpawnPosition().orElse(new DiscreteCoordinates(0, 0)),
+                    ICWarsActor.Faction.ENEMY
+                )})
+            );
+        };
+    }
+
     /**
      * TODO
      *
@@ -73,24 +99,5 @@ public class Level1 extends ICWarsArea {
     @Override
     public DiscreteCoordinates getEnemyCenter() {
         return new DiscreteCoordinates(7, 4);
-    }
-
-    /**
-     * TODO
-     *
-     * @return
-     */
-    @Override
-    public DiscreteCoordinates getFreeAllySpawnPosition() {
-        return allyFactionSpawnPoints.getFreeSpawnPosition();
-    }
-
-    /**
-     * TODO
-     *
-     * @return
-     */
-    public DiscreteCoordinates getFreeEnemySpawnPosition() {
-        return enemyFactionSpawnPoints.getFreeSpawnPosition();
     }
 }

@@ -109,8 +109,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         units.stream()
             .filter(Unit::isDead)
             .forEach(unit -> {
-                units.remove(unit);
                 unit.leaveArea();
+                units.remove(unit);
             });
         drawOpacityOfUnits();
         var keyboard = this.getOwnerArea().getKeyboard();

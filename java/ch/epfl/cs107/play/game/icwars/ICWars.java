@@ -4,13 +4,11 @@ import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.units.Soldier;
-import ch.epfl.cs107.play.game.icwars.actor.units.Tank;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
@@ -108,39 +106,23 @@ public class ICWars extends AreaGame {
         var coordinates = area.getAllyCenter();
 
         Arrays.stream(new ICWarsPlayer[]{
-            createAITeam(area, coordinates),
-            createPlayerTeam(area, coordinates),
+            new RealPlayer(
+                area,
+                coordinates,
+                ICWarsActor.Faction.ALLY,
+                area.factionUnits(ICWarsActor.Faction.ALLY).toArray(new Unit[0])
+            ),
+            new RealPlayer(
+                area,
+                coordinates,
+                ICWarsActor.Faction.ENEMY,
+                area.factionUnits(ICWarsActor.Faction.ENEMY).toArray(new Unit[0])
+            ),
         }).forEach(player -> {
             players.add(player);
             player.enterArea(area, coordinates); // change to get center
         });
         gameState = States.INIT;
-    }
-
-    /**
-     * TODO
-     *
-     * @param area
-     * @param coordinates
-     * @return
-     */
-    private ICWarsPlayer createPlayerTeam(ICWarsArea area, DiscreteCoordinates coordinates) {
-        Tank enemyTank = new Tank(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY);
-        Soldier enemySoldier = new Soldier(area, area.getFreeEnemySpawnPosition(), ICWarsActor.Faction.ENEMY);
-        return new RealPlayer(area, coordinates, ICWarsActor.Faction.ENEMY, enemyTank, enemySoldier);
-    }
-
-    /**
-     * TODO
-     *
-     * @param area
-     * @param coordinates
-     * @return
-     */
-    private ICWarsPlayer createAITeam(ICWarsArea area, DiscreteCoordinates coordinates) {
-        Tank allyTank = new Tank(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY);
-        Soldier allySoldier = new Soldier(area, area.getFreeAllySpawnPosition(), ICWarsActor.Faction.ALLY);
-        return new RealPlayer(area, coordinates, ICWarsActor.Faction.ALLY, allyTank, allySoldier);
     }
 
     /**

@@ -1,6 +1,8 @@
 package ch.epfl.cs107.play.game.icwars.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -16,12 +18,22 @@ import java.util.Optional;
 public abstract class ICWarsArea extends Area {
     /**
      * TODO
+     */
+    public SpawnPoints allyFactionSpawnPoints;
+
+    /**
+     * TODO
      * <p>
      * Create the area by adding it all actors
      * called by begin method
      * Note it set the Behavior as needed !
      */
     protected abstract void createArea();
+
+    /**
+     * TODO
+     */
+    public SpawnPoints enemyFactionSpawnPoints;
 
     /**
      * TODO
@@ -37,12 +49,21 @@ public abstract class ICWarsArea extends Area {
      */
     public abstract DiscreteCoordinates getEnemyCenter();
 
+    public ICWarsArea(SpawnPoints allyFactionSpawnPoints, SpawnPoints enemyFactionSpawnPoints) {
+        this.allyFactionSpawnPoints = allyFactionSpawnPoints;
+        this.enemyFactionSpawnPoints = enemyFactionSpawnPoints;
+    }
+
+    public abstract List<Unit> factionUnits(ICWarsActor.Faction faction);
+
     /**
      * TODO
      * <p>
      * Get a free coordinate that the ally can spawn a unit in
      */
-    public abstract DiscreteCoordinates getFreeAllySpawnPosition();
+    public Optional<DiscreteCoordinates> getFreeEnemySpawnPosition() {
+        return enemyFactionSpawnPoints.getFreeSpawnPosition();
+    }
 
     /**
      * TODO
@@ -78,7 +99,9 @@ public abstract class ICWarsArea extends Area {
      *
      * @return
      */
-    public abstract DiscreteCoordinates getFreeEnemySpawnPosition();
+    public Optional<DiscreteCoordinates> getFreeAllySpawnPosition() {
+        return allyFactionSpawnPoints.getFreeSpawnPosition();
+    }
 
     //public abstract DiscreteCoordinates getPlayerSpawnPosition();
 
@@ -117,19 +140,16 @@ public abstract class ICWarsArea extends Area {
          * Then sets its availability to false.
          * Then returns it.
          */
-        public DiscreteCoordinates getFreeSpawnPosition() {
+        public Optional<DiscreteCoordinates> getFreeSpawnPosition() {
             // get the first coordinate, with a bunch of null checking in case there are none left
-            var firstCoordinate = spawnPoints.entrySet().stream()
-                .map(Optional::ofNullable)
-                .filter(Optional::isPresent)
-                .filter(t -> t.get().getValue())
-                .findFirst()
-                .orElseGet(Optional::empty)
-                .orElse(null);
-            if (firstCoordinate == null) return null;
-            var ret = firstCoordinate.getKey();
-            spawnPoints.put(ret, false); // update taken coordinate to unavailable
-            return ret;
+            var firstCoordinate = spawnPoints.entrySet().stream() // go through all spawnPoints
+                .filter(Map.Entry::getValue) // only keep those that are available
+                .findFirst();
+            if (firstCoordinate.isPresent()) { // if there is an available coordinate
+                var ret = firstCoordinate.get().getKey();
+                spawnPoints.put(ret, false); // update taken coordinate to unavailable
+                return Optional.of(ret);
+            } else return Optional.empty();
         }
     }
 
