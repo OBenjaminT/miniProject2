@@ -7,8 +7,8 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -63,7 +63,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     /**
      * TODO
      */
-    private LinkedHashMap<String, Area> areas;
+    private ArrayList<Area> areas;
 
     /// pause mechanics and menu to display. May be null
 
@@ -99,14 +99,14 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @param a (Area): The area to add, not null
      */
     protected final void addArea(Area a) {
-        areas.put(a.getTitle(), a);
+        areas.add(a);
     }
 
     /**
      * TODO
      */
     protected final void resetAreas() {
-        areas = new LinkedHashMap<>();
+        areas = new ArrayList<>();
     }
 
     /**
@@ -115,18 +115,18 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @return
      */
     protected boolean nextArea() {
-        int index = areas.values().stream().toList().indexOf(currentArea);
+        int index = areas.indexOf(currentArea);
         if (index >= 0) {
             players.forEach(ICWarsPlayer::leaveArea);
             if (index < areas.size() - 1) {
-                setCurrentArea(areas.get(areas.keySet().stream().toList().get(index + 1)), true);
+                setCurrentArea(areas.get(index + 1), true);
                 return true;
             } else {
                 System.out.println("Game over");
                 return false;
             }
         } else {
-            setCurrentArea(areas.get(areas.keySet().stream().toList().get(0)), true);
+            setCurrentArea(areas.get(0), true);
             return true;
         }
     }
@@ -136,25 +136,13 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      *
      * @param area
      * @param forceBegin
-     * @return
      */
-    protected final Area setCurrentArea(Area area, boolean forceBegin) {
-        return setCurrentArea(area.getTitle(), forceBegin);
-    }
-
-    /**
-     * TODO
-     * <p>
-     * Setter for the current area: Select an Area in the list from its key
-     * - the area is then begin or resume depending on if the area is already started or not and if it is forced
-     *
-     * @param key        (String): Key of the Area to select, not null
-     * @param forceBegin (boolean): force the key area to call begin even if it was already started
-     * @return (Area): after setting it, return the new current area
-     */
-    protected final Area setCurrentArea(String key, boolean forceBegin) {
-        try (Area newArea = areas.get(key)) {
-            if (newArea == null) {
+    protected final void setCurrentArea(Area area, boolean forceBegin) {
+        var newArea = areas.stream()
+            .filter(a -> Objects.equals(a.getTitle(), area.getTitle()))
+            .findFirst();
+        try {
+            if (newArea.isEmpty()) {
                 System.out.println("New Area not found, keep previous one");
             } else {
                 // Stop previous area if it exists
@@ -163,16 +151,16 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
                     currentArea.purgeRegistration(); // Is useful?
                 }
 
-                currentArea = newArea;
+                currentArea = newArea.get();
 
                 // Start/Resume the new one
                 if (forceBegin || !currentArea.isStarted())
                     currentArea.begin(window, fileSystem);
                 else currentArea.resume(window, fileSystem);
             }
+        } finally {
+            newArea.ifPresent(Area::close);
         }
-
-        return currentArea;
     }
 
     /**
@@ -235,7 +223,7 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         this.window = window;
         this.fileSystem = fileSystem;
 
-        areas = new LinkedHashMap<>();
+        areas = new ArrayList<>();
         players = new ArrayList<>();
         paused = false;
         return true;

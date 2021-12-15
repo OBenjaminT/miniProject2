@@ -71,20 +71,6 @@ public class ICWars extends AreaGame {
 
     /**
      * TODO
-     * <p>
-     * Calls {@link #setCurrentArea setCurrentArea} with {@code areaKey} and then calls
-     * {@link #initArea(ICWarsArea) initArea} on the result.
-     *
-     * @param areaKey A string identifying the area to initialise e.g. {@code "icwars/Level0"}
-     */
-    private void initArea(String areaKey) {
-        try (var area = (ICWarsArea) setCurrentArea(areaKey, true)) {
-            initArea(area);
-        }
-    }
-
-    /**
-     * TODO
      *
      * <p> Initialise an area by: </p>
      *
