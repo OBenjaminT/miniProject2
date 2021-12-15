@@ -43,8 +43,20 @@ abstract public class Action implements Actable {
         this.key = key;
     }
 
-    public int getKey() {return this.key;}
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public int getKey() {
+        return this.key;
+    }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public String getName() {
         return this.name;
     }

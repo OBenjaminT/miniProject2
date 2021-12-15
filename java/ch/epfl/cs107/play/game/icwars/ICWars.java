@@ -51,8 +51,8 @@ public class ICWars extends AreaGame {
         // set teh keyboard
         // initialise the first area
         if (super.begin(window, fileSystem)) {
-            // Levels
             this.resetAreas();
+            // Levels
             Arrays.stream(new ICWarsArea[]{
                 new Level0(),
                 new Level1(),

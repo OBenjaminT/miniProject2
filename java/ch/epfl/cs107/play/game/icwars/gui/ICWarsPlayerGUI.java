@@ -15,7 +15,11 @@ import java.util.List;
  */
 public class ICWarsPlayerGUI implements Graphics {
 
+    /**
+     * TODO
+     */
     static final float FONT_SIZE = 20.f;
+
     /**
      * TODO
      */
@@ -55,6 +59,12 @@ public class ICWarsPlayerGUI implements Graphics {
 
     private ICWarsActionsPanel actionsPanel;
 
+    /**
+     * TODO
+     *
+     * @param cameraScaleFactor
+     * @param player
+     */
     public ICWarsPlayerGUI(float cameraScaleFactor, ICWarsPlayer player) {
         this.player = player;
         this.cameraScaleFactor = cameraScaleFactor;
@@ -113,7 +123,13 @@ public class ICWarsPlayerGUI implements Graphics {
         }
     }
 
-    public void drawActionsPanel(List<Action> actions, Canvas canvas){
+    /**
+     * TODO
+     *
+     * @param actions
+     * @param canvas
+     */
+    public void drawActionsPanel(List<Action> actions, Canvas canvas) {
         this.actionsPanel.setActions(actions);
         this.actionsPanel.draw(canvas);
     }

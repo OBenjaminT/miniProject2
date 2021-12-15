@@ -67,14 +67,13 @@ public class Attack extends Action {
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         var IndexOfAttackableEnemies = unit.getIndexOfAttackableEnemies();
-        if(IndexOfAttackableEnemies.isEmpty()  || keyboard.get(Keyboard.TAB).isReleased()){
+        if (IndexOfAttackableEnemies.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()) {
             player.canSelectActionAgain();
-        }
-        else {
+        } else {
             if (keyboard.get(Keyboard.LEFT).isReleased()) {
-                indexOfUnitToAttack = indexOfUnitToAttack == 0
-                        ? IndexOfAttackableEnemies.size() - 1
-                        : indexOfUnitToAttack - 1;
+                indexOfUnitToAttack = (indexOfUnitToAttack == 0)
+                    ? IndexOfAttackableEnemies.size() - 1
+                    : indexOfUnitToAttack - 1;
             } else if (keyboard.get(Keyboard.RIGHT).isReleased()) {
                 indexOfUnitToAttack = (indexOfUnitToAttack + 1) % IndexOfAttackableEnemies.size();
             } else if (keyboard.get(Keyboard.ENTER).isReleased()) {

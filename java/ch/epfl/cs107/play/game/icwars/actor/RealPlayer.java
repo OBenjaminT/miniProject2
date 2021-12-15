@@ -102,12 +102,11 @@ public class RealPlayer extends ICWarsPlayer {
             case MOVE_UNIT -> {
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     var pos = this.getPosition();
-                    if(this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y))) {
+                    if (this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y))) {
                         SelectedUnit.setIsAlreadyMoved(true);
                         EnterWasReleased = true;
                         yield States.ACTION_SELECTION;
-                    }
-                    else yield States.NORMAL;
+                    } else yield States.NORMAL;
                 } else yield playerCurrentState;
             }
             case ACTION_SELECTION -> {

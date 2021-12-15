@@ -92,10 +92,12 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void draw(Canvas canvas) {
         if (this.playerCurrentState != States.IDLE) {
             this.sprite.draw(canvas);
-            if (playerCurrentState.equals(States.MOVE_UNIT))
-                playerGUI.draw(canvas);
-            if(playerCurrentState==States.ACTION_SELECTION)
-                playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
+            switch (playerCurrentState) {
+                case MOVE_UNIT -> playerGUI.draw(canvas);
+                case ACTION_SELECTION -> playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
+                default -> {
+                }
+            }
         }
     }
 
@@ -178,11 +180,12 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
      * is called when the player couldn't attack an ennemy (he has another chance to do sth)
      */
-    public void canSelectActionAgain(){
+    public void canSelectActionAgain() {
         this.getOwnerArea().setViewCandidate(this);
-        this.playerCurrentState=States.ACTION_SELECTION ;
+        this.playerCurrentState = States.ACTION_SELECTION;
     }
 
     /**
