@@ -21,17 +21,12 @@ import java.util.stream.Collectors;
 public class ICWars extends AreaGame {
 
     /**
-     * TODO
-     */
-    private final String[] areas = {"icwars/Level0", "icwars/Level1"};
-
-    /**
-     * TODO
+     * The {@link States States} that the {@link ICWars} game is currently in.
      */
     States gameState;
 
     /**
-     * TODO
+     * The {@link Keyboard} used to interact with the {@link ICWars} game.
      */
     private Keyboard keyboard;
 
@@ -59,7 +54,8 @@ public class ICWars extends AreaGame {
             }).forEach(this::addArea);
 
             keyboard = window.getKeyboard();
-            initArea(areas[0]);
+            nextLevel(); // starts the first level because no current level is selected
+            initArea();
             return true;
         } else return false;
     }
@@ -203,7 +199,6 @@ public class ICWars extends AreaGame {
             }
             case END -> {
                 this.nextLevel();
-                initArea();
                 yield gameState;
             }
         };
@@ -225,9 +220,6 @@ public class ICWars extends AreaGame {
     private void nextLevel() {
         if (this.nextArea()) {
             initArea();
-            var player = players.get(0);
-            player.enterArea(currentArea, ((ICWarsArea) currentArea).getFactionCenter(player.faction));
-            player.centerCamera();
             this.gameState = States.INIT;
         }
     }
@@ -254,7 +246,7 @@ public class ICWars extends AreaGame {
      * <p>
      * states that an `ICWars` can be in
      */
-    public enum States {
+    private enum States {
         /**
          * TODO
          */

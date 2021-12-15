@@ -116,13 +116,18 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      */
     protected boolean nextArea() {
         int index = areas.values().stream().toList().indexOf(currentArea);
-        players.forEach(ICWarsPlayer::leaveArea);
-        if (index < areas.size() - 1) {
-            setCurrentArea(areas.get(areas.keySet().stream().toList().get(index + 1)), true);
-            return true;
+        if (index >= 0) {
+            players.forEach(ICWarsPlayer::leaveArea);
+            if (index < areas.size() - 1) {
+                setCurrentArea(areas.get(areas.keySet().stream().toList().get(index + 1)), true);
+                return true;
+            } else {
+                System.out.println("Game over");
+                return false;
+            }
         } else {
-            System.out.println("Game over");
-            return false;
+            setCurrentArea(areas.get(areas.keySet().stream().toList().get(0)), true);
+            return true;
         }
     }
 

@@ -602,6 +602,6 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     public void attack(int indexOfUnitToAttack, int damage, int numberOfStars) {
         getUnits().get(indexOfUnitToAttack)
-            .receivesDamage(damage - numberOfStars);
+            .takeDamage(damage - numberOfStars);
     }
 }
