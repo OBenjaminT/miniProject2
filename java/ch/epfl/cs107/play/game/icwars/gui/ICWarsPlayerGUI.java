@@ -3,15 +3,19 @@ package ch.epfl.cs107.play.game.icwars.gui;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
+
+import java.util.List;
 
 /**
  * TODO
  */
 public class ICWarsPlayerGUI implements Graphics {
 
+    static final float FONT_SIZE = 20.f;
     /**
      * TODO
      */
@@ -48,9 +52,13 @@ public class ICWarsPlayerGUI implements Graphics {
      * @param cameraScaleFactor
      * @param player
      */
+
+    private ICWarsActionsPanel actionsPanel;
+
     public ICWarsPlayerGUI(float cameraScaleFactor, ICWarsPlayer player) {
         this.player = player;
         this.cameraScaleFactor = cameraScaleFactor;
+        actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
     }
 
     /**
@@ -103,5 +111,10 @@ public class ICWarsPlayerGUI implements Graphics {
                     canvas
                 );
         }
+    }
+
+    public void drawActionsPanel(List<Action> actions, Canvas canvas){
+        this.actionsPanel.setActions(actions);
+        this.actionsPanel.draw(canvas);
     }
 }
