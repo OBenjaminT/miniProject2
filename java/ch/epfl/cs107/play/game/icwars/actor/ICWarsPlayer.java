@@ -94,6 +94,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             this.sprite.draw(canvas);
             if (playerCurrentState.equals(States.MOVE_UNIT))
                 playerGUI.draw(canvas);
+            if(playerCurrentState==States.ACTION_SELECTION)
+                playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
         }
     }
 
@@ -173,6 +175,14 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void leaveArea() {
         units.forEach(ICWarsActor::leaveArea);
         super.leaveArea();
+    }
+
+    /**
+     * is called when the player couldn't attack an ennemy (he has another chance to do sth)
+     */
+    public void canSelectActionAgain(){
+        this.getOwnerArea().setViewCandidate(this);
+        this.playerCurrentState=States.ACTION_SELECTION ;
     }
 
     /**
@@ -317,7 +327,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
         super.onLeaving(coordinates);
         this.playerCurrentState = switch (this.playerCurrentState) {
-            case IDLE, ACTION, ACTION_SELECTED, MOVE_UNIT, NORMAL -> this.playerCurrentState;
+            case IDLE, ACTION, ACTION_SELECTION, MOVE_UNIT, NORMAL -> this.playerCurrentState;
             case SELECT_CELL -> States.NORMAL;
         };
     }
@@ -411,7 +421,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         /**
          * TODO
          */
-        ACTION_SELECTED,
+        ACTION_SELECTION,
 
         /**
          * TODO
