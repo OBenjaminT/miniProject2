@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -14,27 +15,35 @@ import java.util.List;
  */
 public abstract class ICWarsArea extends Area {
     /**
-     * TODO
+     * Create the area by adding it all actors. Called by {@link #begin(Window, FileSystem)}.
      * <p>
-     * Create the area by adding it all actors
-     * called by begin method
-     * Note it set the Behavior as needed !
+     * Note: call {@link #setBehavior(AreaBehavior)} as needed too!
      */
     protected abstract void createArea();
 
     /**
-     * TODO
+     * Get the center coordinate of the {@link ICWarsArea} for the input faction.
      * <p>
-     * Get the "ally center", currently used as the player spawn point
+     * This is used as the spawn coordinates for the player.
+     *
+     * @param faction The {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor.Faction Faction} that the center point
+     *                is returned for.
      */
     public abstract DiscreteCoordinates getFactionCenter(ICWarsActor.Faction faction);
 
+    /**
+     * Get a {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor.Faction Faction's} {@link Unit Units} for this {@link Area}.
+     *
+     * @param faction The {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor.Faction Faction} for which the
+     *                {@link Unit Units} should be returned.
+     * @return The list of {@link Unit Units}
+     */
     public abstract List<Unit> factionUnits(ICWarsActor.Faction faction);
 
     /**
-     * TODO
+     * Returns the default scale factor of the camera when viewing this area
      *
-     * @return
+     * @return {@code 10.f}
      */
     @Override
     public final float getCameraScaleFactor() {
@@ -42,21 +51,22 @@ public abstract class ICWarsArea extends Area {
     }
 
     /**
-     * TODO
+     * Start the area's simulation by:
+     * <li>call {@link Area#begin(Window, FileSystem)} and if successful continue;</li>
+     * <li>call {@link #setBehavior(AreaBehavior)} with a new {@link ICWarsBehavior};</li>
+     * <li>call {@link #createArea()}.</li>
      *
-     * @param window
-     * @param fileSystem
-     * @return
+     * @param window     The {@link Window} that the game is displayed in.
+     * @param fileSystem The {@link FileSystem} that the game gets its visual resources from.
+     * @return {@code true} if the game successfully started.
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
-            ICWarsBehavior behavior = new ICWarsBehavior(window, getTitle());
-            setBehavior(behavior);
+            setBehavior(new ICWarsBehavior(window, getTitle()));
             createArea();
             return true;
-        }
-        return false;
+        } else return false;
     }
 }
