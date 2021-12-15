@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.game.icwars;
 
+import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
@@ -9,6 +10,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
@@ -23,7 +25,7 @@ public class ICWars extends AreaGame {
     /**
      * The {@link States States} that the {@link ICWars} game is currently in.
      */
-    States gameState;
+    private States gameState;
 
     /**
      * The {@link Keyboard} used to interact with the {@link ICWars} game.
@@ -32,36 +34,37 @@ public class ICWars extends AreaGame {
 
 
     /**
-     * TODO
+     * Start the {@link ICWars} game. Can fail (return {@code false}).
+     * <p>
+     * It does these things, in this order:
+     * <li>Call {@link AreaGame#begin(Window, FileSystem)}.</li>
+     * <li>Get the {@link #keyboard}.</li>
+     * <li>Call {@link #resetAreas()} which empties the list of areas.</li>
+     * <li>Initialise and then call {@link #addArea(Area)} on all of the levels in {@link ICWars}.</li>
+     * <li>Call {@link #nextArea()} to set {@link #currentArea} to the first level, then initialise it.</li>
      *
-     * @param window
-     * @param fileSystem
-     * @return
+     * @param window     The {@link Window} that the game is displayed in.
+     * @param fileSystem The {@link FileSystem} that the game gets its visual resources from.
+     * @return {@code true} if the game successfully started.
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
-        // begin game
-        // reset all fields about the game
-        // add the levels
-        // set teh keyboard
-        // initialise the first area
         if (super.begin(window, fileSystem)) {
+            keyboard = window.getKeyboard();
+
             this.resetAreas();
-            // Levels
             Arrays.stream(new ICWarsArea[]{
                 new Level0(),
                 new Level1(),
             }).forEach(this::addArea);
+            if (this.nextArea()) initArea();
 
-            keyboard = window.getKeyboard();
-            nextLevel(); // starts the first level because no current level is selected
-            initArea();
             return true;
         } else return false;
     }
 
     /**
-     * TODO
+     * Overloads {@link #initArea(ICWarsArea)}.
      * <p>
      * Call {@link #initArea(ICWarsArea) initArea} on the {@link #currentArea currentArea}.
      */
@@ -70,22 +73,18 @@ public class ICWars extends AreaGame {
     }
 
     /**
-     * TODO
+     * <p> Initialise an {@link ICWarsArea} by: </p>
      *
-     * <p> Initialise an area by: </p>
+     * <li>removing all {@link #players} (call {@link #resetPlayers()});</li>
+     * <li>initialising the {@link ICWarsPlayer}s and their units;</li>
+     * <li>adding each player to the {@link #players players list} and making then
+     * {@link ICWarsPlayer#enterArea(Area, DiscreteCoordinates) enter the area};</li>
+     * <li>Setting {@link #gameState} to {@link States#INIT INIT}</li>
      *
-     * <li>removing all players;</li>
-     * <li>initialising the players and their units;</li>
-     * <li>adding each player to the players list;</li>
-     * <li>making the player enter the area.</li>
-     *
-     * <p> Then set the game state to {@code States.INIT}. </p>
-     *
-     * @param area The area object to initialise.
+     * @param area The {@link ICWarsArea} object to initialise.
      */
     private void initArea(ICWarsArea area) {
         this.resetPlayers();
-
         Arrays.stream(new ICWarsPlayer[]{
             new RealPlayer(
                 area,
@@ -110,32 +109,32 @@ public class ICWars extends AreaGame {
     }
 
     /**
-     * TODO
+     * Process all the input keys.
      */
-    private void resetGameState() {
-        this.begin(this.getWindow(), this.getFileSystem());
-    }
-
-    /**
-     * TODO
-     *
-     * @param deltaTime
-     */
-    @Override
-    public void update(float deltaTime) {
+    private void processKeyboardInput() {
         // Next level with `N`
         if (keyboard.get(Keyboard.N).isReleased())
-            nextLevel();
+            if (this.nextArea()) initArea();
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
-            resetGameState();
+            this.begin(this.getWindow(), this.getFileSystem());
         // Select first unit with `U`
         if (keyboard.get(Keyboard.U).isReleased())
             players.get(0).selectUnit(0); // 0, 1 ...
         // TODO: Close with `Q`
         if (keyboard.get(Keyboard.Q).isReleased())
             this.getWindow().isCloseRequested();
-        // convention: the first player in `activePlayers` is the one whose turn it is
+    }
+
+    /**
+     * First calls {@link #processKeyboardInput()}, then, depending on the current {@link #gameState}, update the game
+     * accordingly. Then call {@link AreaGame#update(float)}.
+     *
+     * @param deltaTime The time since the last call to this function.
+     */
+    @Override
+    public void update(float deltaTime) {
+        processKeyboardInput();
         this.gameState = switch (gameState) {
             case INIT -> {
                 PlayersWaitingForCurrentTurn.addAll(
@@ -184,7 +183,7 @@ public class ICWars extends AreaGame {
                 } else yield States.END;
             }
             case END -> {
-                this.nextLevel();
+                if (this.nextArea()) initArea();
                 yield gameState;
             }
         };
@@ -192,28 +191,9 @@ public class ICWars extends AreaGame {
     }
 
     /**
-     * TODO
+     * Returns the title of the {@link ICWars} game.
      *
-     * <p>
-     * if the button "N" is pressed,
-     * if the current area isn't the last area :
-     * the real player leaves the area,
-     * the area is changed to the next in the area list
-     * the player enters the new area
-     * else:
-     * print "game over"
-     */
-    private void nextLevel() {
-        if (this.nextArea()) {
-            initArea();
-            this.gameState = States.INIT;
-        }
-    }
-
-    /**
-     * TODO
-     *
-     * @return
+     * @return Currently {@code "ICWars"}
      */
     @Override
     public String getTitle() {
@@ -221,16 +201,14 @@ public class ICWars extends AreaGame {
     }
 
     /**
-     * TODO
+     * No-op. Used to implement {@link AutoCloseable}.
      */
     @Override
     public void close() {
     }
 
     /**
-     * TODO
-     * <p>
-     * states that an `ICWars` can be in
+     * States that an {@link ICWars} game can be in.
      */
     private enum States {
         /**
