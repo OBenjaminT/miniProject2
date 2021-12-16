@@ -46,6 +46,8 @@ public class Attack extends Action {
      */
     @Override
     public void draw(Canvas canvas) {
+        // TODO comments
+
         if (indexOfUnitToAttack != -1) {
             unit.centerCameraOnTargetedEnemy(indexOfUnitToAttack);
             cursor.setAnchor(canvas.getPosition().add(1, 0));
@@ -66,6 +68,8 @@ public class Attack extends Action {
      */
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
+        // TODO comments
+
         var IndexOfAttackableEnemies = unit.getIndexOfAttackableEnemies();
         if (IndexOfAttackableEnemies.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()) {
             player.canSelectActionAgain();

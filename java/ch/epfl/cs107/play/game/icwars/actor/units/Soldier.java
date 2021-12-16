@@ -45,6 +45,8 @@ public class Soldier extends Unit {
      *                 the sprite of the soldier is also initiated
      */
     public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
+        // TODO comments
+
         super(area, position, faction, repair, 2, hp, 10, 7);
         this.sprite = new Sprite(
             this.getName(),

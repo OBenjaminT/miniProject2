@@ -62,6 +62,8 @@ public class ICWarsRange extends AreaGraph implements Graphics {
          * @param hasDownEdge
          */
         private RangeNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
+            // TODO comments
+
             super(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 
             if (!hasUpEdge && !hasRightEdge && !hasDownEdge && !hasLeftEdge) {

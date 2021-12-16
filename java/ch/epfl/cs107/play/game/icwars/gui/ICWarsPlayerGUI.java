@@ -66,6 +66,8 @@ public class ICWarsPlayerGUI implements Graphics {
      * @param player
      */
     public ICWarsPlayerGUI(float cameraScaleFactor, ICWarsPlayer player) {
+        // TODO comments
+
         this.player = player;
         this.cameraScaleFactor = cameraScaleFactor;
         actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
@@ -114,6 +116,8 @@ public class ICWarsPlayerGUI implements Graphics {
      */
     @Override
     public void draw(Canvas canvas) {
+        // TODO comments
+
         if (PlayerSelectedUnit != null && PlayerSelectedUnit.hasNotAlreadyMoved()) {
             PlayerSelectedUnit
                 .drawRangeAndPathTo(

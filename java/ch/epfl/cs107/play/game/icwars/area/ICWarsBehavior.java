@@ -21,6 +21,8 @@ public class ICWarsBehavior extends AreaBehavior {
      * @param name   (String): Name of the Behavior, not null
      */
     public ICWarsBehavior(Window window, String name) {
+        // TODO comments
+
         super(window, name);
         int height = getHeight();
         int width = getWidth();
@@ -74,6 +76,8 @@ public class ICWarsBehavior extends AreaBehavior {
          * @return
          */
         public static ICWarsBehavior.ICWarsCellType toType(int type) {
+            // TODO comments
+
             return Arrays.stream(ICWarsCellType.values()) // for each cell type
                 .filter(ict -> ict.type == type) // if it's the type we're looking for
                 .findFirst() // get the first one, and return it
@@ -161,6 +165,8 @@ public class ICWarsBehavior extends AreaBehavior {
          */
         @Override
         protected boolean canEnter(Interactable entity) {
+            // TODO comments
+
             // if the entity takes Cell Space else it can enter
             // if another entity on the cell also takes the space entity can't enter
             return !entity.takeCellSpace()

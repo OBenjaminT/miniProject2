@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
+import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @param units
      */
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
+        // TODO comments
+
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
@@ -77,6 +80,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * register all the units of the player in the player's ownerArea
      */
     private void RegisterUnitsAsActors() {
+        // TODO comments
+
         units.forEach(unit -> unit.enterArea(
             this.getOwnerArea(),
             new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
@@ -90,6 +95,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void draw(Canvas canvas) {
+        // TODO comments
+
         if (this.playerCurrentState != States.IDLE) {
             this.sprite.draw(canvas);
             switch (playerCurrentState) {
@@ -108,6 +115,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
         units.stream()
@@ -118,17 +127,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             });
         drawOpacityOfUnits();
         var keyboard = this.getOwnerArea().getKeyboard();
-        // https://www.baeldung.com/java-switch
-        // Ensures all cases are covered, doesn't need break blocks, and assigns value to `yield` result.
-        /*this.playerCurrentState = switch (playerCurrentState) {
+
+        this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
                 System.out.println(EnterWasReleased);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
                     EnterWasReleased = false;
-                *//*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
-                }*//*
+                }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     System.out.println("tab");
                     EnterWasReleased = false;
@@ -153,12 +161,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                     yield States.NORMAL;
                 } else yield playerCurrentState;
             }
-            case ACTION_SELECTED, ACTION -> {
+            case ACTION_SELECTION, ACTION -> {
                 //this.unselectUnit();
                 yield playerCurrentState;
             }
-            // TODO
-        };*/
+        };
     }
 
     /**

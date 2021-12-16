@@ -38,6 +38,8 @@ abstract public class ICWarsActor extends MovableAreaEntity {
      * @param position
      */
     public void enterArea(Area area, DiscreteCoordinates position) {
+        // TODO comments
+
         area.registerActor(this);
         setOwnerArea(area);
         setCurrentPosition(position.toVector());

@@ -128,6 +128,8 @@ abstract public class Unit extends ICWarsActor {
                 int current_HP,
                 int maxHP,
                 int damage) {
+        // TODO comments
+
         super(area, position, faction);
         this.repair = repair;
         this.radius = radius;
@@ -217,6 +219,8 @@ abstract public class Unit extends ICWarsActor {
      * {@link #radius} and in the {@link Area}.
      */
     private void completeUnitsRange() {
+        // TODO comments
+
         this.range = new ICWarsRange();
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
@@ -282,8 +286,9 @@ abstract public class Unit extends ICWarsActor {
      * @param destination path destination
      * @param canvas      canvas
      */
-    public void drawRangeAndPathTo(DiscreteCoordinates destination,
-                                   Canvas canvas) {
+    public void drawRangeAndPathTo(DiscreteCoordinates destination, Canvas canvas) {
+        // TODO comments
+
         range.draw(canvas);
         var path =
             range.shortestPath(getCurrentMainCellCoordinates(), destination);
@@ -308,6 +313,8 @@ abstract public class Unit extends ICWarsActor {
      *                            attacked.
      */
     public void attack(int indexOfUnitToAttack) {
+        // TODO comments
+
         this.getOwnerArea().attack(
             indexOfUnitToAttack,
             this.getDamage(),
@@ -337,6 +344,8 @@ abstract public class Unit extends ICWarsActor {
      */
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
+        // TODO comments
+
         if (this.range.nodeExists(newPosition) && super.changePosition(newPosition)) {
             completeUnitsRange();
             return true;

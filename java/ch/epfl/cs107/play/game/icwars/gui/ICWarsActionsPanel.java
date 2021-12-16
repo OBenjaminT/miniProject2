@@ -49,6 +49,8 @@ public class ICWarsActionsPanel implements Graphics {
      * @param cameraScaleFactor
      */
     public ICWarsActionsPanel(float cameraScaleFactor) {
+        // TODO comments
+
         final float height = cameraScaleFactor / 4;
         final float width = cameraScaleFactor / 4;
 
@@ -62,6 +64,8 @@ public class ICWarsActionsPanel implements Graphics {
      * TODO
      */
     private void createActionsText() {
+        // TODO comments
+
         actionsText = new TextGraphics[actions.size()];
         IntStream.range(0, actions.size()).forEach(i -> {
             TextGraphics text = new TextGraphics("actions.get(i).getName()",
@@ -113,6 +117,8 @@ public class ICWarsActionsPanel implements Graphics {
      */
     @Override
     public void draw(Canvas canvas) {
+        // TODO comments
+
         // Compute width, height and anchor
         float width = canvas.getXScale();
         float height = canvas.getYScale();

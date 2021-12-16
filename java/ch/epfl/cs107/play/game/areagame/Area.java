@@ -157,6 +157,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param safeMode (Boolean): if True, the method ends
      */
     private void addActor(Actor a, boolean safeMode) {
+        // TODO comments
 
         boolean errorHappen = false;
 
@@ -183,6 +184,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param safeMode (Boolean): if True, the method ends
      */
     private void removeActor(Actor a, boolean safeMode) {
+        // TODO comments
+
         boolean errorHappen = false;
 
         if (a instanceof Interactor)
@@ -283,6 +286,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return the mouse position relatively to the area and the cells
      */
     public Vector getRelativeMousePosition() {
+        // TODO comments
+
         return getMouse().getPosition()
             .max(new Vector(0, 0))
             .min(new Vector(getWidth(), getHeight()));
@@ -317,6 +322,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return (boolean): True if possible to leave
      */
     public final boolean leaveAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        // TODO comments
+
         // TODO if Interactable can leave the cells: It is this Area decision, implement a strategy
         // Until now, the entity is put in a map waiting the update end to avoid concurrent exception during interaction
         if (areaBehavior.canLeave(entity, coordinates)) {
@@ -335,6 +342,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return (boolean): True if possible to enter
      */
     public final boolean enterAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        // TODO comments
+
         // TODO if Interactable can enter the cells: It is this Area decision, implement a strategy
         // Until now, the entity is put in a map waiting the update end to avoid concurrent exception during interaction
         if (areaBehavior.canEnter(entity, coordinates)) {
@@ -368,6 +377,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+        // TODO comments
+
         this.window = window;
         this.fileSystem = fileSystem;
         actors = new LinkedList<>();
@@ -402,6 +413,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         purgeRegistration();
 
         // Decide if we update the contextual menu or this content
@@ -438,6 +451,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * TODO
      */
     final void purgeRegistration() {
+        // TODO comments
+
         // PART 1
         // - Register actors
         registeredActors.forEach(actor -> addActor(actor, false));
@@ -468,13 +483,13 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * TODO
      */
     private void updateCamera() {
+        // TODO comments
 
         // Update expected viewport center
-        if (viewCandidate != null) {
-            viewCenter = viewCandidate.getPosition();
-        } else { // Set default view to center
-            viewCenter = new Vector(getWidth() / (float) 2, getHeight() / (float) 2);
-        }
+        // Set default view to center
+        viewCenter = (viewCandidate == null)
+            ? new Vector(getWidth() / (float) 2, getHeight() / (float) 2)
+            : viewCandidate.getPosition();
         // Compute new viewport
         Transform viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
         window.setRelativeTransform(viewTransform);
@@ -512,6 +527,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      *             be responsible for the ResumeRequest, not null
      */
     public final void requestAreaPause(AreaPauseMenu menu) {
+        // TODO comments
+
         // TODO if the request end up: It is this Area decision, implement a strategy
         if (menu != null) {
             this.menu = menu;
@@ -561,6 +578,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return all the units in the area
      */
     private ArrayList<Unit> getUnits() {
+        // TODO comments
+
         return actors.stream()
             .filter(actor -> actor instanceof Unit)
             .map(actor -> (Unit) actor)
@@ -576,10 +595,17 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * that are in a range
      */
     public ArrayList<Integer> getIndexOfAttackableEnemies(ICWarsActor.Faction faction, ICWarsRange range) {
-        ArrayList<Unit> units = getUnits();
+        // TODO comments
+
+        var units = getUnits();
         return IntStream.range(0, units.size())
             .filter(i -> units.get(i).faction != faction)
-            .filter(i -> range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y)))
+            .filter(i -> range.nodeExists(
+                    new DiscreteCoordinates(
+                        (int) units.get(i).getPosition().x,
+                        (int) units.get(i).getPosition().y)
+                )
+            )
             .boxed()
             .collect(Collectors.toCollection(ArrayList::new));
     }

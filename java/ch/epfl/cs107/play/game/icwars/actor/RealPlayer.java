@@ -46,7 +46,14 @@ public class RealPlayer extends ICWarsPlayer {
      */
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
-        this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
+        this.sprite = new Sprite(
+            this.getName(),
+            1.5f,
+            1.5f,
+            this,
+            null,
+            new Vector(-0.25f, -0.25f)
+        );
     }
 
     /**
@@ -66,6 +73,8 @@ public class RealPlayer extends ICWarsPlayer {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         Keyboard keyboard = getOwnerArea().getKeyboard();
         //make sure the player can't move when it isn't his turn
         if (this.playerCurrentState != States.IDLE && RealPlayerCanMove()) {
@@ -136,6 +145,8 @@ public class RealPlayer extends ICWarsPlayer {
      * @param b           (Button): button corresponding to the given orientation, not null
      */
     private void moveIfPressed(Orientation orientation, Button b) {
+        // TODO comments
+
         if (b.isDown() && isNoDisplacementOccurs()) {
             orientate(orientation);
             move(MOVE_DURATION);

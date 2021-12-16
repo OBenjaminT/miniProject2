@@ -49,6 +49,8 @@ public class ICWars extends AreaGame {
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+        // TODO comments
+
         if (super.begin(window, fileSystem)) {
             keyboard = window.getKeyboard();
 
@@ -84,6 +86,8 @@ public class ICWars extends AreaGame {
      * @param area The {@link ICWarsArea} object to initialise.
      */
     private void initArea(ICWarsArea area) {
+        // TODO comments
+
         this.resetPlayers();
         Arrays.stream(new ICWarsPlayer[]{
             new RealPlayer(
@@ -112,6 +116,8 @@ public class ICWars extends AreaGame {
      * Process all the input keys.
      */
     private void processKeyboardInput() {
+        // TODO comments
+
         // Next level with `N`
         if (keyboard.get(Keyboard.N).isReleased())
             if (this.nextArea()) initArea();
@@ -134,6 +140,8 @@ public class ICWars extends AreaGame {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         processKeyboardInput();
         this.gameState = switch (gameState) {
             case INIT -> {

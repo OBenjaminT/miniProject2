@@ -22,6 +22,8 @@ public class Level0 extends ICWarsArea {
      * @return
      */
     public List<Unit> factionUnits(ICWarsActor.Faction faction) {
+        // TODO comments
+
         return switch (faction) {
             case ALLY -> new ArrayList<>(List.of(new Unit[]{
                 new Tank(
@@ -57,6 +59,8 @@ public class Level0 extends ICWarsArea {
      */
     @Override
     public DiscreteCoordinates getFactionCenter(ICWarsActor.Faction faction) {
+        // TODO comments
+
         return switch (faction) {
             case ALLY -> new DiscreteCoordinates(0, 0);
             case ENEMY -> new DiscreteCoordinates(7, 4);
