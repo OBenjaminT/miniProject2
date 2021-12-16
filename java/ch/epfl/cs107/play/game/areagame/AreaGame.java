@@ -230,9 +230,12 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Updates the game, called every frame.
+     * <p>
+     * Either calls {@link PauseMenu#update(float) update} on the {@link #menu} or calls this function on
+     * {@link #currentArea}.
      *
-     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     * @param deltaTime The elapsed time since the last call to this function, in seconds, non-negative.
      */
     @Override
     public void update(float deltaTime) {
@@ -243,7 +246,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Sets {@link #requestPause} to {@code true}.
+     * <p>
+     * Implements {@link PauseMenu.Pausable}.
      */
     @Override
     public void requestPause() {
@@ -251,7 +256,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Sets {@link #requestPause} to {@code false}.
+     * <p>
+     * Implements {@link PauseMenu.Pausable}.
      */
     @Override
     public void requestResume() {
@@ -259,9 +266,11 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Tells you if this {@link AreaGame} is paused.
+     * <p>
+     * Implements {@link PauseMenu.Pausable}.
      *
-     * @return
+     * @return {@link #paused}
      */
     @Override
     public boolean isPaused() {

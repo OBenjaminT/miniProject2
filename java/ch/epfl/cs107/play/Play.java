@@ -17,19 +17,17 @@ import ch.epfl.cs107.play.window.swing.SwingWindow;
 public class Play {
 
     /**
-     * TODO
-     * <p>
-     * The game window dimensions
+     * The game window width in pixels.
      */
     public static final int WINDOW_WIDTH = 400;
 
-
+    /**
+     * The game window height in pixels.
+     */
     public static final int WINDOW_HEIGHT = 300;
 
     /**
-     * TODO
-     * <p>
-     * One second in nanoseconds
+     * One second in nanoseconds. A constant.
      */
     private static final float ONE_SEC = 1E9f;
 
@@ -53,11 +51,9 @@ public class Play {
         //	Recorder recorder = new Recorder(window);
         //	RecordReplayer replayer = new RecordReplayer(window);
 
-        // I changed Window and Game to implement `AutoClosable`,
-        // so we just do a try-with-resources, and it closes it automatically.
-        try (
-            Game game = new ICWars();
-            final Window window = new SwingWindow(game.getTitle(), fileSystem, WINDOW_WIDTH, WINDOW_HEIGHT)
+        try ( // try-with-resources because they both implement AutoCloseable.
+              Game game = new ICWars();
+              final Window window = new SwingWindow(game.getTitle(), fileSystem, WINDOW_WIDTH, WINDOW_HEIGHT)
         ) {
             window.registerFonts(ResourcePath.FONTS);
 
@@ -65,10 +61,11 @@ public class Play {
                 //recorder.start();
                 //replayer.start("zelda.xml");
 
-                // Use system clock to keep track of time progression
-                long currentTime = System.nanoTime();
-                long lastTime;
                 final float frameDuration = ONE_SEC / game.getFrameRate();
+
+                // Use system clock to keep track of time progression
+                long currentTime, lastTime;
+                currentTime = System.nanoTime();
 
                 // Run until the user tries to close the window
                 while (!window.isCloseRequested()) {
@@ -88,10 +85,7 @@ public class Play {
                     currentTime = System.nanoTime();
                     deltaTime = (currentTime - lastTime) / ONE_SEC;
 
-                    // Let the game do its stuff
                     game.update(deltaTime);
-
-                    // Render and update input
                     window.update();
 
                     //recorder.update();
