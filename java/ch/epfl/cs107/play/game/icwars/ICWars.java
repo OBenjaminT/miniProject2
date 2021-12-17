@@ -59,7 +59,8 @@ public class ICWars extends AreaGame {
                 new Level0(),
                 new Level1(),
             }).forEach(this::addArea);
-            if (this.nextArea()) initArea();
+
+            nextArea();
 
             return true;
         } else return false;
@@ -72,6 +73,17 @@ public class ICWars extends AreaGame {
      */
     private void initArea() {
         initArea((ICWarsArea) currentArea);
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    @Override
+    protected boolean nextArea() {
+        if (super.nextArea()) initArea();
+        return true;
     }
 
     /**
@@ -89,7 +101,7 @@ public class ICWars extends AreaGame {
         // TODO comments
 
         this.resetPlayers();
-        Arrays.stream(new ICWarsPlayer[]{
+        players.addAll(Arrays.asList(
             new RealPlayer(
                 area,
                 area.getFactionCenter(ICWarsActor.Faction.ALLY),
@@ -101,14 +113,9 @@ public class ICWars extends AreaGame {
                 area.getFactionCenter(ICWarsActor.Faction.ENEMY),
                 ICWarsActor.Faction.ENEMY,
                 area.factionUnits(ICWarsActor.Faction.ENEMY).toArray(new Unit[0])
-            ),
-        }).forEach(player -> {
-            players.add(player);
-            player.enterArea(
-                area,
-                area.getFactionCenter(player.faction)
-            ); // change to get center
-        });
+            ))
+        );
+        players.forEach(player -> player.enterArea(area, area.getFactionCenter(player.faction)));
         gameState = States.INIT;
     }
 
@@ -119,8 +126,7 @@ public class ICWars extends AreaGame {
         // TODO comments
 
         // Next level with `N`
-        if (keyboard.get(Keyboard.N).isReleased())
-            if (this.nextArea()) initArea();
+        if (keyboard.get(Keyboard.N).isReleased()) nextArea();
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
             this.begin(this.getWindow(), this.getFileSystem());
@@ -191,8 +197,8 @@ public class ICWars extends AreaGame {
                 } else yield States.END;
             }
             case END -> {
-                if (this.nextArea()) initArea();
-                yield gameState;
+                nextArea();
+                yield States.INIT;
             }
         };
         super.update(deltaTime);
