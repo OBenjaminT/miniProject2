@@ -255,7 +255,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @return true if the arraylist of units is empty
      */
     public boolean isDefeated() {
-        return this.units.isEmpty();
+        return units.isEmpty();
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean isNotDefeated() {
+        return !isDefeated();
     }
 
     /**

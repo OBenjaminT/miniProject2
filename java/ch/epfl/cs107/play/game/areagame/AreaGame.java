@@ -82,6 +82,13 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      */
     private PauseMenu menu;
 
+    public AreaGame() {
+        this.players = new ArrayList<>();
+        PlayersWaitingForNextTurn = new ArrayList<>();
+        PlayersWaitingForCurrentTurn = new ArrayList<>();
+        this.areas = new ArrayList<>();
+    }
+
     /**
      * TODO
      */
@@ -100,13 +107,6 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      */
     protected final void addArea(Area a) {
         areas.add(a);
-    }
-
-    /**
-     * TODO
-     */
-    protected final void resetAreas() {
-        areas = new ArrayList<>();
     }
 
     /**

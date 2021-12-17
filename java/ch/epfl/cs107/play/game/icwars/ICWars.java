@@ -15,7 +15,6 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -32,6 +31,10 @@ public class ICWars extends AreaGame {
      */
     private Keyboard keyboard;
 
+    public ICWars() {
+        super();
+    }
+
 
     /**
      * Start the {@link ICWars} game. Can fail (return {@code false}).
@@ -39,7 +42,6 @@ public class ICWars extends AreaGame {
      * It does these things, in this order:
      * <li>Call {@link AreaGame#begin(Window, FileSystem)}.</li>
      * <li>Get the {@link #keyboard}.</li>
-     * <li>Call {@link #resetAreas()} which empties the list of areas.</li>
      * <li>Initialise and then call {@link #addArea(Area)} on all of the levels in {@link ICWars}.</li>
      * <li>Call {@link #nextArea()} to set {@link #currentArea} to the first level, then initialise it.</li>
      *
@@ -54,16 +56,21 @@ public class ICWars extends AreaGame {
         if (super.begin(window, fileSystem)) {
             keyboard = window.getKeyboard();
 
-            this.resetAreas();
-            Arrays.stream(new ICWarsArea[]{
-                new Level0(),
-                new Level1(),
-            }).forEach(this::addArea);
-
+            addAreas();
             nextArea();
 
             return true;
         } else return false;
+    }
+
+    /**
+     * TODO
+     */
+    private void addAreas() {
+        Arrays.stream(new ICWarsArea[]{
+            new Level0(),
+            new Level1(),
+        }).forEach(this::addArea);
     }
 
     /**
@@ -86,10 +93,10 @@ public class ICWars extends AreaGame {
         return true;
     }
 
+
     /**
      * <p> Initialise an {@link ICWarsArea} by: </p>
      *
-     * <li>removing all {@link #players} (call {@link #resetPlayers()});</li>
      * <li>initialising the {@link ICWarsPlayer}s and their units;</li>
      * <li>adding each player to the {@link #players players list} and making then
      * {@link ICWarsPlayer#enterArea(Area, DiscreteCoordinates) enter the area};</li>
@@ -100,7 +107,7 @@ public class ICWars extends AreaGame {
     private void initArea(ICWarsArea area) {
         // TODO comments
 
-        this.resetPlayers();
+        resetPlayers();
         players.addAll(Arrays.asList(
             new RealPlayer(
                 area,
@@ -129,13 +136,13 @@ public class ICWars extends AreaGame {
         if (keyboard.get(Keyboard.N).isReleased()) nextArea();
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
-            this.begin(this.getWindow(), this.getFileSystem());
+            begin(getWindow(), getFileSystem());
         // Select first unit with `U`
         if (keyboard.get(Keyboard.U).isReleased())
             players.get(0).selectUnit(0); // 0, 1 ...
         // TODO: Close with `Q`
         if (keyboard.get(Keyboard.Q).isReleased())
-            this.getWindow().isCloseRequested();
+            getWindow().isCloseRequested();
     }
 
     /**
@@ -149,21 +156,18 @@ public class ICWars extends AreaGame {
         // TODO comments
 
         processKeyboardInput();
-        this.gameState = switch (gameState) {
+        gameState = switch (gameState) {
             case INIT -> {
-                PlayersWaitingForCurrentTurn.addAll(
-                    players.stream()
-                        .filter(p -> !p.isDefeated()) // add only non-defeated players
-                        .collect(Collectors.toList()));
+                PlayersWaitingForCurrentTurn.addAll(players);
                 yield States.CHOOSE_PLAYER;
             }
             case CHOOSE_PLAYER -> {
-                if (!PlayersWaitingForCurrentTurn.isEmpty()) {
-                    // chose the next player that has to play in the current turn
-                    // remove it from the list of players that wait for a turn
-                    this.activePlayer = PlayersWaitingForCurrentTurn.remove(0);
+                if (PlayersWaitingForCurrentTurn.isEmpty()) {
+                    yield States.END_TURN;
+                } else {
+                    activePlayer = PlayersWaitingForCurrentTurn.remove(0);
                     yield States.START_PLAYER_TURN;
-                } else yield States.END_TURN;
+                }
             }
             case START_PLAYER_TURN -> {
                 activePlayer.startTurn();
@@ -177,20 +181,16 @@ public class ICWars extends AreaGame {
                     : gameState;
             }
             case END_PLAYER_TURN -> {
-                if (!activePlayer.isDefeated()) {
+                if (activePlayer.isDefeated()) {
+                    activePlayer.leaveArea();
+                } else {
                     activePlayer.endTurn(); // TODO reset all the players units movement
                     PlayersWaitingForNextTurn.add(activePlayer);
-                } else activePlayer.leaveArea();
-
+                }
                 yield States.CHOOSE_PLAYER; // it said only change like this in the first branch but nothing for the second
             }
             case END_TURN -> {
-                players.removeIf(ICWarsPlayer::isDefeated);
-
-                PlayersWaitingForNextTurn.stream()
-                    .filter(ICWarsPlayer::isDefeated)
-                    .forEach(player -> players.remove(player));
-
+                removeDefeatedPlayers();
                 if (PlayersWaitingForNextTurn.size() != 1) {
                     PlayersWaitingForCurrentTurn.addAll(PlayersWaitingForNextTurn);
                     yield States.CHOOSE_PLAYER;
@@ -202,6 +202,11 @@ public class ICWars extends AreaGame {
             }
         };
         super.update(deltaTime);
+    }
+
+    private void removeDefeatedPlayers() {
+        PlayersWaitingForCurrentTurn.removeIf(ICWarsPlayer::isDefeated);
+        PlayersWaitingForNextTurn.removeIf(ICWarsPlayer::isDefeated);
     }
 
     /**
