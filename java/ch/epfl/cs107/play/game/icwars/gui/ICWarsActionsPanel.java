@@ -25,8 +25,6 @@ public class ICWarsActionsPanel implements Graphics {
      */
     private final float fontSize;
 
-    private List<Action> actions;
-
     /// Sprite and text graphics line
     /**
      * TODO

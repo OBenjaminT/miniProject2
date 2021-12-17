@@ -77,7 +77,7 @@ abstract public class Unit extends ICWarsActor {
     /**
      * Initialises a Unit class with full health.
      * <p>
-     * Calls {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int, int) Unit constructor} with
+     * Calls {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int, int, String) Unit constructor} with
      * {@link #current_HP} equal to {@link #maxHP}.
      *
      * @param area     The {@link Area} in which the {@link Unit} acts. Passed straight to the
@@ -139,7 +139,7 @@ abstract public class Unit extends ICWarsActor {
         this.setHp(current_HP);
         this.damage = damage;
         this.range = new ICWarsRange();
-        this.name=name;
+        this.name = name;
         completeUnitsRange();
         this.hasAlreadyMoved = false;
     }
@@ -152,6 +152,15 @@ abstract public class Unit extends ICWarsActor {
     }
 
     /**
+     * TODO
+     *
+     * @return the unit's hp
+     */
+    public int getHp() {
+        return this.current_HP;
+    }
+
+    /**
      * Set's the {@link Unit}'s {@link #current_HP} whilst making sure that it's always greater than {@code 0} and not
      * more than {@link #maxHP}.
      *
@@ -159,13 +168,6 @@ abstract public class Unit extends ICWarsActor {
      */
     public void setHp(int HP) {
         this.current_HP = HP < 0 ? 0 : Math.min(HP, maxHP);
-    }
-
-    /**
-     * @return the unit's hp
-     */
-    public  int getHp() {
-        return this.current_HP;
     }
 
     /**

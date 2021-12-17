@@ -118,13 +118,14 @@ public class RealPlayer extends ICWarsPlayer {
                 } else yield playerCurrentState;
             }
             case ACTION_SELECTION -> {
-                for (Action action : this.SelectedUnit.getAvailableActions()) {
-                    if (keyboard.get(action.getKey()).isReleased()) {
-                        this.ActionToExecute = action;
-                        yield (States.ACTION);
-                    }
-                }
-                yield playerCurrentState;
+                var act = this.SelectedUnit.getAvailableActions()
+                    .stream()
+                    .filter(action -> keyboard.get(action.getKey()).isReleased())
+                    .findFirst();
+                if (act.isPresent()) {
+                    this.ActionToExecute = act.get();
+                    yield States.ACTION;
+                } else yield playerCurrentState;
             }
             case ACTION -> {
                 ActionToExecute.doAction(deltaTime, this, keyboard);

@@ -74,17 +74,16 @@ public class Attack extends Action {
         if (IndexOfAttackableEnemies.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()) {
             player.canSelectActionAgain();
         } else {
-            indexOfUnitToAttack=0;
+            indexOfUnitToAttack = 0;
             if (keyboard.get(Keyboard.LEFT).isReleased()) {
                 indexOfUnitToAttack = (indexOfUnitToAttack == 0)
                     ? IndexOfAttackableEnemies.size() - 1
                     : indexOfUnitToAttack - 1;
-/*                indexOfUnitToAttack=0;*/
             } else if (keyboard.get(Keyboard.RIGHT).isReleased()) {
                 indexOfUnitToAttack = (indexOfUnitToAttack + 1) % IndexOfAttackableEnemies.size();
             } else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                 unit.attack(indexOfUnitToAttack);
-                indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected
+                indexOfUnitToAttack = -1; // so that the draw method knows that no enemies are selected
             }
             player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
         }
