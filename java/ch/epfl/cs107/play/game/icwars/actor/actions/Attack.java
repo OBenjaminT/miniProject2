@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.actor.actions;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.game.icwars.actor.AIPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -53,7 +54,7 @@ public class Attack extends Action {
      */
     @Override
     public void draw(Canvas canvas) {
-        if (indexOfUnitToAttack != -1) {
+        if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
             unit.centerCameraOnTargetedEnemy(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
             cursor.setAnchor(canvas.getPosition().add(1, 0));
             cursor.draw(canvas);
@@ -94,11 +95,20 @@ public class Attack extends Action {
                 indexOfUnitToAttack = (indexOfUnitToAttack + 1) % IndexOfAttackableEnemies.size();
                 System.out.println("right");
             } else if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                unit.attack(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
-                indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected
+                unit.attack(IndexOfAttackableEnemies.get(indexOfUnitToAttack));
+               /* indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected*/
                 player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
                 System.out.println("ENTER");
             }
         }
+    }
+
+    public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard){
+        //if ennemies are in the range for an attack, attack the one with lowest health
+        if(unit.getIndexOfAttackableEnemies()!=null){
+            //repeat the same scheme as with attack: the area will perform the attack on the unit with the lowest health
+            //TODO create a method in unit called attackLowestHealth that will call attackLowestHealth of area that will perform the attack
+        }
+
     }
 }
