@@ -47,7 +47,6 @@ public class Soldier extends Unit {
     public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
         // TODO comments
 
-        super(area, position, faction, repair, 2, hp, 10, 7);
         super(area, position, faction, repair, 2, hp, 10, 7, "Soldier");
         this.sprite = new Sprite(
             this.getSpriteName(),

@@ -51,7 +51,7 @@ public class Tank extends Unit {
     public Tank(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
         // TODO comments
 
-        super(area, position, faction, repair, 4, hp, 10, 7);
+        super(area, position, faction, repair, 4, hp, 10, 7, "Tank");
         this.sprite = new Sprite(
             this.getSpriteName(),
             1.5f,
