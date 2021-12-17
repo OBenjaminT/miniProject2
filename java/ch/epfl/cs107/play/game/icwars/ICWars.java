@@ -157,7 +157,7 @@ public class ICWars extends AreaGame {
                 yield States.PLAYER_TURN;
             }
             case PLAYER_TURN -> {
-                activePlayer.update(deltaTime);
+                //activePlayer.update(deltaTime);needs to be removed!!!! (else the palyer is updated 2 times)
                 yield activePlayer.isIdle()
                     ? States.END_PLAYER_TURN
                     : gameState;

@@ -88,7 +88,7 @@ public class RealPlayer extends ICWarsPlayer {
                     if (ActionToExecute instanceof Attack)
                         ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(true);
                 }
-                System.out.println(EnterWasReleased);
+                //System.out.println(EnterWasReleased);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
                     EnterWasReleased = false;
                 else if (keyboard.get(Keyboard.ENTER).isReleased()) {
@@ -103,7 +103,7 @@ public class RealPlayer extends ICWarsPlayer {
                     : playerCurrentState;
             }
             case SELECT_CELL -> {
-                System.out.println("select CELL");
+                //System.out.println("select CELL");
                 yield this.selectUnit() != null
                     ? States.MOVE_UNIT
                     : playerCurrentState;
@@ -128,7 +128,7 @@ public class RealPlayer extends ICWarsPlayer {
                 yield playerCurrentState;
             }
             case ACTION -> {
-                if(keyboard.get(Keyboard.A).isReleased()) System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
+                /*if(keyboard.get(Keyboard.A).isReleased()) System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");*/
                 ActionToExecute.doAction(deltaTime, this, keyboard);
                 //TODO improve this
                 if(ActionToExecute instanceof Attack) ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(false);

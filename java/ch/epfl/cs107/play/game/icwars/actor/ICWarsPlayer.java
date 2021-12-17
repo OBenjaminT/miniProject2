@@ -112,13 +112,25 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void update(float deltaTime) {
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
-        units.stream()
+        ArrayList<Unit> newUnits = new ArrayList<>();
+        for(int i =0; i<units.size();++i){
+            if(units.get(i).isDead()){
+                units.get(i).leaveArea();
+                //this.getOwnerArea().unregisterActor(units.get(i));//idk why but I have to remove it twice maybe because we are registering the units twice
+                this.getOwnerArea().fillUnits();
+            }
+            else{
+                newUnits.add(units.get(i));
+            }
+        }
+        units=newUnits;
+/*        units.stream()
             .filter(Unit::isDead)
             .forEach(unit -> {
                 unit.leaveArea();
                 units.remove(unit);
                 this.getOwnerArea().fillUnits();
-            });
+            });*/
         drawOpacityOfUnits();
         var keyboard = this.getOwnerArea().getKeyboard();
         // https://www.baeldung.com/java-switch
@@ -200,11 +212,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
         super.enterArea(area, position);
-        units.forEach(unit -> unit.enterArea(
+        /*units.forEach(unit -> unit.enterArea(
                 area,
                 new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
             )
-        );
+        );*/
     }
 
     /**

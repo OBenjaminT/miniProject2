@@ -400,7 +400,8 @@ abstract public class Unit extends ICWarsActor {
      * @param receivedDamage Subtracts this number from the {@link #current_HP}.
      */
     public void takeDamage(int receivedDamage) {
-        this.setHp(current_HP - Math.min(numberOfStarsOfCurrentCell - receivedDamage, 0));
+        this.setHp(current_HP - Math.max(receivedDamage - numberOfStarsOfCurrentCell, 0));
+        System.out.println(this.current_HP);
     }
 
     /**
