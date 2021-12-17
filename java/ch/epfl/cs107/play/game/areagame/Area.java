@@ -628,8 +628,42 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param damage              used to calculate the amount of received damage
      * @param numberOfStars       depends on the type of cell the attacked unit is on and it is used to calculate the actual dammage the unit receives
      */
-    public void attack(int indexOfUnitToAttack, int damage, int numberOfStars) {
+    public void attack(int indexOfUnitToAttack, int damage) {
         getUnits().get(indexOfUnitToAttack)
-            .takeDamage(damage - numberOfStars);
+            .takeDamage(damage);
+    }
+
+    /**
+     * @param IndexOfAttackableEnemies the indexes of the attackable ennemy units
+     * @param damage the damage of the attacking unit
+     * Among the attacakble ennemy units, the one with the lowest health is found and attacked
+     */
+    public void attackEnnemyWithLowestHealth(ArrayList<Integer>IndexOfAttackableEnemies, int damage){
+        Unit ennemyWithLowestHealth=this.getUnits().get(IndexOfAttackableEnemies.get(0));
+        int lowestHelath = this.getUnits().get(IndexOfAttackableEnemies.get(0)).getHp();
+        for(Integer i : IndexOfAttackableEnemies){
+            if(this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp()<lowestHelath){
+                ennemyWithLowestHealth=this.getUnits().get(IndexOfAttackableEnemies.get(i));
+                lowestHelath=ennemyWithLowestHealth.getHp();
+            }
+        }
+        ennemyWithLowestHealth.takeDamage(damage);
+    }
+
+    /**
+     * @param faction the faction of the attacking unit
+     * @param attackingUnit the attacking unit
+     * finds the ennemy unit and the calls moveTowarsClosestEnnemy(ennemyUnits) on the attacking unit
+     */
+    public void moveUnitTowardsClosestEnnemy(ICWarsActor.Faction faction, Unit attackingUnit){
+        ArrayList<Unit> units = getUnits();
+        ArrayList<Unit> ennemyUnits = new ArrayList<>();
+        for(Unit unit : units){
+            if(unit.faction!=faction){
+                ennemyUnits.add(unit);
+            }
+        }
+        //TODO check if this in an encapsluation problem
+        attackingUnit.moveTowarsClosestEnnemy(ennemyUnits);
     }
 }
