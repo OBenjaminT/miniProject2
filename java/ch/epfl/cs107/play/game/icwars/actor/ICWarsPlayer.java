@@ -102,6 +102,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             switch (playerCurrentState) {
                 case MOVE_UNIT -> playerGUI.draw(canvas);
                 case ACTION_SELECTION -> playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
+                case NORMAL, SELECT_CELL -> playerGUI.drawInfoPanel(canvas);
                 default -> {
                 }
             }

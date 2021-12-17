@@ -1,5 +1,4 @@
-package ch.epfl.cs107.play.game.icwars.gui;//package ch.epfl.cs107.play.game.icwars.gui;
-//
+package ch.epfl.cs107.play.game.icwars.gui;
 
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
@@ -25,6 +24,8 @@ public class ICWarsActionsPanel implements Graphics {
      * TODO
      */
     private final float fontSize;
+
+    private List<Action> actions;
 
     /// Sprite and text graphics line
     /**

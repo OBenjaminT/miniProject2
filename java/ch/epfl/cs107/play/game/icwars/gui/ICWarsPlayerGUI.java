@@ -52,6 +52,11 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * TODO
+     */
+    ICWarsInfoPanel infoPanel;
+
+    /**
+     * TODO
      *
      * @param cameraScaleFactor
      * @param player
@@ -71,6 +76,7 @@ public class ICWarsPlayerGUI implements Graphics {
         this.player = player;
         this.cameraScaleFactor = cameraScaleFactor;
         actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
+        infoPanel = new ICWarsInfoPanel(cameraScaleFactor);
     }
 
     /**
@@ -136,5 +142,12 @@ public class ICWarsPlayerGUI implements Graphics {
     public void drawActionsPanel(List<Action> actions, Canvas canvas) {
         this.actionsPanel.setActions(actions);
         this.actionsPanel.draw(canvas);
+    }
+
+    public void drawInfoPanel(Canvas canvas) {
+        this.infoPanel.setCurrentCell(TypeOfCurrentCell);
+        System.out.println(unitOnCell);
+        this.infoPanel.setUnit(this.unitOnCell);
+        this.infoPanel.draw(canvas);
     }
 }

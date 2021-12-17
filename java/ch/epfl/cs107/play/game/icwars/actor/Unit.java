@@ -99,8 +99,9 @@ abstract public class Unit extends ICWarsActor {
                 int repair,
                 int radius,
                 int maxHP,
-                int damage) {
-        this(area, position, faction, repair, radius, maxHP, maxHP, damage);
+                int damage,
+                String name) {
+        this(area, position, faction, repair, radius, maxHP, maxHP, damage, name);
     }
 
     /**
@@ -127,7 +128,8 @@ abstract public class Unit extends ICWarsActor {
                 int radius,
                 int current_HP,
                 int maxHP,
-                int damage) {
+                int damage,
+                String name) {
         // TODO comments
 
         super(area, position, faction);
@@ -137,6 +139,7 @@ abstract public class Unit extends ICWarsActor {
         this.setHp(current_HP);
         this.damage = damage;
         this.range = new ICWarsRange();
+        this.name=name;
         completeUnitsRange();
         this.hasAlreadyMoved = false;
     }
@@ -144,7 +147,7 @@ abstract public class Unit extends ICWarsActor {
     /**
      * @return This {@link Unit}'s {@link #damage}.
      */
-    protected int getDamage() {
+    public int getDamage() {
         return damage;
     }
 
@@ -156,6 +159,13 @@ abstract public class Unit extends ICWarsActor {
      */
     public void setHp(int HP) {
         this.current_HP = HP < 0 ? 0 : Math.min(HP, maxHP);
+    }
+
+    /**
+     * @return the unit's hp
+     */
+    public  int getHp() {
+        return this.current_HP;
     }
 
     /**
@@ -210,7 +220,7 @@ abstract public class Unit extends ICWarsActor {
     /**
      * @return The {@link Unit}'s {@link #name}.
      */
-    protected String getName() {
+    public String getName() {
         return this.name;
     }
 
@@ -389,6 +399,7 @@ abstract public class Unit extends ICWarsActor {
      */
     public void takeDamage(int receivedDamage) {
         this.setHp(current_HP - Math.min(numberOfStarsOfCurrentCell - receivedDamage, 0));
+        System.out.println("brah");
     }
 
     /**

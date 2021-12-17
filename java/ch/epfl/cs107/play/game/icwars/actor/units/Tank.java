@@ -53,7 +53,7 @@ public class Tank extends Unit {
 
         super(area, position, faction, repair, 4, hp, 10, 7);
         this.sprite = new Sprite(
-            this.getName(),
+            this.getSpriteName(),
             1.5f,
             1.5f,
             this,
@@ -82,8 +82,8 @@ public class Tank extends Unit {
      *
      * @return the name of the tank depending on its faction (it will be useful to draw the sprite in the constructor)
      */
-    @Override
-    protected String getName() {
+
+    protected String getSpriteName() {
         if (this.faction.equals(Faction.ALLY)) return "icwars/friendlyTank";
         else return "icwars/enemyTank";
     }
