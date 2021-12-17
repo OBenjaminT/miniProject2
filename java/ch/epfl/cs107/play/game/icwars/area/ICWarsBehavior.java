@@ -85,8 +85,14 @@ public class ICWarsBehavior extends AreaBehavior {
          *
          * @return
          */
-        public int getNumberOfStars() {
+        public int getDefenseStar() {
             return numberOfStars;
+        }
+
+        public String typeToString() {
+            String typeString = "";
+            typeString += this.toType(this.type);
+            return typeString;
         }
     }
 

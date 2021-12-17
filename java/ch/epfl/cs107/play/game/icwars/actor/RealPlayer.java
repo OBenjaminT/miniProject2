@@ -94,7 +94,6 @@ public class RealPlayer extends ICWarsPlayer {
             }
             case SELECT_CELL -> {
                 System.out.println("select CELL");
-                // TODO select the unit in this cell
                 yield this.selectUnit() != null
                     ? States.MOVE_UNIT
                     : playerCurrentState;
@@ -187,8 +186,6 @@ public class RealPlayer extends ICWarsPlayer {
          */
         @Override
         public void interactWith(Unit unit) {
-            if (player.playerCurrentState.equals(States.SELECT_CELL) && unit.faction.equals(player.faction))
-                player.selectUnit(unit);
             player.playerGUI.setUnitOnCell(unit);
         }
 
@@ -201,6 +198,7 @@ public class RealPlayer extends ICWarsPlayer {
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             player.playerGUI.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
             player.playerGUI.setTypeOfCurrentCell(icWarsCell.getType());
+            player.playerGUI.setUnitOnCell(null);//when the player is not on a unit anymore, the playerGUI's OnCellUnit is set to null
         }
     }
 }

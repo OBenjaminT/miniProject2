@@ -2,7 +2,6 @@ package ch.epfl.cs107.play.game.icwars.actor.units;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
-import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
@@ -49,9 +48,9 @@ public class Tank extends Unit {
      *                 the sprite of the tank is also initiated
      */
     public Tank(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
-        super(area, position, faction, repair, 4, hp, 10, 7);
+        super(area, position, faction, repair, 4, hp, 10, 7, "Tank");
         this.sprite = new Sprite(
-            this.getName(),
+            this.getSpriteName(),
             1.5f,
             1.5f,
             this,
@@ -65,23 +64,22 @@ public class Tank extends Unit {
         this.actions.add(attack);
     }
 
-    /**
+/*    *
      * TODO
      *
      * @param areaInteractionVisitor (AreaInteractionVisitor) : the visitor
-     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor areaInteractionVisitor) {
         //TODO define this
-    }
+    }*/
 
     /**
      * TODO
      *
      * @return the name of the tank depending on its faction (it will be useful to draw the sprite in the constructor)
      */
-    @Override
-    protected String getName() {
+
+    protected String getSpriteName() {
         if (this.faction.equals(Faction.ALLY)) return "icwars/friendlyTank";
         else return "icwars/enemyTank";
     }
