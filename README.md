@@ -29,8 +29,8 @@ I can make diagrams and then export to `.html` or `.pdf` for the final hand in.
 - A `CONCEPTION.md` file explaining the overarching design decisions such as:
     - Architectural changes (with justification);
     - Any added classes / interfaces and how they fit into the architecture;
-    - What functionality each component adds (for any behavior divergent from
-      the instructions and any added functionality)
+    - What functionality each component adds (for any behavior divergent from the instructions and any added
+      functionality)
 
 They should be written succinctly and informally. In `.md`, `.txt`, or `.pdf` preferably.
 
