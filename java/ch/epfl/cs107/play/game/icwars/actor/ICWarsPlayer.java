@@ -40,7 +40,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     /**
      * TODO
      */
-    ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
+    ICWarsPlayerGUI playerGUI;
 
     /**
      * TODO
@@ -59,6 +59,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
+        this.getOwnerArea().fillUnits();
         this.playerCurrentState = States.IDLE;
     }
 
@@ -92,13 +93,13 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void draw(Canvas canvas) {
         if (this.playerCurrentState != States.IDLE) {
             this.sprite.draw(canvas);
-            switch (playerCurrentState) {
+/*            switch (playerCurrentState) {
                 case MOVE_UNIT -> playerGUI.draw(canvas);
                 case ACTION_SELECTION -> playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
                 case NORMAL, SELECT_CELL -> playerGUI.drawInfoPanel(canvas);
                 default -> {
                 }
-            }
+            }*/
         }
     }
 
@@ -116,6 +117,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             .forEach(unit -> {
                 unit.leaveArea();
                 units.remove(unit);
+                this.getOwnerArea().fillUnits();
             });
         drawOpacityOfUnits();
         var keyboard = this.getOwnerArea().getKeyboard();

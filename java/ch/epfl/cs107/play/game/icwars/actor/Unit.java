@@ -401,7 +401,6 @@ abstract public class Unit extends ICWarsActor {
      */
     public void takeDamage(int receivedDamage) {
         this.setHp(current_HP - Math.min(numberOfStarsOfCurrentCell - receivedDamage, 0));
-        System.out.println("brah");
     }
 
     /**

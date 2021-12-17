@@ -19,8 +19,6 @@ import ch.epfl.cs107.play.window.Mouse;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 /**
@@ -103,6 +101,11 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * TODO
      */
     private boolean started;
+
+    /**
+     * TODO
+     */
+    ArrayList<Unit> UnitsList;
 
     /**
      * TODO
@@ -554,6 +557,10 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         return paused;
     }
 
+    public void  fillUnits(){
+        this.UnitsList=this.getUnits();
+    }
+
 
     /**
      * TODO
@@ -561,10 +568,17 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return all the units in the area
      */
     private ArrayList<Unit> getUnits() {
-        return actors.stream()
+        ArrayList<Unit> myUnits = new ArrayList<>();
+        for(Actor actor : actors){
+            if(actor instanceof Unit && !myUnits.contains(actor)){
+                myUnits.add((Unit) actor);
+            }
+        }
+        return myUnits;
+/*        return actors.stream()
             .filter(actor -> actor instanceof Unit)
             .map(actor -> (Unit) actor)
-            .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));*/
     }
 
     /**
@@ -577,11 +591,25 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     public ArrayList<Integer> getIndexOfAttackableEnemies(ICWarsActor.Faction faction, ICWarsRange range) {
         ArrayList<Unit> units = getUnits();
-        return IntStream.range(0, units.size())
+        ArrayList<Unit> yo = new ArrayList<>();//tester to see what Units are added
+        ArrayList<Integer> IndexList = new ArrayList<>();
+        for(int i=0; i<units.size();++i){
+            Unit unit = units.get(i);
+            if(range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y))){
+                ICWarsActor.Faction bruh = unit.faction;
+                if(unit.faction!=faction){
+                    yo.add(unit);
+                    IndexList.add(i);
+                }
+            }
+        }
+        return IndexList;
+
+/*         return IntStream.range(0, units.size())
             .filter(i -> units.get(i).faction != faction)
             .filter(i -> range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y)))
             .boxed()
-            .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toCollection(ArrayList::new));*/
     }
 
     /**

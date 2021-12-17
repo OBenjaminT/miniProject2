@@ -5,11 +5,14 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
+import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.EnumSet;
@@ -47,6 +50,7 @@ public class RealPlayer extends ICWarsPlayer {
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
         this.sprite = new Sprite(this.getName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
+        this.playerGUI=new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
     }
 
     /**
@@ -78,6 +82,12 @@ public class RealPlayer extends ICWarsPlayer {
         this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
+                this.getOwnerArea().setViewCandidate(this);
+                //TODO improve this
+                if(ActionToExecute !=null) {
+                    if (ActionToExecute instanceof Attack)
+                        ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(true);
+                }
                 System.out.println(EnterWasReleased);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
                     EnterWasReleased = false;
@@ -118,7 +128,10 @@ public class RealPlayer extends ICWarsPlayer {
                 yield playerCurrentState;
             }
             case ACTION -> {
+                if(keyboard.get(Keyboard.A).isReleased()) System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
                 ActionToExecute.doAction(deltaTime, this, keyboard);
+                //TODO improve this
+                if(ActionToExecute instanceof Attack) ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(false);
                 yield playerCurrentState;
             }
             // TODO
@@ -138,6 +151,19 @@ public class RealPlayer extends ICWarsPlayer {
         if (b.isDown() && isNoDisplacementOccurs()) {
             orientate(orientation);
             move(MOVE_DURATION);
+        }
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        switch (playerCurrentState) {
+            case MOVE_UNIT -> playerGUI.draw(canvas);
+            case ACTION_SELECTION -> playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
+            case NORMAL, SELECT_CELL -> playerGUI.drawInfoPanel(canvas);
+            case ACTION -> this.ActionToExecute.draw(canvas);
+            default -> {
+            }
         }
     }
 

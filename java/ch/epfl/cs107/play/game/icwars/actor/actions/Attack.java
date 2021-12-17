@@ -18,7 +18,7 @@ public class Attack extends Action {
      * TODO
      */
     private final ImageGraphics cursor = new ImageGraphics(
-        ResourcePath.getSprite(" icwars / UIpackSheet "),
+            ResourcePath . getSprite ("icwars/UIpackSheet"),
         1f,
         1f,
         new RegionOfInterest(4 * 18, 26 * 18, 16, 16)
@@ -27,7 +27,11 @@ public class Attack extends Action {
     /**
      * TODO
      */
-    int indexOfUnitToAttack = -1;
+    int indexOfUnitToAttack;
+    /**
+     * when the action has been realised, for the next action I want to start poiting at the ennemy unit with index 0
+     */
+    boolean IndexOfUnitToAttackCanBeSetToZero;
 
     /**
      * TODO
@@ -36,7 +40,10 @@ public class Attack extends Action {
      * @param area
      */
     public Attack(Unit unit, Area area) {
+
         super(unit, area, "(A)ttack", Keyboard.A);
+        this.indexOfUnitToAttack=0;
+        IndexOfUnitToAttackCanBeSetToZero=true;
     }
 
     /**
@@ -47,10 +54,17 @@ public class Attack extends Action {
     @Override
     public void draw(Canvas canvas) {
         if (indexOfUnitToAttack != -1) {
-            unit.centerCameraOnTargetedEnemy(indexOfUnitToAttack);
+            unit.centerCameraOnTargetedEnemy(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
             cursor.setAnchor(canvas.getPosition().add(1, 0));
             cursor.draw(canvas);
         }
+    }
+
+    /**
+     * @param bol sets IndexOfUnitToAttackCanBeSetToZero to bol
+     */
+    public void IndexOfUnitToAttackCanBeSetToZero(boolean bol){
+        IndexOfUnitToAttackCanBeSetToZero = bol;
     }
 
     /**
@@ -70,19 +84,21 @@ public class Attack extends Action {
         if (IndexOfAttackableEnemies.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()) {
             player.canSelectActionAgain();
         } else {
-            indexOfUnitToAttack=0;
+            if(IndexOfUnitToAttackCanBeSetToZero) indexOfUnitToAttack=0;
             if (keyboard.get(Keyboard.LEFT).isReleased()) {
                 indexOfUnitToAttack = (indexOfUnitToAttack == 0)
                     ? IndexOfAttackableEnemies.size() - 1
                     : indexOfUnitToAttack - 1;
-/*                indexOfUnitToAttack=0;*/
+                System.out.println("left");
             } else if (keyboard.get(Keyboard.RIGHT).isReleased()) {
                 indexOfUnitToAttack = (indexOfUnitToAttack + 1) % IndexOfAttackableEnemies.size();
+                System.out.println("right");
             } else if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                unit.attack(indexOfUnitToAttack);
+                unit.attack(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
                 indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected
+                player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
+                System.out.println("ENTER");
             }
-            player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
         }
     }
 }
