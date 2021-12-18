@@ -35,6 +35,14 @@ public class Attack extends Action {
     boolean IndexOfUnitToAttackCanBeSetToZero;
 
     /**
+     * for the WaitFor method
+     */
+    float counter;
+    boolean counting;
+    float waitForValue;
+
+
+    /**
      * TODO
      *
      * @param unit
@@ -45,6 +53,9 @@ public class Attack extends Action {
         super(unit, area, "(A)ttack", Keyboard.A);
         this.indexOfUnitToAttack=0;
         IndexOfUnitToAttackCanBeSetToZero=true;
+        this.counter=0.f;
+        this.counting=false;
+        this.waitForValue= 100000000.0f;
     }
 
     /**
@@ -103,13 +114,35 @@ public class Attack extends Action {
         }
     }
 
-    public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard){
+    public void doAutoAction(float dt, AIPlayer player){
         //if ennemies are in the range for an attack, attack the one with lowest health
-        if(unit.getIndexOfAttackableEnemies()!=null){
-            unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+        if(!unit.getIndexOfAttackableEnemies().isEmpty()){
+            indexOfUnitToAttack= unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+            waitFor(this.waitForValue,dt);
         }
         else{
             unit.moveUnitTowarsClosestEnnemy();
+            unit.changePositionOfAiPlayer(player);
         }
+    }
+
+    /**
+     * Ensures that value time elapsed before returning true
+     * @param dt elapsed time
+     * @param value waiting time (in seconds )
+     * @return true if value seconds has elapsed , false otherwise
+     */
+    private boolean waitFor ( float value , float dt) {
+        if ( counting ) {
+            counter += dt;
+            if ( counter > value ) {
+                counting = false ;
+                return true;
+            }
+        } else {
+            counter = 0f;
+            counting = true;
+        }
+        return false ;
     }
 }

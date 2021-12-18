@@ -19,12 +19,12 @@ public class Tank extends Unit {
     /**
      * TODO
      */
-    final Wait wait;
+    final Wait Tankwait;
 
     /**
      * TODO
      */
-    final Attack attack;
+    final Attack Tankattack;
 
     /**
      * TODO
@@ -58,10 +58,10 @@ public class Tank extends Unit {
             new Vector(-0.25f, -0.25f)
         );
         this.actions = new ArrayList<>();
-        this.wait = new Wait(this, this.getOwnerArea());
-        this.actions.add(wait);
-        this.attack = new Attack(this, this.getOwnerArea());
-        this.actions.add(attack);
+        this.Tankwait = new Wait(this, this.getOwnerArea());
+        this.actions.add(Tankwait);
+        this.Tankattack = new Attack(this, this.getOwnerArea());
+        this.actions.add(Tankattack);
     }
 
 /*    *
@@ -82,5 +82,10 @@ public class Tank extends Unit {
     protected String getSpriteName() {
         if (this.faction.equals(Faction.ALLY)) return "icwars/friendlyTank";
         else return "icwars/enemyTank";
+    }
+
+    @Override
+    public Attack getAttackAction(){
+        return this.Tankattack;
     }
 }

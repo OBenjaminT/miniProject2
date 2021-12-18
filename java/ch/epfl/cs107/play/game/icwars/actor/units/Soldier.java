@@ -80,4 +80,9 @@ public class Soldier extends Unit {
         else return "icwars/enemySoldier";
     }
 
+    @Override
+    public Attack getAttackAction(){
+        return this.SoldierAttack;
+    }
+
 }

@@ -259,6 +259,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     /**
      * TODO
      *
+     * @return the sprite name
+     */
+    protected String getSpriteName() {
+        if (this.faction == Faction.ALLY) return "icwars/allyCursor";
+        else return "icwars/enemyCursor";
+    }
+
+    /**
+     * TODO
+     *
      * @return true if the arraylist of units is empty
      */
     public boolean isDefeated() {

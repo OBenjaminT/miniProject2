@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -327,9 +328,10 @@ abstract public class Unit extends ICWarsActor {
 
     /**
      * he unit attacks the attackable ennemy with loyest health
+     * @return what attackEnnemyWithLowestHealth returns
      */
-    public void attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies){
-        this.getOwnerArea().attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage());
+    public int attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies){
+        return (this.getOwnerArea().attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage()));
     }
 
     /**
@@ -337,6 +339,13 @@ abstract public class Unit extends ICWarsActor {
      */
     protected ArrayList<Action> getAvailableActions() {
         return this.actions;
+    }
+
+    /**
+     * @return the attack action of the unit (by default it is null)
+     */
+    public Attack getAttackAction(){
+        return null;
     }
 
     /**
@@ -358,6 +367,10 @@ abstract public class Unit extends ICWarsActor {
             completeUnitsRange();
             return true;
         } else return false;
+    }
+
+    public void changePositionOfAiPlayer(AIPlayer player){
+        player.changePosition(this.getCurrentMainCellCoordinates());
     }
 
 /*    *//**

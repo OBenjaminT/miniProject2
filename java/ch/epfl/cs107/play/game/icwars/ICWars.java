@@ -2,10 +2,7 @@ package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
-import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
-import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.*;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
@@ -92,7 +89,7 @@ public class ICWars extends AreaGame {
                 ICWarsActor.Faction.ALLY,
                 area.factionUnits(ICWarsActor.Faction.ALLY).toArray(new Unit[0])
             ),
-            new RealPlayer(
+            new AIPlayer(
                 area,
                 area.getFactionCenter(ICWarsActor.Faction.ENEMY),
                 ICWarsActor.Faction.ENEMY,
