@@ -63,14 +63,13 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
+        this.getOwnerArea().fillUnits();
         this.playerCurrentState = States.IDLE;
         setEnterWasReleased(false);
     }
 
     /**
      * TODO
-     *
-     * @param playerCurrentState
      */
     public void setStateToNormal() {
         this.playerCurrentState = States.NORMAL;
@@ -122,12 +121,13 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
 
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
-        units.stream()
-            .filter(Unit::isDead)
-            .forEach(unit -> {
+        ArrayList<Unit> newUnits = new ArrayList<>();
+        for (Unit unit : units)
+            if (unit.isDead()) {
                 unit.leaveArea();
-                units.remove(unit);
-            });
+                this.getOwnerArea().fillUnits();
+            } else newUnits.add(unit);
+        units = newUnits;
         drawOpacityOfUnits();
         var keyboard = getOwnerArea().getKeyboard();
 

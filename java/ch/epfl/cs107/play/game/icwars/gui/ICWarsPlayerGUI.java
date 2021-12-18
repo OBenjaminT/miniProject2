@@ -144,7 +144,7 @@ public class ICWarsPlayerGUI implements Graphics {
 
     public void drawInfoPanel(Canvas canvas) {
         this.infoPanel.setCurrentCell(TypeOfCurrentCell);
-        System.out.println(unitOnCell);
+        //System.out.println(unitOnCell);
         this.infoPanel.setUnit(this.unitOnCell);
         this.infoPanel.draw(canvas);
     }

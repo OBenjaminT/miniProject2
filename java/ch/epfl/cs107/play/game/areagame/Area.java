@@ -34,76 +34,68 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     /**
      * TODO
      */
+    ArrayList<Unit> UnitsList;
+    /**
+     * TODO
+     */
     private Window window;
 
+    // Camera Parameter
     /**
      * TODO
      */
     private FileSystem fileSystem;
-
-    // Camera Parameter
-
     /**
      * TODO
      */
     private Actor viewCandidate;
 
+    /// List of Actors inside the area
     /**
      * TODO
      */
     private Vector viewCenter;
 
-    /// List of Actors inside the area
-
+    /// List of Actors we want to register/unregistered from the area for next update iteration
     /**
      * TODO
      */
     private List<Actor> actors;
-
-    /// List of Actors we want to register/unregistered from the area for next update iteration
-
     /**
      * TODO
      */
     private List<Actor> registeredActors;
 
+    /// Sublist of actor (interactors) inside the area
     /**
      * TODO
      */
     private List<Actor> unregisteredActors;
-
-    /// Sublist of actor (interactors) inside the area
-
     /**
      * TODO
      */
     private List<Interactor> interactors;
-
     /**
      * TODO
      */
     private Map<Interactable, List<DiscreteCoordinates>> interactablesToEnter;
 
+    /// The behavior Map
     /**
      * TODO
      */
     private Map<Interactable, List<DiscreteCoordinates>> interactablesToLeave;
 
-    /// The behavior Map
-
+    /// pause mechanics and menu to display. May be null - start indicate if area already begins, paused indicate if we
+    // display the pause menu
     /**
      * TODO
      */
     private AreaBehavior areaBehavior;
-
-    /// pause mechanics and menu to display. May be null - start indicate if area already begins, paused indicate if we
-    // display the pause menu
-
     /**
      * TODO
      */
     private boolean started;
-
     /**
      * TODO
      */
@@ -491,7 +483,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
             ? new Vector(getWidth() / (float) 2, getHeight() / (float) 2)
             : viewCandidate.getPosition();
         // Compute new viewport
-        Transform viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
+        var viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
         window.setRelativeTransform(viewTransform);
     }
 
@@ -571,6 +563,10 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         return paused;
     }
 
+    public void fillUnits() {
+        this.UnitsList = this.getUnits();
+    }
+
 
     /**
      * TODO
@@ -581,6 +577,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         // TODO comments
 
         return actors.stream()
+            .distinct()
             .filter(actor -> actor instanceof Unit)
             .map(actor -> (Unit) actor)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -597,15 +594,16 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     public ArrayList<Integer> getIndexOfAttackableEnemies(ICWarsActor.Faction faction, ICWarsRange range) {
         // TODO comments
 
-        var units = getUnits();
-        return IntStream.range(0, units.size())
-            .filter(i -> units.get(i).faction != faction)
+        ArrayList<Unit> units = getUnits();
+        return IntStream
+            .range(0, units.size())
             .filter(i -> range.nodeExists(
-                    new DiscreteCoordinates(
-                        (int) units.get(i).getPosition().x,
-                        (int) units.get(i).getPosition().y)
-                )
+                new DiscreteCoordinates(
+                    (int) units.get(i).getPosition().x,
+                    (int) units.get(i).getPosition().y
+                ))
             )
+            .filter(i -> !units.get(i).faction.equals(faction))
             .boxed()
             .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -626,8 +624,39 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param damage              used to calculate the amount of received damage
      * @param numberOfStars       depends on the type of cell the attacked unit is on and it is used to calculate the actual dammage the unit receives
      */
-    public void attack(int indexOfUnitToAttack, int damage, int numberOfStars) {
+    public void attack(int indexOfUnitToAttack, int damage) {
         getUnits().get(indexOfUnitToAttack)
-            .takeDamage(damage - numberOfStars);
+            .takeDamage(damage);
+    }
+
+    /**
+     * TODO
+     *
+     * @param IndexOfAttackableEnemies the indexes of the attackable ennemy units
+     * @param damage                   the damage of the attacking unit
+     *                                 Among the attacakble ennemy units, the one with the lowest health is found and attacked
+     */
+    public void attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies, int damage) {
+        getUnits().stream()
+            .min(Comparator.comparingInt(Unit::getHp))
+            .get()
+            .takeDamage(damage);
+    }
+
+    /**
+     * @param faction       the faction of the attacking unit
+     * @param attackingUnit the attacking unit
+     *                      finds the ennemy unit and the calls moveTowarsClosestEnnemy(ennemyUnits) on the attacking unit
+     */
+    public void moveUnitTowardsClosestEnnemy(ICWarsActor.Faction faction, Unit attackingUnit) {
+        ArrayList<Unit> units = getUnits();
+        ArrayList<Unit> ennemyUnits = new ArrayList<>();
+        for (Unit unit : units) {
+            if (unit.faction != faction) {
+                ennemyUnits.add(unit);
+            }
+        }
+        //TODO check if this in an encapsluation problem
+        attackingUnit.moveTowarsClosestEnnemy(ennemyUnits);
     }
 }

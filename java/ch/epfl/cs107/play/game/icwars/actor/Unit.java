@@ -329,9 +329,16 @@ abstract public class Unit extends ICWarsActor {
 
         this.getOwnerArea().attack(
             indexOfUnitToAttack,
-            this.getDamage(),
-            getNumberOfStarsOfCurrentCell()
+            this.getDamage()
         );
+    }
+
+    /**
+     * he unit attacks the attackable ennemy with loyest health
+     */
+    public void attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies) {
+        this.getOwnerArea()
+            .attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage());
     }
 
     /**
@@ -395,13 +402,62 @@ abstract public class Unit extends ICWarsActor {
     }
 
     /**
+     * @param ennemies ennemie units on the map
+     *                 this method allows to move the unit at the node in it's range with closest position to the closest ennemy unit
+     */
+    public void moveTowarsClosestEnnemy(ArrayList<Unit> ennemies) {
+        //find the Ennemy with closest coordinates
+        //compute the equation of the line that goes through the ennemy and the attacking unit
+        //let x and y be coordinates on this line, starting with the same value as the ennemy coordinates
+        //while there exist no nodes at x and y coordinates in the attacking unit's range, x and y are changed towards the attacking unit
+        float UnitXCoordinate = this.getCurrentMainCellCoordinates().x;
+        float UnitYCoordinate = this.getCurrentMainCellCoordinates().y;
+        Unit closestEnnemy = ennemies.get(0);
+        double shortestDistance = Math.sqrt(
+            (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate)
+                - (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate)
+        );
+        for (Unit ennemyUnit : ennemies) {
+            double distance = Math.sqrt((ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate)
+                - (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate));
+            if (distance < shortestDistance) {
+                shortestDistance = distance;
+                closestEnnemy = ennemyUnit;
+            }
+        }
+        //now compute the slope y=ax+b
+        float slope;
+        if (closestEnnemy.getCurrentMainCellCoordinates().x != UnitXCoordinate)
+            slope = (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) / (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate);
+        else slope = (float) Double.POSITIVE_INFINITY;
+        float constant = UnitYCoordinate - slope * UnitXCoordinate;
+        //initiate x and y
+        float x = closestEnnemy.getCurrentMainCellCoordinates().x;
+        float y = closestEnnemy.getCurrentMainCellCoordinates().y;
+        //change x and y until it is in the range
+        boolean coordinatesToMoveToFound = this.range.nodeExists(new DiscreteCoordinates((int) x, (int) y));
+        while (!coordinatesToMoveToFound) {
+            if (slope != (float) Double.POSITIVE_INFINITY) {
+                x = (x > UnitXCoordinate) ? (x - 1) : (x + 1);
+                y = slope * x + constant;
+            } else {
+                y = (y > UnitXCoordinate) ? (y - 1) : (y + 1);
+            }
+            coordinatesToMoveToFound = this.range.nodeExists(new DiscreteCoordinates((int) x, (int) y));
+        }
+
+        //move the unit towards the coordinates (x,y)
+        this.changePosition(new DiscreteCoordinates((int) x, (int) y));
+    }
+
+    /**
      * The way to make this {@link Unit} take damage (or otherwise reduce it's {@link #current_HP}).
      *
      * @param receivedDamage Subtracts this number from the {@link #current_HP}.
      */
     public void takeDamage(int receivedDamage) {
-        this.setHp(current_HP - Math.min(numberOfStarsOfCurrentCell - receivedDamage, 0));
-        System.out.println("brah");
+        this.setHp(current_HP - Math.max(receivedDamage - numberOfStarsOfCurrentCell, 0));
+        System.out.println(this.current_HP);
     }
 
     /**
@@ -411,8 +467,18 @@ abstract public class Unit extends ICWarsActor {
      *                            {@link Area#centerCameraOnTargetedEnemy(int) centerCameraOnTargetedEnemy} method.
      */
     public void centerCameraOnTargetedEnemy(int indexOfUnitToAttack) {
-        this.getOwnerArea().centerCameraOnTargetedEnemy(indexOfUnitToAttack);
+        this.getOwnerArea()
+            .centerCameraOnTargetedEnemy(indexOfUnitToAttack);
     }
+
+    /**
+     *
+     */
+    public void moveUnitTowarsClosestEnnemy(){
+        this.getOwnerArea()
+            .moveUnitTowardsClosestEnnemy(this.faction,this);
+    }
+
 
     /**
      * TODO
