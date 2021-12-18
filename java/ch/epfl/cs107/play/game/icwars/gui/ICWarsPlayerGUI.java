@@ -22,6 +22,14 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * TODO
+     *
+     * @param cameraScaleFactor
+     * @param player
+     */
+    private final ICWarsActionsPanel actionsPanel;
+
+    /**
+     * TODO
      */
     ICWarsPlayer player;
 
@@ -37,11 +45,8 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * TODO
-     *
-     * @param cameraScaleFactor
-     * @param player
      */
-    private final ICWarsActionsPanel actionsPanel;
+    ICWarsInfoPanel infoPanel;
 
     /**
      * TODO
@@ -57,10 +62,6 @@ public class ICWarsPlayerGUI implements Graphics {
      * TODO
      */
     private Unit unitOnCell;
-    /**
-     * TODO
-     */
-    ICWarsInfoPanel infoPanel;
 
     /**
      * TODO

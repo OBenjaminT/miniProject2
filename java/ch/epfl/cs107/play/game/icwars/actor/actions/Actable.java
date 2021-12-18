@@ -18,5 +18,5 @@ public interface Actable extends Graphics {
      */
     void doAction(float dt, ICWarsPlayer player, Keyboard keyboard);
 
-    void  doAutoAction(float dt, AIPlayer player, Keyboard keyboard);
+    void doAutoAction(float dt, AIPlayer player, Keyboard keyboard);
 }

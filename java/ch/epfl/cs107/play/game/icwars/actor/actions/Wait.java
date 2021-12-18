@@ -44,7 +44,7 @@ public class Wait extends Action {
         player.setStateToNormal();
     }
 
-    public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard){
+    public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard) {
 
     }
 }

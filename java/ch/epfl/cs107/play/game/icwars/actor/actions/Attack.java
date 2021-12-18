@@ -111,7 +111,7 @@ public class Attack extends Action {
     public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard) {
         // if ennemies are in the range for an attack, attack the one with lowest health
         if (unit.getIndexOfAttackableEnemies() != null)
-            unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
-        else unit.moveUnitTowarsClosestEnnemy();
+            unit.attackEnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+        else unit.moveUnitTowardsClosestEnemy();
     }
 }

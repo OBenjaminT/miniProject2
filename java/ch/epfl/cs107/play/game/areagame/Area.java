@@ -646,7 +646,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     /**
      * @param faction       the faction of the attacking unit
      * @param attackingUnit the attacking unit
-     *                      finds the ennemy unit and the calls moveTowarsClosestEnnemy(ennemyUnits) on the attacking unit
+     *                      finds the ennemy unit and the calls moveTowardsClosestEnemy(ennemyUnits) on the attacking unit
      */
     public void moveUnitTowardsClosestEnnemy(ICWarsActor.Faction faction, Unit attackingUnit) {
         ArrayList<Unit> units = getUnits();
@@ -657,6 +657,6 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
             }
         }
         //TODO check if this in an encapsluation problem
-        attackingUnit.moveTowarsClosestEnnemy(ennemyUnits);
+        attackingUnit.moveTowardsClosestEnemy(ennemyUnits);
     }
 }

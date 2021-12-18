@@ -119,8 +119,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
 
         int index = areas.indexOf(currentArea);
         if (index >= 0) {
-            players.forEach(ICWarsPlayer::leaveArea);
-            if (index < areas.size() - 1) {
+            if (index < (areas.size() - 1)) {
+                players.forEach(ICWarsPlayer::leaveArea);
                 setCurrentArea(areas.get(index + 1), true);
                 return true;
             } else {

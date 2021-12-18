@@ -12,6 +12,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.IntStream;
 
 /**
@@ -319,7 +320,7 @@ abstract public class Unit extends ICWarsActor {
     }
 
     /**
-     * Calls {@link Area#attack(int, int, int)} on the {@link Unit} pointed to by the {@code indexOfUnitToAttack}.
+     * Calls {@link Area#attack(int, int)} on the {@link Unit} pointed to by the {@code indexOfUnitToAttack}.
      *
      * @param indexOfUnitToAttack The index of the {@link Unit} in the {@link Area}'s units list that should be
      *                            attacked.
@@ -336,7 +337,7 @@ abstract public class Unit extends ICWarsActor {
     /**
      * he unit attacks the attackable ennemy with loyest health
      */
-    public void attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies) {
+    public void attackEnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies) {
         this.getOwnerArea()
             .attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage());
     }
@@ -402,47 +403,42 @@ abstract public class Unit extends ICWarsActor {
     }
 
     /**
-     * @param ennemies ennemie units on the map
-     *                 this method allows to move the unit at the node in it's range with closest position to the closest ennemy unit
+     * @param enemies ennemie units on the map
+     *                this method allows to move the unit at the node in it's range with closest position to the closest ennemy unit
      */
-    public void moveTowarsClosestEnnemy(ArrayList<Unit> ennemies) {
+    public void moveTowardsClosestEnemy(ArrayList<Unit> enemies) {
         //find the Ennemy with closest coordinates
         //compute the equation of the line that goes through the ennemy and the attacking unit
         //let x and y be coordinates on this line, starting with the same value as the ennemy coordinates
         //while there exist no nodes at x and y coordinates in the attacking unit's range, x and y are changed towards the attacking unit
         float UnitXCoordinate = this.getCurrentMainCellCoordinates().x;
         float UnitYCoordinate = this.getCurrentMainCellCoordinates().y;
-        Unit closestEnnemy = ennemies.get(0);
-        double shortestDistance = Math.sqrt(
-            (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate)
-                - (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate)
-        );
-        for (Unit ennemyUnit : ennemies) {
-            double distance = Math.sqrt((ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate)
-                - (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate));
-            if (distance < shortestDistance) {
-                shortestDistance = distance;
-                closestEnnemy = ennemyUnit;
-            }
-        }
-        //now compute the slope y=ax+b
+
+        Unit closestEnemy = enemies.stream()
+            .min(Comparator.comparingDouble(enemy -> Math.sqrt(
+                    (enemy.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (enemy.getCurrentMainCellCoordinates().x - UnitXCoordinate)
+                        - (enemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (enemy.getCurrentMainCellCoordinates().y - UnitYCoordinate))
+                )
+            ).get();
+
+        // now compute the slope y=ax+b
         float slope;
-        if (closestEnnemy.getCurrentMainCellCoordinates().x != UnitXCoordinate)
-            slope = (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) / (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate);
+        if (closestEnemy.getCurrentMainCellCoordinates().x != UnitXCoordinate)
+            slope = (closestEnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) / (closestEnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate);
         else slope = (float) Double.POSITIVE_INFINITY;
-        float constant = UnitYCoordinate - slope * UnitXCoordinate;
+
+        float constant = UnitYCoordinate - (slope * UnitXCoordinate);
         //initiate x and y
-        float x = closestEnnemy.getCurrentMainCellCoordinates().x;
-        float y = closestEnnemy.getCurrentMainCellCoordinates().y;
+        float x = closestEnemy.getCurrentMainCellCoordinates().x;
+        float y = closestEnemy.getCurrentMainCellCoordinates().y;
+
         //change x and y until it is in the range
         boolean coordinatesToMoveToFound = this.range.nodeExists(new DiscreteCoordinates((int) x, (int) y));
         while (!coordinatesToMoveToFound) {
             if (slope != (float) Double.POSITIVE_INFINITY) {
                 x = (x > UnitXCoordinate) ? (x - 1) : (x + 1);
                 y = slope * x + constant;
-            } else {
-                y = (y > UnitXCoordinate) ? (y - 1) : (y + 1);
-            }
+            } else y = (y > UnitXCoordinate) ? (y - 1) : (y + 1);
             coordinatesToMoveToFound = this.range.nodeExists(new DiscreteCoordinates((int) x, (int) y));
         }
 
@@ -474,9 +470,9 @@ abstract public class Unit extends ICWarsActor {
     /**
      *
      */
-    public void moveUnitTowarsClosestEnnemy(){
+    public void moveUnitTowardsClosestEnemy() {
         this.getOwnerArea()
-            .moveUnitTowardsClosestEnnemy(this.faction,this);
+            .moveUnitTowardsClosestEnnemy(this.faction, this);
     }
 
 
