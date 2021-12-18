@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -37,16 +38,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * TODO
      */
     protected Unit SelectedUnit;
-
+    protected boolean EnterWasReleased;
     /**
      * TODO
      */
     ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
-
-    /**
-     * TODO
-     */
-    boolean EnterWasReleased = false;
 
     /**
      * TODO
@@ -63,6 +59,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
         this.playerCurrentState = States.IDLE;
+        setEnterWasReleased(false);
     }
 
     /**
@@ -70,8 +67,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      *
      * @param playerCurrentState
      */
-    public void setPlayerCurrentState(States playerCurrentState) {
-        this.playerCurrentState = playerCurrentState;
+    public void setStateToNormal() {
+        this.playerCurrentState = States.NORMAL;
     }
 
     /**
@@ -127,38 +124,31 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                 units.remove(unit);
             });
         drawOpacityOfUnits();
-        var keyboard = this.getOwnerArea().getKeyboard();
+        var keyboard = getOwnerArea().getKeyboard();
 
         this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
-                System.out.println(EnterWasReleased);
-                if (!keyboard.get(Keyboard.ENTER).isReleased())
-                    EnterWasReleased = false;
-                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                System.out.println(enterWasReleased());
+                setEnterWasReleased(keyboard.get(Keyboard.ENTER).isReleased() && enterWasReleased());
+                if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
-                }
-                if (keyboard.get(Keyboard.TAB).isReleased()) {
+                } else if (keyboard.get(Keyboard.TAB).isReleased()) {
                     System.out.println("tab");
-                    EnterWasReleased = false;
+                    setEnterWasReleased(false);
                     yield States.IDLE;
-                } else yield !EnterWasReleased
+                } else yield !enterWasReleased()
                     ? (keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState)
                     : playerCurrentState;
             }
-            case SELECT_CELL -> {
-                System.out.println("select CELL");
-                // TODO select the unit in this cell
-                yield this.selectUnit() != null
-                    ? States.MOVE_UNIT
-                    : playerCurrentState;
-            }
+            case SELECT_CELL -> this.selectUnit() != null
+                ? States.MOVE_UNIT
+                : playerCurrentState;
             case MOVE_UNIT -> {
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     var pos = this.getPosition();
                     this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
                     SelectedUnit.setIsAlreadyMoved(true);
-                    EnterWasReleased = true;
                     yield States.NORMAL;
                 } else yield playerCurrentState;
             }
@@ -192,8 +182,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * is called when the player couldn't attack an ennemy (he has another chance to do sth)
      */
     public void canSelectActionAgain() {
-        this.getOwnerArea().setViewCandidate(this);
-        this.playerCurrentState = States.ACTION_SELECTION;
+        getOwnerArea().setViewCandidate(this);
+        playerCurrentState = States.ACTION_SELECTION;
     }
 
     /**
@@ -327,6 +317,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void startTurn() {
         this.playerCurrentState = States.NORMAL;
         this.getOwnerArea().setViewCandidate(this);
+        this.units = (ArrayList<Unit>) units
+            .stream()
+            .filter(Unit::isAlive)
+            .collect(Collectors.toList());
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
@@ -409,7 +403,23 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * than the sprite of other  units
      */
     private void drawOpacityOfUnits() {
-        this.units.forEach(unit -> unit.sprite.setAlpha(unit.hasAlreadyMoved ? 0.1f : 1.0f));
+        units.forEach(unit -> unit.sprite.setAlpha(unit.hasAlreadyMoved ? 0.1f : 1.0f));
+    }
+
+    /**
+     * TODO
+     */
+    protected boolean enterWasReleased() {
+        return EnterWasReleased;
+    }
+
+    /**
+     * TODO
+     *
+     * @param enterWasReleased
+     */
+    protected void setEnterWasReleased(boolean enterWasReleased) {
+        EnterWasReleased = enterWasReleased;
     }
 
     /**

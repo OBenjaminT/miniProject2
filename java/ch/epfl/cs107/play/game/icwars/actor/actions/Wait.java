@@ -40,6 +40,6 @@ public class Wait extends Action {
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         this.unit.setIsAlreadyMoved(true);
-        player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
+        player.setStateToNormal();
     }
 }

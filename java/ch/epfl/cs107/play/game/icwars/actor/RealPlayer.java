@@ -87,17 +87,17 @@ public class RealPlayer extends ICWarsPlayer {
         this.playerCurrentState = switch (playerCurrentState) {
             case IDLE -> playerCurrentState;
             case NORMAL -> {
-                System.out.println(EnterWasReleased);
+                System.out.println(enterWasReleased());
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
-                    EnterWasReleased = false;
+                    setEnterWasReleased(false);
                 else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
                 }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     System.out.println("tab");
-                    EnterWasReleased = false;
+                    setEnterWasReleased(false);
                     yield States.IDLE;
-                } else yield !EnterWasReleased
+                } else yield !enterWasReleased()
                     ? keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState
                     : playerCurrentState;
             }
@@ -112,7 +112,7 @@ public class RealPlayer extends ICWarsPlayer {
                     var pos = this.getPosition();
                     if (this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y))) {
                         SelectedUnit.setIsAlreadyMoved(true);
-                        EnterWasReleased = true;
+                        setEnterWasReleased(true);
                         yield States.ACTION_SELECTION;
                     } else yield States.NORMAL;
                 } else yield playerCurrentState;

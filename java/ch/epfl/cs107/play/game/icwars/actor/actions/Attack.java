@@ -85,7 +85,7 @@ public class Attack extends Action {
                 unit.attack(indexOfUnitToAttack);
                 indexOfUnitToAttack = -1; // so that the draw method knows that no enemies are selected
             }
-            player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
+            player.setStateToNormal();
         }
     }
 }
