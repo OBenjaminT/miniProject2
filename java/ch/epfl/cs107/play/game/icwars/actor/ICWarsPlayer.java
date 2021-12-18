@@ -38,7 +38,12 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * TODO
      */
     protected Unit SelectedUnit;
+
+    /**
+     * TODO
+     */
     protected boolean EnterWasReleased;
+
     /**
      * TODO
      */
