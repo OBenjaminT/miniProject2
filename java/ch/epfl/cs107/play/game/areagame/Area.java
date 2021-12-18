@@ -643,12 +643,12 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         Unit ennemyWithLowestHealth=this.getUnits().get(IndexOfAttackableEnemies.get(0));
         int lowestHelath = this.getUnits().get(IndexOfAttackableEnemies.get(0)).getHp();
         int indexOfUnitToAttack=0;
-        for(Integer i : IndexOfAttackableEnemies){
-            if(this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp()<lowestHelath){
-                ennemyWithLowestHealth=this.getUnits().get(IndexOfAttackableEnemies.get(i));
-                lowestHelath=ennemyWithLowestHealth.getHp();
-                indexOfUnitToAttack=i;
-            }
+        for(int i =0; i< IndexOfAttackableEnemies.size();++i) {
+                if (this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp() < lowestHelath) {
+                    ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(i));
+                    lowestHelath = ennemyWithLowestHealth.getHp();
+                    indexOfUnitToAttack = i;
+                }
         }
         ennemyWithLowestHealth.takeDamage(damage);
         return indexOfUnitToAttack;

@@ -30,7 +30,7 @@ public class Soldier extends Unit {
      * @param faction  faction to which the units belong (eiter ALLY or ENEMY
      */
     public Soldier(Area area, DiscreteCoordinates position, Faction faction) {
-        this(area, position, faction, 5, 10);
+        this(area, position, faction, 5, 5);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Soldier extends Unit {
      *                 the sprite of the soldier is also initiated
      */
     public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
-        super(area, position, faction, repair, 2, hp, 10, 7, "Soldier");
+        super(area, position, faction, repair, 2, hp, 5, 7, "Soldier");
         this.sprite = new Sprite(
             this.getSpriteName(),
             1.5f,
