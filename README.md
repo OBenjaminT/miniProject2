@@ -1,5 +1,18 @@
 # Project Description
 
+### General usage
+The player can move its cursor thanks to the arrows buttons. Informations about the cell the cursor is on is provided on the bottom left corner. When the cursor is on an ally unit (colored in blue) the player can press ENTER to select the unit. A white area then appears on the screen which symbolises the range within which the unit can be moved. Tochose where to move the unit, the player can move his cursor to the position within the range and then press ENTER, which initiates the move. A pannel is then displayed on the top right corner where the available actions offered by the selected unit are displayed. The player can then press either A or W:
+
+    -By pressing the A button on the keyboard the player can make his selected unit attack ennemies. If no ennemies are in an attackable range, the player can chose an action again.      Else, a pointer is displayed next to the ennemy unit to attack and the player can choose which ennemy to attack with the arrows buttons. When the pointer is next to the ennemy        the player wants to attack, the ENTER button will trigger the attack. If the attacked ennemy is dead, he disappers from the map. After the attack, the player can continue            playing with other units
+    
+    -By pressing the W button, the selected unit does nothing and the player can continue playing with other units.
+
+Units can only do one action per round and units that were already used are transparent and can't be selected. If the player wants to stop his round, he can press TAB and the oponent starts playing. 
+
+### Other buttons
+-the N button allows the player to change levels. If the player is in the last level and presses N, the game stops
+-the R button allows the player to restart the game at the first level
+
 ## Development method
 
 This is where we should plan:
