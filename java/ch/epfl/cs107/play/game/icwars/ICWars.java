@@ -38,10 +38,12 @@ public class ICWars extends AreaGame {
      * Start the {@link ICWars} game. Can fail (return {@code false}).
      * <p>
      * It does these things, in this order:
+     * <ul>
      * <li>Call {@link AreaGame#begin(Window, FileSystem)}.</li>
      * <li>Get the {@link #keyboard}.</li>
      * <li>Initialise and then call {@link #addArea(Area)} on all of the levels in {@link ICWars}.</li>
      * <li>Call {@link #nextArea()} to set {@link #currentArea} to the first level, then initialise it.</li>
+     * </ul>
      *
      * @param window     The {@link Window} that the game is displayed in.
      * @param fileSystem The {@link FileSystem} that the game gets its visual resources from.
@@ -95,10 +97,12 @@ public class ICWars extends AreaGame {
     /**
      * <p> Initialise an {@link ICWarsArea} by: </p>
      *
+     * <ul>
      * <li>initialising the {@link ICWarsPlayer}s and their units;</li>
      * <li>adding each player to the {@link #players players list} and making then
      * {@link ICWarsPlayer#enterArea(Area, DiscreteCoordinates) enter the area};</li>
      * <li>Setting {@link #gameState} to {@link States#INIT INIT}</li>
+     * </ul>
      *
      * @param area The {@link ICWarsArea} object to initialise.
      */

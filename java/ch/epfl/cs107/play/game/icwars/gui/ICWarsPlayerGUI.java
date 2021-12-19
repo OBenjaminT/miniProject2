@@ -22,9 +22,6 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * TODO
-     *
-     * @param cameraScaleFactor
-     * @param player
      */
     private final ICWarsActionsPanel actionsPanel;
 

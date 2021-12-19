@@ -22,8 +22,8 @@ public class Path extends Entity {
     /**
      * Default Path Constructor
      *
-     * @param start (Vector): the origin of the path
-     * @param path  (Queue<Orientation>): the successive orientation of the path
+     * @param start the origin of the path
+     * @param path  the successive orientation of the path
      */
     public Path(Vector start, Queue<Orientation> path) {
         super(DiscreteCoordinates.ORIGIN.toVector());

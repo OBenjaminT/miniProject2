@@ -161,7 +161,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
      * Compute the current cells after the move
      * by default we jump each current cell by one cell in the orientation vector
      *
-     * @return (List < DiscreteCoordinates >): the cells after the move
+     * @return the cells after the move
      */
     protected List<DiscreteCoordinates> getNextCurrentCells() {
         return getCurrentCells().stream()

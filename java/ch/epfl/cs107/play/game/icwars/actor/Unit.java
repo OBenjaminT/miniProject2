@@ -84,7 +84,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      *                 {@link ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param faction  The {@link Faction Faction} to which the
      *                 {@link Unit} belongs to. Passed straight to the
-     *                 {@link ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction)ICWarsActor constructor}.
+     *                 {@link ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param repair   The amount that the {@link Unit}'s {@link #current_HP} recovers at the end of a turn. Passed to
      *                 {@link #repair}.
      * @param radius   The {@link Unit}'s movement. Passed to {@link #radius}.
@@ -111,7 +111,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      *                   {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param faction    The {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor.Faction Faction} to which the
      *                   {@link Unit} belongs to. Passed straight to the
-     *                   {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction)ICWarsActor constructor}.
+     *                   {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param repair     The amount that the {@link Unit}'s {@link #current_HP} recovers at the end of a turn. Passed to
      *                   {@link #repair}.
      * @param radius     The {@link Unit}'s movement. Passed to {@link #radius}.
