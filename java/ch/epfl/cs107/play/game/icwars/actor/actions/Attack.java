@@ -123,6 +123,11 @@ public class Attack extends Action {
         else{
             unit.moveUnitTowarsClosestEnnemy();
             unit.changePositionOfAiPlayer(player);
+            //then retry an attack
+            if(!unit.getIndexOfAttackableEnemies().isEmpty()){
+                indexOfUnitToAttack= unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+                waitFor(this.waitForValue,dt);
+            }
         }
     }
 

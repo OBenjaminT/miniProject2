@@ -89,7 +89,7 @@ public class ICWars extends AreaGame {
                 ICWarsActor.Faction.ALLY,
                 area.factionUnits(ICWarsActor.Faction.ALLY).toArray(new Unit[0])
             ),
-            new AIPlayer(
+            new RealPlayer(
                 area,
                 area.getFactionCenter(ICWarsActor.Faction.ENEMY),
                 ICWarsActor.Faction.ENEMY,
