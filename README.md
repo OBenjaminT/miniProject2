@@ -3,12 +3,14 @@
 ## Development method
 
 This is where we should plan:
+
 - What to do;
 - How to do it;
 - Who should do what;
 - etc...
 
 Things we need to sort out:
+
 - [ ] Game design
 - [ ] Overall architecture
 - [ ] JavaDoc comments
@@ -21,6 +23,7 @@ I can make diagrams and then export to `.html` or `.pdf` for the final hand in.
 **Date**: ==Thursday 23 December at 09:00==
 
 **Hand in Format**:
+
 - Source code will be an archive (`.zip`)
 - A `README.md` explaining how to use the program including:
     - How to start it;
@@ -53,6 +56,7 @@ small because the hand in size is limited. Any extension that makes the files to
 ## Structure
 
 **Steps**:
+
 1. **Basic components**:
     - Have a player controlled *cursor* capable of moving and changing level;
     - Have *units* that can be used by the player.
