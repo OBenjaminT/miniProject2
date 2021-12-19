@@ -238,15 +238,16 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      */
     private void completeUnitsRange() {
         this.range = new ICWarsRange();
+        System.out.println(this.getOwnerArea().getWidth());
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
         IntStream.rangeClosed(-radius, radius)
             .map(x -> x + this.getCurrentMainCellCoordinates().x)
-            .filter(x -> x <= heightIndex)
+            .filter(x -> x <= widthIndex)
             .filter(x -> x >= 0)
             .forEach(x -> IntStream.rangeClosed(-radius, radius)
                 .map(y -> y + this.getCurrentMainCellCoordinates().y)
-                .filter(y -> y <= widthIndex)
+                .filter(y -> y <= heightIndex)
                 .filter(y -> y >= 0)
                 .forEach(y -> range.addNode(
                     new DiscreteCoordinates(x, y), // NodeCoordinates
