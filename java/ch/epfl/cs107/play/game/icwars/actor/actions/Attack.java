@@ -19,7 +19,7 @@ public class Attack extends Action {
      * TODO
      */
     private final ImageGraphics cursor = new ImageGraphics(
-        ResourcePath.getSprite(" icwars / UIpackSheet "),
+            ResourcePath . getSprite ("icwars/UIpackSheet"),
         1f,
         1f,
         new RegionOfInterest(4 * 18, 26 * 18, 16, 16)
@@ -29,27 +29,16 @@ public class Attack extends Action {
      * TODO
      */
     int indexOfUnitToAttack;
-
     /**
-     * TODO
-     * <p>
      * when the action has been realised, for the next action I want to start poiting at the ennemy unit with index 0
      */
     boolean IndexOfUnitToAttackCanBeSetToZero;
 
     /**
-     * TODO
+     * for the WaitFor method
      */
     float counter;
-
-    /**
-     * TODO
-     */
     boolean counting;
-
-    /**
-     * TODO
-     */
     float waitForValue;
 
 
@@ -60,12 +49,13 @@ public class Attack extends Action {
      * @param area
      */
     public Attack(Unit unit, Area area) {
+
         super(unit, area, "(A)ttack", Keyboard.A);
-        this.indexOfUnitToAttack = 0;
-        IndexOfUnitToAttackCanBeSetToZero = true;
-        this.counter = 0.f;
-        this.counting = false;
-        this.waitForValue = 100000000.0f;
+        this.indexOfUnitToAttack=0;
+        IndexOfUnitToAttackCanBeSetToZero=true;
+        this.counter=0.f;
+        this.counting=false;
+        this.waitForValue= 100000000.0f;
     }
 
     /**
@@ -75,19 +65,17 @@ public class Attack extends Action {
      */
     @Override
     public void draw(Canvas canvas) {
-        // TODO comments
-
-        if (unit.getIndexOfAttackableEnemies().isEmpty()) return;
-
-        unit.centerCameraOnTargetedEnemy(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
-        cursor.setAnchor(canvas.getPosition().add(1, 0));
-        cursor.draw(canvas);
+        if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
+            unit.centerCameraOnTargetedEnemy(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
+            cursor.setAnchor(canvas.getPosition().add(1, 0));
+            cursor.draw(canvas);
+        }
     }
 
     /**
      * @param bol sets IndexOfUnitToAttackCanBeSetToZero to bol
      */
-    public void IndexOfUnitToAttackCanBeSetToZero(boolean bol) {
+    public void IndexOfUnitToAttackCanBeSetToZero(boolean bol){
         IndexOfUnitToAttackCanBeSetToZero = bol;
     }
 
@@ -104,13 +92,11 @@ public class Attack extends Action {
      */
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
-        // TODO comments
-
         var IndexOfAttackableEnemies = unit.getIndexOfAttackableEnemies();
         if (IndexOfAttackableEnemies.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()) {
             player.canSelectActionAgain();
         } else {
-            if (IndexOfUnitToAttackCanBeSetToZero) indexOfUnitToAttack = 0;
+            if(IndexOfUnitToAttackCanBeSetToZero) indexOfUnitToAttack=0;
             if (keyboard.get(Keyboard.LEFT).isReleased()) {
                 indexOfUnitToAttack = (indexOfUnitToAttack == 0)
                     ? IndexOfAttackableEnemies.size() - 1
@@ -121,48 +107,47 @@ public class Attack extends Action {
                 System.out.println("right");
             } else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                 unit.attack(IndexOfAttackableEnemies.get(indexOfUnitToAttack));
+               /* indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected*/
+                player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
                 System.out.println("ENTER");
             }
-            player.setStateToNormal();
         }
     }
 
-    public void doAutoAction(float dt, AIPlayer player) {
-        //if enemies are in the range for an attack, attack the one with lowest health
-        if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
-            indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
-            waitFor(this.waitForValue, dt);
-        } else {
-            unit.moveUnitTowardsClosestEnemy();
+    public void doAutoAction(float dt, AIPlayer player){
+        //if ennemies are in the range for an attack, attack the one with lowest health
+        if(!unit.getIndexOfAttackableEnemies().isEmpty()){
+            indexOfUnitToAttack= unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+            waitFor(this.waitForValue,dt);
+        }
+        else{
+            unit.moveUnitTowarsClosestEnnemy();
             unit.changePositionOfAiPlayer(player);
             //then retry an attack
-            if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
-                indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
-                waitFor(this.waitForValue, dt);
+            if(!unit.getIndexOfAttackableEnemies().isEmpty()){
+                indexOfUnitToAttack= unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+                waitFor(this.waitForValue,dt);
             }
         }
     }
 
     /**
-     * TODO
-     * <p>
      * Ensures that value time elapsed before returning true
-     *
-     * @param dt    elapsed time
+     * @param dt elapsed time
      * @param value waiting time (in seconds )
      * @return true if value seconds has elapsed , false otherwise
      */
-    private boolean waitFor(float value, float dt) {
-        if (counting) {
+    private boolean waitFor ( float value , float dt) {
+        if ( counting ) {
             counter += dt;
-            if (counter > value) {
-                counting = false;
+            if ( counter > value ) {
+                counting = false ;
                 return true;
             }
         } else {
             counter = 0f;
             counting = true;
         }
-        return false;
+        return false ;
     }
 }
