@@ -24,64 +24,53 @@ import java.util.stream.IntStream;
 abstract public class Unit extends ICWarsActor implements Interactor {
 
     /**
+     * handler for the interactions
+     */
+    private final Unit.ICWarsUnitInteractionHandler handler = new Unit.ICWarsUnitInteractionHandler(this);
+    /**
      * The {@link Unit}'s current health points. When this is less than or equal to {@code 0} the {@link Unit} is dead.
      */
     protected int current_HP;
-
     /**
      * The maximum health points of the {@link Unit}.
      */
     protected int maxHP;
-
     /**
      * The amount that the {@link Unit}'s {@link #current_HP} recovers at the end of a turn.
      */
     protected int repair;
-
     /**
      * The cumulative vertical and horizontal distance that the {@link Unit} can move in one turn.
      */
     protected int radius;
-
     /**
      * The damage this {@link Unit} deals when it {@link #attack(int) attacks}.
      */
     protected int damage;
-
     /**
      * If this is {@code true} then the {@link Unit} has already been moved this turn.
      */
     protected boolean hasAlreadyMoved;
-
     /**
      * The list of {@link Action actions} the {@link Unit} can take.
      */
     protected ArrayList<Action> actions;
-
     /**
      * The name of the {@link Unit}.
      */
     protected String name;
-
     /**
      * The {@link Unit}'s visual representation in the game.
      */
     protected Sprite sprite;
-
     /**
      * The collection of tiles that are in the {@link Unit}'s range and that it can move to. See {@link ICWarsRange}.
      */
     ICWarsRange range;
-
     /**
      * TODO
      */
     private int numberOfStarsOfCurrentCell;
-
-    /**
-     * handler for the interactions
-     */
-    private final Unit.ICWarsUnitInteractionHandler handler = new Unit.ICWarsUnitInteractionHandler(this);
 
     /**
      * Initialises a Unit class with full health.
@@ -344,9 +333,10 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     /**
      * he unit attacks the attackable ennemy with loyest health
+     *
      * @return what attackEnnemyWithLowestHealth returns
      */
-    public int attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies){
+    public int attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies) {
         return this.getOwnerArea()
             .attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage());
     }
@@ -361,7 +351,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     /**
      * @return the attack action of the unit (by default it is null)
      */
-    public Attack getAttackAction(){
+    public Attack getAttackAction() {
         return null;
     }
 
@@ -388,7 +378,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         } else return false;
     }
 
-    public void changePositionOfAiPlayer(AIPlayer player){
+    public void changePositionOfAiPlayer(AIPlayer player) {
         player.changePosition(this.getCurrentMainCellCoordinates());
     }
 
@@ -431,15 +421,15 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         //compute the equation of the line that goes through the ennemy and the attacking unit
         //let x and y be coordinates on this line, starting with the same value as the ennemy coordinates
         //while there exist no nodes at x and y coordinates in the attacking unit's range, x and y are changed towards the attacking unit
-        if(!enemies.isEmpty()) {
+        if (!enemies.isEmpty()) {
             float UnitXCoordinate = this.getCurrentMainCellCoordinates().x;
             float UnitYCoordinate = this.getCurrentMainCellCoordinates().y;
             Unit closestEnnemy = enemies.get(0);
             double shortestDistance = Math.sqrt((closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate)
-                    + (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate));
+                + (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate));
             for (Unit ennemyUnit : enemies) {
                 double distance = Math.sqrt((ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate)
-                        + (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate));
+                    + (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate));
                 if (distance < shortestDistance) {
                     shortestDistance = distance;
                     closestEnnemy = ennemyUnit;
@@ -539,6 +529,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     public void interactWith(Interactable other) {
         other.acceptInteraction(handler);
     }
+
     /**
      * TODO
      *

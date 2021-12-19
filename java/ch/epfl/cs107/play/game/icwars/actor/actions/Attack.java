@@ -133,9 +133,9 @@ public class Attack extends Action {
             indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
             waitFor(this.waitForValue, dt);
         } else {
-            unit.moveUnitTowarsClosestEnnemy();
+            unit.moveUnitTowardsClosestEnemy();
             unit.changePositionOfAiPlayer(player);
-            // then retry an attack
+            //then retry an attack
             if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
                 indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
                 waitFor(this.waitForValue, dt);

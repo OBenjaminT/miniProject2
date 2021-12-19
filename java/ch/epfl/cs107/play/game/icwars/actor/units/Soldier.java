@@ -84,7 +84,7 @@ public class Soldier extends Unit {
     }
 
     @Override
-    public Attack getAttackAction(){
+    public Attack getAttackAction() {
         return this.SoldierAttack;
     }
 }
