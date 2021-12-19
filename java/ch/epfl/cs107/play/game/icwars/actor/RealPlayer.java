@@ -175,12 +175,12 @@ public class RealPlayer extends ICWarsPlayer {
      */
     public Unit selectUnit() {
         units.stream() // for all units
-                .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
-                .filter(Unit::hasNotAlreadyMoved) // and haven't already moved
-                .findFirst() // find the first one
-                .ifPresentOrElse( // if there is one that fits the criteria
-                        this::selectUnit, // select it
-                        () -> SelectedUnit = null); // else `selectedUnit` is null
+            .filter(u -> u.getPosition().equals(this.getPosition())) // if they are on the same square as the player
+            .filter(Unit::hasNotAlreadyMoved) // and haven't already moved
+            .findFirst() // find the first one
+            .ifPresentOrElse( // if there is one that fits the criteria
+                this::selectUnit, // select it
+                () -> SelectedUnit = null); // else `selectedUnit` is null
         return this.SelectedUnit;
     }
 
