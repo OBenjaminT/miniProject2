@@ -190,7 +190,7 @@ public class ICWars extends AreaGame {
                     : gameState;
             }
             case END_PLAYER_TURN -> {
-                if (activePlayer.isDefeated()) {
+                if (!activePlayer.isDefeated()) {
                     activePlayer.endTurn(); // TODO reset all the players units movement
 
                     if (!PlayersWaitingForNextTurn.contains(activePlayer))
