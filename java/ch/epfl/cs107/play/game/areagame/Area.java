@@ -635,12 +635,28 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param IndexOfAttackableEnemies the indexes of the attackable ennemy units
      * @param damage                   the damage of the attacking unit
      *                                 Among the attacakble ennemy units, the one with the lowest health is found and attacked
+     * @return the index of the ennemie to attack in the IndexOfAttackableEnemies list
      */
-    public void attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies, int damage) {
-        getUnits().stream()
+    public int attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies, int damage) {
+        Unit ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(0));
+        int lowestHelath = this.getUnits().get(IndexOfAttackableEnemies.get(0)).getHp();
+        int indexOfUnitToAttack = 0;
+        for (int i = 0; i < IndexOfAttackableEnemies.size(); ++i)
+            if (this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp() < lowestHelath) {
+                ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(i));
+                lowestHelath = ennemyWithLowestHealth.getHp();
+                indexOfUnitToAttack = i;
+            }
+        ennemyWithLowestHealth.takeDamage(damage);
+        return indexOfUnitToAttack;
+        
+        /*
+        var lowestHealthUnit = getUnits().stream()
             .min(Comparator.comparingInt(Unit::getHp))
-            .get()
-            .takeDamage(damage);
+            .get();
+        lowestHealthUnit.takeDamage(damage);
+        return getUnits().indexOf(lowestHealthUnit);
+        */
     }
 
     /**

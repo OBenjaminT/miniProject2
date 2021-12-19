@@ -2,10 +2,7 @@ package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
-import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
-import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.RealPlayer;
-import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.*;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.level.Level0;
 import ch.epfl.cs107.play.game.icwars.area.level.Level1;
@@ -15,6 +12,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -115,7 +113,7 @@ public class ICWars extends AreaGame {
                 ICWarsActor.Faction.ALLY,
                 area.factionUnits(ICWarsActor.Faction.ALLY).toArray(new Unit[0])
             ),
-            new RealPlayer(
+            new AIPlayer(
                 area,
                 area.getFactionCenter(ICWarsActor.Faction.ENEMY),
                 ICWarsActor.Faction.ENEMY,
@@ -133,7 +131,14 @@ public class ICWars extends AreaGame {
         // TODO comments
 
         // Next level with `N`
-        if (keyboard.get(Keyboard.N).isReleased()) nextArea();
+        if (keyboard.get(Keyboard.N).isReleased()) {
+            if (this.nextArea()) {
+                System.out.println("Transit to next level");
+            } else {
+                System.out.println("there aren't any levels left, the game is finished");
+                this.close();
+            }
+        }
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
             begin(getWindow(), getFileSystem());
@@ -158,7 +163,11 @@ public class ICWars extends AreaGame {
         processKeyboardInput();
         gameState = switch (gameState) {
             case INIT -> {
-                PlayersWaitingForCurrentTurn.addAll(players);
+                PlayersWaitingForCurrentTurn.addAll(
+                    players.stream()
+                        .filter(p -> !p.isDefeated()) // add only non-defeated players
+                        .filter(p -> !PlayersWaitingForCurrentTurn.contains(p))
+                        .collect(Collectors.toList()));
                 yield States.CHOOSE_PLAYER;
             }
             case CHOOSE_PLAYER -> {
@@ -182,11 +191,12 @@ public class ICWars extends AreaGame {
             }
             case END_PLAYER_TURN -> {
                 if (activePlayer.isDefeated()) {
-                    activePlayer.leaveArea();
-                } else {
                     activePlayer.endTurn(); // TODO reset all the players units movement
-                    PlayersWaitingForNextTurn.add(activePlayer);
-                }
+
+                    if (!PlayersWaitingForNextTurn.contains(activePlayer))
+                        PlayersWaitingForNextTurn.add(activePlayer);
+                } else activePlayer.leaveArea();
+
                 yield States.CHOOSE_PLAYER; // it said only change like this in the first branch but nothing for the second
             }
             case END_TURN -> {
@@ -197,8 +207,15 @@ public class ICWars extends AreaGame {
                 } else yield States.END;
             }
             case END -> {
-                nextArea();
-                yield States.INIT;
+                if (this.getIndexOfArea(currentArea) != this.AreasSize() - 1) {
+                    if (this.nextArea()) {
+                        System.out.println("Transit to next level");
+                    }
+                } else {
+                    System.out.println("the game is finished");
+                    this.close();
+                }
+                yield gameState;
             }
         };
         super.update(deltaTime);
@@ -224,6 +241,7 @@ public class ICWars extends AreaGame {
      */
     @Override
     public void close() {
+        System.exit(0);
     }
 
     /**

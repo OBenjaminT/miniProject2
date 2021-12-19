@@ -108,7 +108,7 @@ public class ICWarsBehavior extends AreaBehavior {
         /**
          * TODO
          */
-        private final int numberOfStars;
+        private final int numberOfStarsz;
 
         /**
          * TODO
@@ -128,7 +128,7 @@ public class ICWarsBehavior extends AreaBehavior {
             super(x, y);
             /// Type of the cell following the enum
             this.type = type;
-            this.numberOfStars = type.numberOfStars;
+            this.numberOfStarsz = type.numberOfStars;
         }
 
         /**
@@ -148,7 +148,7 @@ public class ICWarsBehavior extends AreaBehavior {
          * @return
          */
         public int getNumberOfStars() {
-            return this.numberOfStars;
+            return this.numberOfStarsz;
 
         }
 

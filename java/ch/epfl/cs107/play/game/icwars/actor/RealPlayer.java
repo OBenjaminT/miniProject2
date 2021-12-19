@@ -50,7 +50,7 @@ public class RealPlayer extends ICWarsPlayer {
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
         this.sprite = new Sprite(
-            this.getName(),
+            this.getSpriteName(),
             1.5f,
             1.5f,
             this,
@@ -58,16 +58,6 @@ public class RealPlayer extends ICWarsPlayer {
             new Vector(-0.25f, -0.25f)
         );
         this.playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
-    }
-
-    /**
-     * TODO
-     *
-     * @return the sprite name
-     */
-    private String getName() {
-        if (this.faction == Faction.ALLY) return "icwars/allyCursor";
-        else return "icwars/enemyCursor";
     }
 
     /**
@@ -94,10 +84,9 @@ public class RealPlayer extends ICWarsPlayer {
                 System.out.println(enterWasReleased());
                 this.getOwnerArea().setViewCandidate(this);
                 //TODO improve this
-                if (ActionToExecute != null
-                    && ActionToExecute instanceof Attack
-                ) ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(true);
-
+                if (ActionToExecute != null)
+                    if (ActionToExecute instanceof Attack)
+                        ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(true);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
                     setEnterWasReleased(false);
                 else if (keyboard.get(Keyboard.ENTER).isReleased()) {

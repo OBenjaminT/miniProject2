@@ -39,6 +39,22 @@ public class Attack extends Action {
 
     /**
      * TODO
+     */
+    float counter;
+
+    /**
+     * TODO
+     */
+    boolean counting;
+
+    /**
+     * TODO
+     */
+    float waitForValue;
+
+
+    /**
+     * TODO
      *
      * @param unit
      * @param area
@@ -47,6 +63,9 @@ public class Attack extends Action {
         super(unit, area, "(A)ttack", Keyboard.A);
         this.indexOfUnitToAttack = 0;
         IndexOfUnitToAttackCanBeSetToZero = true;
+        this.counter = 0.f;
+        this.counting = false;
+        this.waitForValue = 100000000.0f;
     }
 
     /**
@@ -58,11 +77,11 @@ public class Attack extends Action {
     public void draw(Canvas canvas) {
         // TODO comments
 
-        if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
-            unit.centerCameraOnTargetedEnemy(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
-            cursor.setAnchor(canvas.getPosition().add(1, 0));
-            cursor.draw(canvas);
-        }
+        if (unit.getIndexOfAttackableEnemies().isEmpty()) return;
+
+        unit.centerCameraOnTargetedEnemy(unit.getIndexOfAttackableEnemies().get(indexOfUnitToAttack));
+        cursor.setAnchor(canvas.getPosition().add(1, 0));
+        cursor.draw(canvas);
     }
 
     /**
@@ -108,10 +127,42 @@ public class Attack extends Action {
         }
     }
 
-    public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard) {
-        // if ennemies are in the range for an attack, attack the one with lowest health
-        if (unit.getIndexOfAttackableEnemies() != null)
-            unit.attackEnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
-        else unit.moveUnitTowardsClosestEnemy();
+    public void doAutoAction(float dt, AIPlayer player) {
+        //if enemies are in the range for an attack, attack the one with lowest health
+        if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
+            indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+            waitFor(this.waitForValue, dt);
+        } else {
+            unit.moveUnitTowarsClosestEnnemy();
+            unit.changePositionOfAiPlayer(player);
+            // then retry an attack
+            if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
+                indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
+                waitFor(this.waitForValue, dt);
+            }
+        }
+    }
+
+    /**
+     * TODO
+     * <p>
+     * Ensures that value time elapsed before returning true
+     *
+     * @param dt    elapsed time
+     * @param value waiting time (in seconds )
+     * @return true if value seconds has elapsed , false otherwise
+     */
+    private boolean waitFor(float value, float dt) {
+        if (counting) {
+            counter += dt;
+            if (counter > value) {
+                counting = false;
+                return true;
+            }
+        } else {
+            counter = 0f;
+            counting = true;
+        }
+        return false;
     }
 }

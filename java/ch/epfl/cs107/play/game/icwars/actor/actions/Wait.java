@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor.actions;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.icwars.actor.AIPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.window.Canvas;
@@ -42,9 +41,5 @@ public class Wait extends Action {
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         this.unit.setIsAlreadyMoved(true);
         player.setStateToNormal();
-    }
-
-    public void doAutoAction(float dt, AIPlayer player, Keyboard keyboard) {
-
     }
 }

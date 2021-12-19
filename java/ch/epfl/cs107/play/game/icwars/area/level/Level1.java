@@ -31,6 +31,7 @@ public class Level1 extends ICWarsArea {
     protected void createArea() {
         // Base
         registerActor(new Background(this));
+        //System.out.println("level 1 width"+this.getWidth());
     }
 
 
