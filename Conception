@@ -2,7 +2,9 @@ What should be mentionned :
     les éventuelles modifications personnelles que vous avez apportées à l'architecture proposée en les justifiant;
     les classes/interfaces ajoutées et comment elles s'insèrent dans l'architecture;
     le comportement que vous attribuez à chacun des composants introduits (si le composant n'est pas demandé ou s'il l'est mais que son comportement est une petite variante de celui suggéré dans l'énoncé).
-Be concise and if necessary, you can just ref the green commentaries we put above methods
+
+Be CONCISE and if necessary, you can just ref the green commentaries we put above methods
+Also, for things were we stricly folowed the instructions, you can just say that
 
 Part One:
 -Explain our conception of ICWarsActor :
@@ -75,6 +77,24 @@ Part One:
     -the endTurn method 
     -the TAB button
     
+Part 3:
+-Explain what we did for the actions:
+    -the inheritance process between actable, action, attack and wait
+    -quickly go over the doAction of Wait
+    -for attack, the doAction (focus on the fact that for the encapsulation, most of the process is done by the area)
+    explain also the attack method in doAction and what is important is to focus on the fact we deciced to make the units interractors
+    so that when interacting with a cell they can get the number of stars in it, which is important in the calculus when a unit takes dammage
+    -the action list in the units
+ 
+ -Explain what we did for the actions with the RealPlayer:
+    -the things related to actions in update of real Player
+    -the panels that are drawn by the GUI (explain the interact with a cell in ICWarsPlayerInteractionHandler and the mthods that draw the panels in the GUI)
+    
+-Explain the AIPlayer :
+    -the switch in the AIplayer update
+    -the doAutoAction for the actions (especially for the attack explain how moveUnitTowardsClosestEnnemy works, see the comments for the algorythme that moves the unit)
+    
+
     
     
     
