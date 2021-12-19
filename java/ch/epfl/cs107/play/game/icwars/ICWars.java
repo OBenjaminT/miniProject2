@@ -110,8 +110,16 @@ public class ICWars extends AreaGame {
      */
     private void processKeyboardInput() {
         // Next level with `N`
-        if (keyboard.get(Keyboard.N).isReleased())
-            if (this.nextArea()) initArea();
+        if (keyboard.get(Keyboard.N).isReleased()){
+            if (this.nextArea()) {
+                System.out.println("Transit to next level");
+                initArea();
+            }
+            else {
+                System.out.println("there aren't any levels left, the game is finished");
+                this.close();
+            }
+        }
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
             this.begin(this.getWindow(), this.getFileSystem());
