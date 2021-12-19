@@ -238,7 +238,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      */
     private void completeUnitsRange() {
         this.range = new ICWarsRange();
-        System.out.println(this.getOwnerArea().getWidth());
+        //System.out.println(this.getOwnerArea().getWidth());
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
         IntStream.rangeClosed(-radius, radius)
@@ -478,7 +478,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      */
     public void takeDamage(int receivedDamage) {
         this.setHp(current_HP - Math.max(receivedDamage - numberOfStarsOfCurrentCell, 0));
-        System.out.println(this.current_HP);
+        //System.out.println(this.current_HP);
     }
 
     /**

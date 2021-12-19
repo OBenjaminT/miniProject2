@@ -272,6 +272,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @return true if the arraylist of units is empty
      */
     public boolean isDefeated() {
+        /*System.out.println(this.getSpriteName() +" Unit size "+ units.size());
+        System.out.println(this.getSpriteName() +units.isEmpty());*/
         return this.units.isEmpty();
     }
 

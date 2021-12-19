@@ -103,6 +103,25 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
+     * @param a if  the area a is in areas, return its index in areas
+     */
+    protected final int getIndexOfArea(Area a) {
+        if(areas.contains(a)){
+            return areas.indexOf(a);
+        }
+        else{
+            return -1;
+        }
+    }
+
+    /**
+     * @return size of areas
+     */
+    protected final int AreasSize() {
+        return areas.size();
+    }
+
+    /**
      * TODO
      */
     protected final void resetAreas() {
@@ -122,12 +141,12 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
                 setCurrentArea(areas.get(index + 1), true);
                 return true;
             } else {
-                System.out.println("Game over");
                 return false;
             }
         } else {
             setCurrentArea(areas.get(0), true);
             return true;
+            //return false;
         }
     }
 

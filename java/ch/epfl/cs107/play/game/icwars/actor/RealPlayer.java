@@ -86,7 +86,7 @@ public class RealPlayer extends ICWarsPlayer {
                     yield States.SELECT_CELL;
                 }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
-                    System.out.println("tab");
+                    //System.out.println("tab");
                     EnterWasReleased = false;
                     yield States.IDLE;
                 } else yield !EnterWasReleased
