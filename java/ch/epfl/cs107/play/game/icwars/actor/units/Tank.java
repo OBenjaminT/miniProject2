@@ -8,8 +8,6 @@ import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
-import java.util.ArrayList;
-
 /**
  * TODO
  */
@@ -59,11 +57,21 @@ public class Tank extends Unit {
             null,
             new Vector(-0.25f, -0.25f)
         );
-        this.actions = new ArrayList<>();
         this.Tankwait = new Wait(this, this.getOwnerArea());
         this.actions.add(Tankwait);
         this.Tankattack = new Attack(this, this.getOwnerArea());
         this.actions.add(Tankattack);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        if(this.isOnACity){
+            //add to actions takeCity if there is no takeCity in actions already
+        }
+        else{
+            //remove all the takeCity actions from the actions list
+        }
+        super.update(deltaTime);
     }
 
     /**

@@ -8,8 +8,6 @@ import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
-import java.util.ArrayList;
-
 public class Soldier extends Unit {
 
     /**
@@ -55,7 +53,6 @@ public class Soldier extends Unit {
             null,
             new Vector(-0.25f, -0.25f)
         );
-        this.actions = new ArrayList<>();
         this.SoldierWait = new Wait(this, this.getOwnerArea());
         this.actions.add(SoldierWait);
         this.SoldierAttack = new Attack(this, this.getOwnerArea());

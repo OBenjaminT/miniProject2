@@ -71,6 +71,14 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      * TODO
      */
     private int numberOfStarsOfCurrentCell;
+    /**
+     * TODO
+     */
+    protected boolean isOnACity;
+    /**
+     * TODO
+     */
+    protected City cityOnCell;
 
     /**
      * Initialises a Unit class with full health.
@@ -140,6 +148,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         this.name = name;
         completeUnitsRange();
         this.hasAlreadyMoved = false;
+        this.actions = new ArrayList<>();
     }
 
     /**
@@ -491,6 +500,14 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     /**
+     *
+     */
+    public void takeCity(){
+        this.cityOnCell.takeCity(this.faction);
+    }
+
+
+    /**
      * TODO
      *
      * @return
@@ -532,6 +549,19 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     /**
      * TODO
+     *
+     * @param coordinates used for `super.onLeaving(coordinates)`
+     *                    in addition, playerCurrentState is set to NORMAl so that the player is available for future interactions
+     */
+    @Override
+    public void onLeaving(List<DiscreteCoordinates> coordinates) {
+        super.onLeaving(coordinates);
+        this.isOnACity=false;
+        cityOnCell=null;
+    }
+
+    /**
+     * TODO
      */
     private static class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         /**
@@ -569,8 +599,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
          */
         @Override
         public void interactWith(City city) {
-            city.takeCity(this.unit.faction);
-            System.out.println("yo");
+            unit.isOnACity=true;
+            unit.cityOnCell=city;
         }
     }
 }
