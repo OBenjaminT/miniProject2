@@ -10,6 +10,8 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class City extends ICWarsActor implements Interactable {
+
+    public static final int HPgivenToUnit  = 1;
     Sprite sprite;
 
     public City (Area area, DiscreteCoordinates position, Faction faction){

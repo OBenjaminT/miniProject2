@@ -74,11 +74,16 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     /**
      * TODO
      */
-    protected boolean isOnACity;
+    private boolean isOnACity;
     /**
      * TODO
      */
     protected City cityOnCell;
+
+    /**
+     * TODO
+     */
+    private boolean hasTakenACity;
 
     /**
      * Initialises a Unit class with full health.
@@ -506,6 +511,9 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         this.cityOnCell.takeCity(this.faction);
     }
 
+    protected boolean getIsOnACity(){
+        return this.isOnACity;
+    }
 
     /**
      * TODO
@@ -558,6 +566,20 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         super.onLeaving(coordinates);
         this.isOnACity=false;
         cityOnCell=null;
+    }
+
+    /**
+     * at the end of the round, units on a city receive bonus HP
+     */
+    protected void updateHP(){
+        if(this.hasTakenACity) {
+            this.setHp(City.HPgivenToUnit + this.current_HP);
+            System.out.println("hp en plus");
+        }
+    }
+
+    public void setHasTakenACity(boolean hasTakenACity) {
+        this.hasTakenACity = hasTakenACity;
     }
 
     /**

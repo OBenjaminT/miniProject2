@@ -192,6 +192,7 @@ public class ICWars extends AreaGame {
                 removeDefeatedPlayers();
                 if (PlayersWaitingForNextTurn.size() != 1) {
                     PlayersWaitingForCurrentTurn.addAll(PlayersWaitingForNextTurn);
+                    this.updatePlayersUnitsHP();
                     yield States.CHOOSE_PLAYER;
                 } else yield States.END;
             }
@@ -214,6 +215,15 @@ public class ICWars extends AreaGame {
     private void removeDefeatedPlayers() {
         PlayersWaitingForCurrentTurn.removeIf(ICWarsPlayer::isDefeated);
         PlayersWaitingForNextTurn.removeIf(ICWarsPlayer::isDefeated);
+    }
+
+    /**
+     * at the end of a turn, units that have taken a city regain HP
+     */
+    private void updatePlayersUnitsHP(){
+        for(ICWarsPlayer player : players){
+            player.updatePlayersUnitsHP();
+        }
     }
 
     /**

@@ -27,6 +27,7 @@ public class TakeCity extends Action{
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         this.unit.takeCity();
         this.unit.setIsAlreadyMoved(true);
+        unit.setHasTakenACity(true);
         player.setStateToNormal();
     }
 }

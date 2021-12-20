@@ -70,7 +70,7 @@ public class Tank extends Unit {
     @Override
     public void update(float deltaTime) {
         //if the unit is on a city add to actions takeCity if there is no takeCity in actions already
-        if(this.isOnACity){
+        if(this.getIsOnACity()){
             boolean contTainsAttack=false;
             for(Action action: actions){
                 if(action instanceof TakeCity) contTainsAttack=true;

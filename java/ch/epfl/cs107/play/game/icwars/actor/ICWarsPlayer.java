@@ -123,6 +123,12 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         drawOpacityOfUnits();
     }
 
+    public void updatePlayersUnitsHP(){
+        for(Unit unit : units){
+            unit.updateHP();
+        }
+    }
+
     /**
      * TODO
      *
