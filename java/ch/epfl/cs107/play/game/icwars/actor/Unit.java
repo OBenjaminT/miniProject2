@@ -75,7 +75,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     /**
      * Initialises a Unit class with full health.
      * <p>
-     * Calls {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int, int) Unit constructor} with
+     * Calls {@link #Unit(Area, DiscreteCoordinates, Faction, int, int, int, int, int, String) Unit constructor} with
      * {@link #current_HP} equal to {@link #maxHP}.
      *
      * @param area     The {@link Area} in which the {@link Unit} acts. Passed straight to the
@@ -84,7 +84,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      *                 {@link ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param faction  The {@link Faction Faction} to which the
      *                 {@link Unit} belongs to. Passed straight to the
-     *                 {@link ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction)ICWarsActor constructor}.
+     *                 {@link ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param repair   The amount that the {@link Unit}'s {@link #current_HP} recovers at the end of a turn. Passed to
      *                 {@link #repair}.
      * @param radius   The {@link Unit}'s movement. Passed to {@link #radius}.
@@ -111,7 +111,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      *                   {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param faction    The {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor.Faction Faction} to which the
      *                   {@link Unit} belongs to. Passed straight to the
-     *                   {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction)ICWarsActor constructor}.
+     *                   {@link ch.epfl.cs107.play.game.icwars.actor.ICWarsActor#ICWarsActor(Area, DiscreteCoordinates, Faction) ICWarsActor constructor}.
      * @param repair     The amount that the {@link Unit}'s {@link #current_HP} recovers at the end of a turn. Passed to
      *                   {@link #repair}.
      * @param radius     The {@link Unit}'s movement. Passed to {@link #radius}.
@@ -128,6 +128,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
                 int maxHP,
                 int damage,
                 String name) {
+        // TODO comments
+
         super(area, position, faction);
         this.repair = repair;
         this.radius = radius;
@@ -148,6 +150,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     /**
+     * TODO
+     *
      * @return the unit's hp
      */
     public int getHp() {
@@ -225,8 +229,9 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      * {@link #radius} and in the {@link Area}.
      */
     private void completeUnitsRange() {
+        // TODO comments
+
         this.range = new ICWarsRange();
-        //System.out.println(this.getOwnerArea().getWidth());
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
         IntStream.rangeClosed(-radius, radius)
@@ -291,8 +296,9 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      * @param destination path destination
      * @param canvas      canvas
      */
-    public void drawRangeAndPathTo(DiscreteCoordinates destination,
-                                   Canvas canvas) {
+    public void drawRangeAndPathTo(DiscreteCoordinates destination, Canvas canvas) {
+        // TODO comments
+
         range.draw(canvas);
         var path =
             range.shortestPath(getCurrentMainCellCoordinates(), destination);
@@ -311,12 +317,14 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     /**
-     * Calls {@link Area#attack(int, int, int)} on the {@link Unit} pointed to by the {@code indexOfUnitToAttack}.
+     * Calls {@link Area#attack(int, int)} on the {@link Unit} pointed to by the {@code indexOfUnitToAttack}.
      *
      * @param indexOfUnitToAttack The index of the {@link Unit} in the {@link Area}'s units list that should be
      *                            attacked.
      */
     public void attack(int indexOfUnitToAttack) {
+        // TODO comments
+
         this.getOwnerArea().attack(
             indexOfUnitToAttack,
             this.getDamage()
@@ -329,7 +337,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      * @return what attackEnnemyWithLowestHealth returns
      */
     public int attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies) {
-        return (this.getOwnerArea().attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage()));
+        return this.getOwnerArea().attackEnnemyWithLowestHealth(IndexOfAttackableEnemies, this.getDamage());
     }
 
     /**
@@ -361,6 +369,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      */
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
+        // TODO comments
+
         if (this.range.nodeExists(newPosition) && super.changePosition(newPosition)) {
             completeUnitsRange();
             return true;
@@ -371,26 +381,16 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         player.changePosition(this.getCurrentMainCellCoordinates());
     }
 
-    /*    *//**
+    /**
      * TODO
      * <p>
      * Implements {@link ch.epfl.cs107.play.game.areagame.actor.Interactable Interactable}.
      *
      * @param areaInteractionVisitor The interaction
-     *//*
+     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor areaInteractionVisitor) {
         ((ICWarsInteractionVisitor) areaInteractionVisitor).interactWith(this);
-    }*/
-
-    /**
-     * TODO
-     *
-     * @param v (AreaInteractionVisitor) : the visitor
-     */
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
-        ((ICWarsInteractionVisitor) v).interactWith(this);
     }
 
     /**
@@ -412,21 +412,21 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     /**
-     * @param ennemies ennemie units on the map
-     *                 this method allows to move the unit at the node in it's range with closest position to the closest ennemy unit
+     * @param enemies ennemie units on the map
+     *                this method allows to move the unit at the node in it's range with closest position to the closest ennemy unit
      */
-    public void moveTowarsClosestEnnemy(ArrayList<Unit> ennemies) {
+    public void moveTowardsClosestEnemy(ArrayList<Unit> enemies) {
         //find the Ennemy with closest coordinates
         //compute the equation of the line that goes through the ennemy and the attacking unit
         //let x and y be coordinates on this line, starting with the same value as the ennemy coordinates
         //while there exist no nodes at x and y coordinates in the attacking unit's range, x and y are changed towards the attacking unit
-        if (!ennemies.isEmpty()) {
+        if (!enemies.isEmpty()) {
             float UnitXCoordinate = this.getCurrentMainCellCoordinates().x;
             float UnitYCoordinate = this.getCurrentMainCellCoordinates().y;
-            Unit closestEnnemy = ennemies.get(0);
+            Unit closestEnnemy = enemies.get(0);
             double shortestDistance = Math.sqrt((closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate)
                 + (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate));
-            for (Unit ennemyUnit : ennemies) {
+            for (Unit ennemyUnit : enemies) {
                 double distance = Math.sqrt((ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().x - UnitXCoordinate)
                     + (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate) * (ennemyUnit.getCurrentMainCellCoordinates().y - UnitYCoordinate));
                 if (distance < shortestDistance) {
@@ -434,11 +434,13 @@ abstract public class Unit extends ICWarsActor implements Interactor {
                     closestEnnemy = ennemyUnit;
                 }
             }
+
             //now compute the slope y=ax+b
             float slope;
             if (closestEnnemy.getCurrentMainCellCoordinates().x != UnitXCoordinate)
                 slope = (closestEnnemy.getCurrentMainCellCoordinates().y - UnitYCoordinate) / (closestEnnemy.getCurrentMainCellCoordinates().x - UnitXCoordinate);
             else slope = (float) Double.POSITIVE_INFINITY;
+
             float constant = UnitYCoordinate - slope * UnitXCoordinate;
             //initiate x and y
             float x = closestEnnemy.getCurrentMainCellCoordinates().x;
@@ -483,8 +485,9 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     /**
      *
      */
-    public void moveUnitTowarsClosestEnnemy() {
-        this.getOwnerArea().moveUnitTowardsClosestEnnemy(this.faction, this);
+    public void moveUnitTowarsClosestEnemy() {
+        this.getOwnerArea()
+            .moveUnitTowardsClosestEnnemy(this.faction, this);
     }
 
     /**
@@ -527,7 +530,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         return null;
     }
 
-
     /**
      * TODO
      */
@@ -556,7 +558,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             unit.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
-            /*            System.out.println("Unit interacted w cell");*/
         }
     }
 }

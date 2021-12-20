@@ -19,6 +19,7 @@ import ch.epfl.cs107.play.window.Mouse;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -147,6 +148,7 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param safeMode (Boolean): if True, the method ends
      */
     private void addActor(Actor a, boolean safeMode) {
+        // TODO comments
 
         boolean errorHappen = false;
 
@@ -173,6 +175,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @param safeMode (Boolean): if True, the method ends
      */
     private void removeActor(Actor a, boolean safeMode) {
+        // TODO comments
+
         boolean errorHappen = false;
 
         if (a instanceof Interactor)
@@ -273,6 +277,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return the mouse position relatively to the area and the cells
      */
     public Vector getRelativeMousePosition() {
+        // TODO comments
+
         return getMouse().getPosition()
             .max(new Vector(0, 0))
             .min(new Vector(getWidth(), getHeight()));
@@ -307,6 +313,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return (boolean): True if possible to leave
      */
     public final boolean leaveAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        // TODO comments
+
         // TODO if Interactable can leave the cells: It is this Area decision, implement a strategy
         // Until now, the entity is put in a map waiting the update end to avoid concurrent exception during interaction
         if (areaBehavior.canLeave(entity, coordinates)) {
@@ -325,6 +333,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return (boolean): True if possible to enter
      */
     public final boolean enterAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        // TODO comments
+
         // TODO if Interactable can enter the cells: It is this Area decision, implement a strategy
         // Until now, the entity is put in a map waiting the update end to avoid concurrent exception during interaction
         if (areaBehavior.canEnter(entity, coordinates)) {
@@ -358,6 +368,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+        // TODO comments
+
         this.window = window;
         this.fileSystem = fileSystem;
         actors = new LinkedList<>();
@@ -392,6 +404,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         purgeRegistration();
 
         // Decide if we update the contextual menu or this content
@@ -428,6 +442,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * TODO
      */
     final void purgeRegistration() {
+        // TODO comments
+
         // PART 1
         // - Register actors
         registeredActors.forEach(actor -> addActor(actor, false));
@@ -458,15 +474,15 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * TODO
      */
     private void updateCamera() {
+        // TODO comments
 
         // Update expected viewport center
-        if (viewCandidate != null) {
-            viewCenter = viewCandidate.getPosition();
-        } else { // Set default view to center
-            viewCenter = new Vector(getWidth() / (float) 2, getHeight() / (float) 2);
-        }
+        // Set default view to center
+        viewCenter = (viewCandidate == null)
+            ? new Vector(getWidth() / (float) 2, getHeight() / (float) 2)
+            : viewCandidate.getPosition();
         // Compute new viewport
-        Transform viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
+        var viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
         window.setRelativeTransform(viewTransform);
     }
 
@@ -502,6 +518,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      *             be responsible for the ResumeRequest, not null
      */
     public final void requestAreaPause(AreaPauseMenu menu) {
+        // TODO comments
+
         // TODO if the request end up: It is this Area decision, implement a strategy
         if (menu != null) {
             this.menu = menu;
@@ -555,17 +573,13 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * @return all the units in the area
      */
     private ArrayList<Unit> getUnits() {
-        ArrayList<Unit> myUnits = new ArrayList<>();
-        for (Actor actor : actors) {
-            if (actor instanceof Unit && !myUnits.contains(actor)) {
-                myUnits.add((Unit) actor);
-            }
-        }
-        return myUnits;
-/*        return actors.stream()
+        // TODO comments
+
+        return actors.stream()
             .filter(actor -> actor instanceof Unit)
+            .distinct()
             .map(actor -> (Unit) actor)
-            .collect(Collectors.toCollection(ArrayList::new));*/
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -577,26 +591,18 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      * that are in a range
      */
     public ArrayList<Integer> getIndexOfAttackableEnemies(ICWarsActor.Faction faction, ICWarsRange range) {
-        ArrayList<Unit> units = getUnits();
-        ArrayList<Unit> yo = new ArrayList<>();//tester to see what Units are added
-        ArrayList<Integer> IndexList = new ArrayList<>();
+        // TODO comments
+
+        var units = getUnits();
+        var IndexList = new ArrayList<Integer>();
         for (int i = 0; i < units.size(); ++i) {
             Unit unit = units.get(i);
-            if (range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y))) {
-                ICWarsActor.Faction bruh = unit.faction;
-                if (unit.faction != faction) {
-                    yo.add(unit);
+            if (range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y)))
+                if (unit.faction != faction)
                     IndexList.add(i);
-                }
-            }
         }
         return IndexList;
 
-/*         return IntStream.range(0, units.size())
-            .filter(i -> units.get(i).faction != faction)
-            .filter(i -> range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y)))
-            .boxed()
-            .collect(Collectors.toCollection(ArrayList::new));*/
     }
 
     /**
@@ -613,7 +619,6 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      *
      * @param indexOfUnitToAttack the index of the unit in the unit list that should receive the dammages
      * @param damage              used to calculate the amount of received damage
-     * @param numberOfStars       depends on the type of cell the attacked unit is on and it is used to calculate the actual dammage the unit receives
      */
     public void attack(int indexOfUnitToAttack, int damage) {
         getUnits().get(indexOfUnitToAttack)
@@ -621,6 +626,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     }
 
     /**
+     * TODO
+     *
      * @param IndexOfAttackableEnemies the indexes of the attackable ennemy units
      * @param damage                   the damage of the attacking unit
      *                                 Among the attacakble ennemy units, the one with the lowest health is found and attacked
@@ -630,21 +637,22 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         Unit ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(0));
         int lowestHelath = this.getUnits().get(IndexOfAttackableEnemies.get(0)).getHp();
         int indexOfUnitToAttack = 0;
-        for (int i = 0; i < IndexOfAttackableEnemies.size(); ++i) {
+        for (int i = 0; i < IndexOfAttackableEnemies.size(); ++i)
             if (this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp() < lowestHelath) {
                 ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(i));
                 lowestHelath = ennemyWithLowestHealth.getHp();
                 indexOfUnitToAttack = i;
             }
-        }
         ennemyWithLowestHealth.takeDamage(damage);
         return indexOfUnitToAttack;
     }
 
     /**
+     * TODO
+     *
      * @param faction       the faction of the attacking unit
      * @param attackingUnit the attacking unit
-     *                      finds the ennemy unit and the calls moveTowarsClosestEnnemy(ennemyUnits) on the attacking unit
+     *                      finds the ennemy unit and the calls moveTowardsClosestEnemy(ennemyUnits) on the attacking unit
      */
     public void moveUnitTowardsClosestEnnemy(ICWarsActor.Faction faction, Unit attackingUnit) {
         ArrayList<Unit> units = getUnits();
@@ -655,6 +663,6 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
             }
         }
         //TODO check if this in an encapsluation problem
-        attackingUnit.moveTowarsClosestEnnemy(ennemyUnits);
+        attackingUnit.moveTowardsClosestEnemy(ennemyUnits);
     }
 }

@@ -48,6 +48,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      * @param name   (String): name of the behavior image, not null
      */
     public AreaBehavior(Window window, String name) {
+        // TODO comments
+
         // Load the image
         //System.out.println(ResourcePath.getBehavior(name));
         behaviorMap = window.getImage(ResourcePath.getBehavior(name), null, false);
@@ -64,9 +66,11 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      * @param mouseCoordinates
      */
     public void dropInteractionOf(Draggable draggable, DiscreteCoordinates mouseCoordinates) {
-        if (mouseCoordinates.x >= 0 && mouseCoordinates.y >= 0 && mouseCoordinates.x < width && mouseCoordinates.y < height) {
-            cells[mouseCoordinates.x][mouseCoordinates.y].dropInteractionOf(draggable);
-        }
+        if (mouseCoordinates.x >= 0
+            && mouseCoordinates.y >= 0
+            && mouseCoordinates.x < width
+            && mouseCoordinates.y < height
+        ) cells[mouseCoordinates.x][mouseCoordinates.y].dropInteractionOf(draggable);
     }
 
     /// AreaBehavior implements Interactor.Listener
@@ -78,6 +82,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      */
     @Override
     public void cellInteractionOf(Interactor interactor) {
+        // TODO comments
+
         interactor.getCurrentCells()
             .stream()
             .filter(dc -> dc.x >= 0)
@@ -94,6 +100,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      */
     @Override
     public void viewInteractionOf(Interactor interactor) {
+        // TODO comments
+
         interactor.getFieldOfViewCells()
             .stream()
             .filter(dc -> dc.x >= 0)
@@ -166,6 +174,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      */
     @Override
     public boolean canLeave(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        // TODO comments
+
         return coordinates.stream()
             .noneMatch(c -> (c.x < 0)
                 || (c.y < 0)
@@ -183,6 +193,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
      */
     @Override
     public boolean canEnter(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        // TODO comments
+
         return coordinates.stream()
             .noneMatch(c -> (c.x < 0)
                 || (c.y < 0)
@@ -252,6 +264,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
          * // @param interactor (Interactor), not null
          */
         private void dropInteractionOf(Draggable draggable) {
+            // TODO comments
+
             entities.stream()
                 .filter(interactable -> (interactable instanceof Droppable droppable) && droppable.canDrop())
                 .map(Droppable.class::cast)
@@ -269,6 +283,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
          * @param interactor (Interactor), not null
          */
         private void cellInteractionOf(Interactor interactor) {
+            // TODO comments
+
             interactor.interactWith(this);
             entities.stream()
                 .filter(Interactable::isCellInteractable)
@@ -283,6 +299,8 @@ public abstract class AreaBehavior implements Interactable.Listener, Interactor.
          * @param interactor (Interactor), not null
          */
         private void viewInteractionOf(Interactor interactor) {
+            // TODO comments
+
             interactor.interactWith(this);
             entities.stream()
                 .filter(Interactable::isViewInteractable)

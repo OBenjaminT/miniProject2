@@ -23,6 +23,11 @@ public class ICWarsPlayerGUI implements Graphics {
     /**
      * TODO
      */
+    private final ICWarsActionsPanel actionsPanel;
+
+    /**
+     * TODO
+     */
     ICWarsPlayer player;
 
     /**
@@ -34,30 +39,26 @@ public class ICWarsPlayerGUI implements Graphics {
      * TODO
      */
     float cameraScaleFactor;
-    /**
-     * TODO
-     *
-     * @param cameraScaleFactor
-     * @param player
-     */
 
-    private final ICWarsActionsPanel actionsPanel;
-    /**
-     * TODO
-     */
-    private int NumberOfStarsOfCurrentCell;
-    /**
-     * TODO
-     */
-    private ICWarsBehavior.ICWarsCellType TypeOfCurrentCell;
-    /**
-     * TODO
-     */
-    private Unit unitOnCell;
     /**
      * TODO
      */
     ICWarsInfoPanel infoPanel;
+
+    /**
+     * TODO
+     */
+    private int NumberOfStarsOfCurrentCell;
+
+    /**
+     * TODO
+     */
+    private ICWarsBehavior.ICWarsCellType TypeOfCurrentCell;
+
+    /**
+     * TODO
+     */
+    private Unit unitOnCell;
 
     /**
      * TODO
@@ -66,6 +67,8 @@ public class ICWarsPlayerGUI implements Graphics {
      * @param player
      */
     public ICWarsPlayerGUI(float cameraScaleFactor, ICWarsPlayer player) {
+        // TODO comments
+
         this.player = player;
         this.cameraScaleFactor = cameraScaleFactor;
         actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
@@ -115,6 +118,8 @@ public class ICWarsPlayerGUI implements Graphics {
      */
     @Override
     public void draw(Canvas canvas) {
+        // TODO comments
+
         if (PlayerSelectedUnit != null && PlayerSelectedUnit.hasNotAlreadyMoved()) {
             PlayerSelectedUnit
                 .drawRangeAndPathTo(

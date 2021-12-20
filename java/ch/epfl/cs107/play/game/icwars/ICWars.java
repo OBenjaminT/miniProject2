@@ -46,18 +46,27 @@ public class ICWars extends AreaGame {
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+        // TODO comments
+
         if (super.begin(window, fileSystem)) {
             keyboard = window.getKeyboard();
 
-            this.resetAreas();
-            Arrays.stream(new ICWarsArea[]{
-                new Level0(),
-                new Level1(),
-            }).forEach(this::addArea);
+            resetAreas();
+            addAreas();
             if (this.nextArea()) initArea();
 
             return true;
         } else return false;
+    }
+
+    /**
+     * TODO
+     */
+    private void addAreas() {
+        Arrays.stream(new ICWarsArea[]{
+            new Level0(),
+            new Level1(),
+        }).forEach(this::addArea);
     }
 
     /**
@@ -72,17 +81,20 @@ public class ICWars extends AreaGame {
     /**
      * <p> Initialise an {@link ICWarsArea} by: </p>
      *
-     * <li>removing all {@link #players} (call {@link #resetPlayers()});</li>
+     * <ul>
      * <li>initialising the {@link ICWarsPlayer}s and their units;</li>
      * <li>adding each player to the {@link #players players list} and making then
      * {@link ICWarsPlayer#enterArea(Area, DiscreteCoordinates) enter the area};</li>
      * <li>Setting {@link #gameState} to {@link States#INIT INIT}</li>
+     * </ul>
      *
      * @param area The {@link ICWarsArea} object to initialise.
      */
     private void initArea(ICWarsArea area) {
-        this.resetPlayers();
-        Arrays.stream(new ICWarsPlayer[]{
+        // TODO comments
+
+        resetPlayers();
+        players.addAll(Arrays.asList(
             new RealPlayer(
                 area,
                 area.getFactionCenter(ICWarsActor.Faction.ALLY),
@@ -94,14 +106,9 @@ public class ICWars extends AreaGame {
                 area.getFactionCenter(ICWarsActor.Faction.ENEMY),
                 ICWarsActor.Faction.ENEMY,
                 area.factionUnits(ICWarsActor.Faction.ENEMY).toArray(new Unit[0])
-            ),
-        }).forEach(player -> {
-            players.add(player);
-            player.enterArea(
-                area,
-                area.getFactionCenter(player.faction)
-            ); // change to get center
-        });
+            ))
+        );
+        players.forEach(player -> player.enterArea(area, area.getFactionCenter(player.faction)));
         gameState = States.INIT;
     }
 
@@ -109,6 +116,8 @@ public class ICWars extends AreaGame {
      * Process all the input keys.
      */
     private void processKeyboardInput() {
+        // TODO comments
+
         // Next level with `N`
         if (keyboard.get(Keyboard.N).isReleased()) {
             if (this.nextArea()) {
@@ -121,13 +130,13 @@ public class ICWars extends AreaGame {
         }
         // Reset to start with `R`
         if (keyboard.get(Keyboard.R).isReleased())
-            this.begin(this.getWindow(), this.getFileSystem());
+            begin(getWindow(), getFileSystem());
         // Select first unit with `U`
         if (keyboard.get(Keyboard.U).isReleased())
             players.get(0).selectUnit(0); // 0, 1 ...
         // TODO: Close with `Q`
         if (keyboard.get(Keyboard.Q).isReleased())
-            this.getWindow().isCloseRequested();
+            getWindow().isCloseRequested();
     }
 
     /**
@@ -138,12 +147,15 @@ public class ICWars extends AreaGame {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         processKeyboardInput();
-        this.gameState = switch (gameState) {
+        gameState = switch (gameState) {
             case INIT -> {
                 PlayersWaitingForCurrentTurn.addAll(
                     players.stream()
-                        .filter(p -> (!p.isDefeated() && !PlayersWaitingForCurrentTurn.contains(p))) // add only non-defeated players
+                        .filter(ICWarsPlayer::isNotDefeated) // add only non-defeated players
+                        .filter(p -> !PlayersWaitingForCurrentTurn.contains(p))
                         .collect(Collectors.toList()));
                 yield States.CHOOSE_PLAYER;
             }
@@ -170,24 +182,15 @@ public class ICWars extends AreaGame {
                 if (!activePlayer.isDefeated()) {
                     activePlayer.endTurn(); // TODO reset all the players units movement
 
-                    if (!PlayersWaitingForNextTurn.contains(activePlayer)) PlayersWaitingForNextTurn.add(activePlayer);
+                    if (!PlayersWaitingForNextTurn.contains(activePlayer))
+                        PlayersWaitingForNextTurn.add(activePlayer);
                 } else activePlayer.leaveArea();
 
                 yield States.CHOOSE_PLAYER; // it said only change like this in the first branch but nothing for the second
             }
             case END_TURN -> {
-                players.removeIf(ICWarsPlayer::isDefeated);
-
-/*                PlayersWaitingForNextTurn.stream()
-                    .filter(ICWarsPlayer::isDefeated)
-                    .forEach(player -> players.remove(player));*/
-
-                PlayersWaitingForNextTurn.removeIf(ICWarsPlayer::isDefeated);
-                //System.out.println(PlayersWaitingForNextTurn.size());
+                removeDefeatedPlayers();
                 if (PlayersWaitingForNextTurn.size() != 1) {
-                    /*for(ICWarsPlayer player : PlayersWaitingForNextTurn){
-                        if(!PlayersWaitingForNextTurn.contains(activePlayer))PlayersWaitingForCurrentTurn.add(player);
-                    }*/
                     PlayersWaitingForCurrentTurn.addAll(PlayersWaitingForNextTurn);
                     yield States.CHOOSE_PLAYER;
                 } else yield States.END;
@@ -206,6 +209,11 @@ public class ICWars extends AreaGame {
             }
         };
         super.update(deltaTime);
+    }
+
+    private void removeDefeatedPlayers() {
+        PlayersWaitingForCurrentTurn.removeIf(ICWarsPlayer::isDefeated);
+        PlayersWaitingForNextTurn.removeIf(ICWarsPlayer::isDefeated);
     }
 
     /**

@@ -82,6 +82,13 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      */
     private PauseMenu menu;
 
+    public AreaGame() {
+        players = new ArrayList<>();
+        PlayersWaitingForNextTurn = new ArrayList<>();
+        PlayersWaitingForCurrentTurn = new ArrayList<>();
+        areas = new ArrayList<>();
+    }
+
     /**
      * TODO
      */
@@ -133,6 +140,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @return
      */
     protected boolean nextArea() {
+        // TODO comments
+
         int index = areas.indexOf(currentArea);
         if (index >= 0) {
             players.forEach(ICWarsPlayer::leaveArea);
@@ -156,6 +165,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @param forceBegin
      */
     protected final void setCurrentArea(Area area, boolean forceBegin) {
+        // TODO comments
+
         var newArea = areas.stream()
             .filter(a -> Objects.equals(a.getTitle(), area.getTitle()))
             .findFirst();
@@ -190,6 +201,8 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @return (PauseMenu): the new pause menu, not null
      */
     protected final PauseMenu setPauseMenu(PauseMenu menu) {
+        // TODO comments
+
         this.menu = menu;
         this.menu.begin(window, fileSystem);
         this.menu.setOwner(this);
@@ -225,17 +238,18 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
         return this.currentArea;
     }
 
-    /// AreaGame implements Playable
-
     /**
-     * TODO
+     * Sets the {@link #window} and {@link #fileSystem}.
+     * <p>
+     * Initialises {@link #areas} and {@link #players} as new {@link ArrayList}, and {@link #paused} as {@code false}.
      *
-     * @param window     (Window): display context. Not null
-     * @param fileSystem (FileSystem): given file system. Not null
-     * @return
+     * @param window     The {@link Window} that the game is displayed in.
+     * @param fileSystem The {@link FileSystem} that the game gets its visual resources from.
+     * @return {@code true} if the game successfully started.
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+        // TODO comments
 
         // Keep context
         this.window = window;
@@ -248,20 +262,25 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Updates the game, called every frame.
+     * <p>
+     * Either calls {@link PauseMenu#update(float) update} on the {@link #menu} or calls this function on
+     * {@link #currentArea}.
      *
-     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     * @param deltaTime The elapsed time since the last call to this function, in seconds, non-negative.
      */
     @Override
     public void update(float deltaTime) {
-        if (paused && menu != null)
+        if (paused && menu != null) // if the game is paused and there is a menu, run the menu
             menu.update(deltaTime);
-        else currentArea.update(deltaTime);
+        else currentArea.update(deltaTime); // else just update the game
         paused = requestPause;
     }
 
     /**
-     * TODO
+     * Sets {@link #requestPause} to {@code true}.
+     * <p>
+     * Implements {@link PauseMenu.Pausable}.
      */
     @Override
     public void requestPause() {
@@ -269,7 +288,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Sets {@link #requestPause} to {@code false}.
+     * <p>
+     * Implements {@link PauseMenu.Pausable}.
      */
     @Override
     public void requestResume() {
@@ -277,9 +298,11 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     /**
-     * TODO
+     * Tells you if this {@link AreaGame} is paused.
+     * <p>
+     * Implements {@link PauseMenu.Pausable}.
      *
-     * @return
+     * @return {@link #paused}
      */
     @Override
     public boolean isPaused() {

@@ -52,9 +52,11 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Start the area's simulation by:
+     * <ul>
      * <li>call {@link Area#begin(Window, FileSystem)} and if successful continue;</li>
      * <li>call {@link #setBehavior(AreaBehavior)} with a new {@link ICWarsBehavior};</li>
      * <li>call {@link #createArea()}.</li>
+     * </ul>
      *
      * @param window     The {@link Window} that the game is displayed in.
      * @param fileSystem The {@link FileSystem} that the game gets its visual resources from.
@@ -62,6 +64,8 @@ public abstract class ICWarsArea extends Area {
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+        // TODO comments
+
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
             setBehavior(new ICWarsBehavior(window, getTitle()));

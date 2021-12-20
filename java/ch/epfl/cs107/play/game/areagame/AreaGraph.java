@@ -55,7 +55,11 @@ public class AreaGraph {
      * @param hasRightEdge (boolean): indicate if directed edge to the right direction exists
      * @param hasDownEdge  (boolean): indicate if directed edge to the down direction exists
      */
-    public void addNode(DiscreteCoordinates coordinates, boolean hasLeftEdge, boolean hasUpEdge, boolean hasRightEdge, boolean hasDownEdge) {
+    public void addNode(DiscreteCoordinates coordinates,
+                        boolean hasLeftEdge,
+                        boolean hasUpEdge,
+                        boolean hasRightEdge,
+                        boolean hasDownEdge) {
         nodes.putIfAbsent(coordinates, new AreaNode(coordinates, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge));
     }
 
@@ -88,6 +92,8 @@ public class AreaGraph {
      * @param signal
      */
     public void setSignal(DiscreteCoordinates coordinates, Logic signal) {
+        // TODO comments
+
         if (!nodes.containsKey(coordinates))
             throw new IllegalArgumentException("The node do not exist");
         nodes.get(coordinates).setSignal(signal);
@@ -103,6 +109,8 @@ public class AreaGraph {
      * @return (Iterator of Orientation): return an iterator containing the shortest path from source to sink, or null if the path does not exist!
      */
     public Queue<Orientation> shortestPath(DiscreteCoordinates from, DiscreteCoordinates to) {
+        // TODO comments
+
         AreaNode start = nodes.get(from);
         AreaNode goal = nodes.get(to);
 
@@ -134,19 +142,17 @@ public class AreaGraph {
             visitedSet.add(current);
 
             // For all its neighbors
-            for (AreaNode neighbor : current.getConnectedNodes()) {
-                if (visitedSet.contains(neighbor))
-                    // Ignore the neighbor which is already evaluated.
-                    continue;
-                if (!neighbor.isActive())
-                    // Ignore inactive neighbors
-                    continue;
-
-                toVisitSet.add(neighbor);
-
-                // This path is the best. Record it!
-                cameFrom.put(neighbor, current);
-            }
+            // Ignore the neighbor which is already evaluated.
+            // Ignore inactive neighbors
+            // This path is the best. Record it!
+            current.getConnectedNodes()
+                .stream()
+                .filter(neighbor -> !visitedSet.contains(neighbor))
+                .filter(AreaNode::isActive)
+                .forEach(neighbor -> {
+                    toVisitSet.add(neighbor);
+                    cameFrom.put(neighbor, current);
+                });
         }
 
         return null;
@@ -160,6 +166,8 @@ public class AreaGraph {
      * @return
      */
     private Queue<Orientation> reconstructPath(Map<AreaNode, AreaNode> cameFrom, AreaNode current) {
+        // TODO comments
+
         final List<Orientation> totalPath = new ArrayList<>();
 
         while (current != null) {
@@ -243,15 +251,15 @@ public class AreaGraph {
          * @return (Array of AreaNode): the array of four neighbor Nodes. Elements may be null if no connection exists
          */
         List<AreaNode> getConnectedNodes() {
+            // TODO comments
+
             if (connectedNodes == null) {
                 connectedNodes = new ArrayList<>();
-
                 addNeighbor("Left", hasLeftEdge, new DiscreteCoordinates(coordinates.x - 1, coordinates.y));
                 addNeighbor("Up", hasUpEdge, new DiscreteCoordinates(coordinates.x, coordinates.y + 1));
                 addNeighbor("Right", hasRightEdge, new DiscreteCoordinates(coordinates.x + 1, coordinates.y));
                 addNeighbor("Down", hasDownEdge, new DiscreteCoordinates(coordinates.x, coordinates.y - 1));
             }
-
             return connectedNodes;
         }
 
@@ -263,6 +271,8 @@ public class AreaGraph {
          * @param c
          */
         private void addNeighbor(String neighborString, boolean hasNeighbor, DiscreteCoordinates c) {
+            // TODO comments
+
             if (nodes.containsKey(c) && hasNeighbor)
                 connectedNodes.add(nodes.get(c));
             else if (hasNeighbor) // TODO throw exception
@@ -280,18 +290,17 @@ public class AreaGraph {
          * @return (Orientation)
          */
         Orientation getOrientation(AreaNode previous) {
+            // TODO comments
 
             if (previous.coordinates.x < coordinates.x)
                 return Orientation.LEFT;
-            if (previous.coordinates.y > coordinates.y)
-                return Orientation.UP;
-            if (previous.coordinates.x > coordinates.x)
+            else if (previous.coordinates.x > coordinates.x)
                 return Orientation.RIGHT;
-            if (previous.coordinates.y < coordinates.y)
+            else if (previous.coordinates.y > coordinates.y)
+                return Orientation.UP;
+            else if (previous.coordinates.y < coordinates.y)
                 return Orientation.DOWN;
-
-            System.out.println("Should never print");
-            return null;
+            else return null;
         }
 
         /**

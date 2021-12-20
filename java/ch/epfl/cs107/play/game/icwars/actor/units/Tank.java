@@ -48,6 +48,8 @@ public class Tank extends Unit {
      *                 the sprite of the tank is also initiated
      */
     public Tank(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
+        // TODO comments
+
         super(area, position, faction, repair, 4, hp, 10, 7, "Tank");
         this.sprite = new Sprite(
             this.getSpriteName(),
@@ -63,15 +65,6 @@ public class Tank extends Unit {
         this.Tankattack = new Attack(this, this.getOwnerArea());
         this.actions.add(Tankattack);
     }
-
-/*    *
-     * TODO
-     *
-     * @param areaInteractionVisitor (AreaInteractionVisitor) : the visitor
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor areaInteractionVisitor) {
-        //TODO define this
-    }*/
 
     /**
      * TODO

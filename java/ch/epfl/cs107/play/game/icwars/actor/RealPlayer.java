@@ -49,10 +49,16 @@ public class RealPlayer extends ICWarsPlayer {
      */
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
-        this.sprite = new Sprite(this.getSpriteName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
+        this.sprite = new Sprite(
+            this.getSpriteName(),
+            1.5f,
+            1.5f,
+            this,
+            null,
+            new Vector(-0.25f, -0.25f)
+        );
         this.playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
     }
-
 
     /**
      * TODO
@@ -61,6 +67,8 @@ public class RealPlayer extends ICWarsPlayer {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         Keyboard keyboard = getOwnerArea().getKeyboard();
         //make sure the player can't move when it isn't his turn
         if (this.playerCurrentState != States.IDLE && RealPlayerCanMove()) {
@@ -75,26 +83,22 @@ public class RealPlayer extends ICWarsPlayer {
             case NORMAL -> {
                 this.getOwnerArea().setViewCandidate(this);
                 //TODO improve this
-                if (ActionToExecute != null) {
+                if (ActionToExecute != null)
                     if (ActionToExecute instanceof Attack)
                         ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(true);
-                }
-                //System.out.println(EnterWasReleased);
                 if (!keyboard.get(Keyboard.ENTER).isReleased())
-                    EnterWasReleased = false;
+                    setEnterWasReleased(false);
                 else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     yield States.SELECT_CELL;
                 }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
-                    //System.out.println("tab");
-                    EnterWasReleased = false;
+                    setEnterWasReleased(false);
                     yield States.IDLE;
-                } else yield !EnterWasReleased
+                } else yield !enterWasReleased()
                     ? keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState
                     : playerCurrentState;
             }
             case SELECT_CELL -> {
-                //System.out.println("select CELL");
                 yield this.selectUnit() != null
                     ? States.MOVE_UNIT
                     : playerCurrentState;
@@ -104,7 +108,7 @@ public class RealPlayer extends ICWarsPlayer {
                     var pos = this.getPosition();
                     if (this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y))) {
                         SelectedUnit.setIsAlreadyMoved(true);
-                        EnterWasReleased = true;
+                        setEnterWasReleased(true);
                         yield States.ACTION_SELECTION;
                     } else yield States.NORMAL;
                 } else yield playerCurrentState;
@@ -119,7 +123,6 @@ public class RealPlayer extends ICWarsPlayer {
                 yield playerCurrentState;
             }
             case ACTION -> {
-                /*if(keyboard.get(Keyboard.A).isReleased()) System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");*/
                 ActionToExecute.doAction(deltaTime, this, keyboard);
                 //TODO improve this
                 if (ActionToExecute instanceof Attack)
@@ -140,6 +143,8 @@ public class RealPlayer extends ICWarsPlayer {
      * @param b           (Button): button corresponding to the given orientation, not null
      */
     private void moveIfPressed(Orientation orientation, Button b) {
+        // TODO comments
+
         if (b.isDown() && isNoDisplacementOccurs()) {
             orientate(orientation);
             move(MOVE_DURATION);

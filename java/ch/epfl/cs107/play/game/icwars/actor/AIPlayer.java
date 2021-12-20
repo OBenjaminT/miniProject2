@@ -6,8 +6,10 @@ import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
+/**
+ * TODO
+ */
 public class AIPlayer extends ICWarsPlayer {
-
     float waitForValue;
     float counter;
     boolean counting;

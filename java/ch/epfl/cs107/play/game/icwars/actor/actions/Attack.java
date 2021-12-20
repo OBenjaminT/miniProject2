@@ -29,7 +29,10 @@ public class Attack extends Action {
      * TODO
      */
     int indexOfUnitToAttack;
+
     /**
+     * TODO
+     * <p>
      * when the action has been realised, for the next action I want to start poiting at the ennemy unit with index 0
      */
     boolean IndexOfUnitToAttackCanBeSetToZero;
@@ -108,7 +111,7 @@ public class Attack extends Action {
             } else if (keyboard.get(Keyboard.ENTER).isReleased()) {
                 unit.attack(IndexOfAttackableEnemies.get(indexOfUnitToAttack));
                 /* indexOfUnitToAttack = -1; //so that the draw method knows that no enemies are selected*/
-                player.setPlayerCurrentState(ICWarsPlayer.States.NORMAL);
+                player.setStateToNormal();
                 System.out.println("ENTER");
             }
         }
@@ -120,7 +123,7 @@ public class Attack extends Action {
             indexOfUnitToAttack = unit.attackEnnemyWithLowestHealth(unit.getIndexOfAttackableEnemies());
             waitFor(this.waitForValue, dt);
         } else {
-            unit.moveUnitTowarsClosestEnnemy();
+            unit.moveUnitTowarsClosestEnemy();
             unit.changePositionOfAiPlayer(player);
             //then retry an attack
             if (!unit.getIndexOfAttackableEnemies().isEmpty()) {
@@ -131,6 +134,8 @@ public class Attack extends Action {
     }
 
     /**
+     * TODO
+     * <p>
      * Ensures that value time elapsed before returning true
      *
      * @param dt    elapsed time

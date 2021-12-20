@@ -44,6 +44,8 @@ public class Soldier extends Unit {
      *                 the sprite of the soldier is also initiated
      */
     public Soldier(Area area, DiscreteCoordinates position, Faction faction, int repair, int hp) {
+        // TODO comments
+
         super(area, position, faction, repair, 2, hp, 5, 7, "Soldier");
         this.sprite = new Sprite(
             this.getSpriteName(),
@@ -60,16 +62,6 @@ public class Soldier extends Unit {
         this.actions.add(SoldierAttack);
     }
 
-    /*    *//**
-     * TODO
-     *
-     * @param areaInteractionVisitor (AreaInteractionVisitor) : the visitor
-     *//*
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor areaInteractionVisitor) {
-        //TODO define this
-    }*/
-
     /**
      * TODO
      *
@@ -84,5 +76,4 @@ public class Soldier extends Unit {
     public Attack getAttackAction() {
         return this.SoldierAttack;
     }
-
 }

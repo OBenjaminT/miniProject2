@@ -12,6 +12,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -40,12 +41,12 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     /**
      * TODO
      */
-    ICWarsPlayerGUI playerGUI;
+    protected boolean EnterWasReleased;
 
     /**
      * TODO
      */
-    boolean EnterWasReleased = false;
+    ICWarsPlayerGUI playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
 
     /**
      * TODO
@@ -56,20 +57,21 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @param units
      */
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
+        // TODO comments
+
         super(area, position, faction);
         this.units.addAll(Arrays.asList(units));
         RegisterUnitsAsActors();
         this.getOwnerArea().fillUnits();
         this.playerCurrentState = States.IDLE;
+        setEnterWasReleased(false);
     }
 
     /**
      * TODO
-     *
-     * @param playerCurrentState
      */
-    public void setPlayerCurrentState(States playerCurrentState) {
-        this.playerCurrentState = playerCurrentState;
+    public void setStateToNormal() {
+        this.playerCurrentState = States.NORMAL;
     }
 
     /**
@@ -78,6 +80,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * register all the units of the player in the player's ownerArea
      */
     private void RegisterUnitsAsActors() {
+        // TODO comments
+
         units.forEach(unit -> unit.enterArea(
             this.getOwnerArea(),
             new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
@@ -91,15 +95,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void draw(Canvas canvas) {
+        // TODO comments
+
         if (this.playerCurrentState != States.IDLE) {
             this.sprite.draw(canvas);
-/*            switch (playerCurrentState) {
-                case MOVE_UNIT -> playerGUI.draw(canvas);
-                case ACTION_SELECTION -> playerGUI.drawActionsPanel(this.SelectedUnit.getAvailableActions(), canvas);
-                case NORMAL, SELECT_CELL -> playerGUI.drawInfoPanel(canvas);
-                default -> {
-                }
-            }*/
         }
     }
 
@@ -110,69 +109,18 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void update(float deltaTime) {
+        // TODO comments
+
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
         ArrayList<Unit> newUnits = new ArrayList<>();
-        for (int i = 0; i < units.size(); ++i) {
-            if (units.get(i).isDead()) {
-                units.get(i).leaveArea();
-                //this.getOwnerArea().unregisterActor(units.get(i));//idk why but I have to remove it twice maybe because we are registering the units twice
-                this.getOwnerArea().fillUnits();
-            } else {
-                newUnits.add(units.get(i));
-            }
-        }
-        units = newUnits;
-/*        units.stream()
-            .filter(Unit::isDead)
-            .forEach(unit -> {
+        for (Unit unit : units)
+            if (unit.isDead()) {
                 unit.leaveArea();
-                units.remove(unit);
                 this.getOwnerArea().fillUnits();
-            });*/
+            } else newUnits.add(unit);
+        units = newUnits;
         drawOpacityOfUnits();
-        var keyboard = this.getOwnerArea().getKeyboard();
-        // https://www.baeldung.com/java-switch
-        // Ensures all cases are covered, doesn't need break blocks, and assigns value to `yield` result.
-        /*this.playerCurrentState = switch (playerCurrentState) {
-            case IDLE -> playerCurrentState;
-            case NORMAL -> {
-                System.out.println(EnterWasReleased);
-                if (!keyboard.get(Keyboard.ENTER).isReleased())
-                    EnterWasReleased = false;
-                *//*                else if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                    yield States.SELECT_CELL;
-                }*//*
-                if (keyboard.get(Keyboard.TAB).isReleased()) {
-                    System.out.println("tab");
-                    EnterWasReleased = false;
-                    yield States.IDLE;
-                } else yield !EnterWasReleased
-                    ? (keyboard.get(Keyboard.ENTER).isReleased() ? States.SELECT_CELL : playerCurrentState)
-                    : playerCurrentState;
-            }
-            case SELECT_CELL -> {
-                System.out.println("select CELL");
-                // TODO select the unit in this cell
-                yield this.selectUnit() != null
-                    ? States.MOVE_UNIT
-                    : playerCurrentState;
-            }
-            case MOVE_UNIT -> {
-                if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                    var pos = this.getPosition();
-                    this.SelectedUnit.changePosition(new DiscreteCoordinates((int) pos.x, (int) pos.y));
-                    SelectedUnit.setIsAlreadyMoved(true);
-                    EnterWasReleased = true;
-                    yield States.NORMAL;
-                } else yield playerCurrentState;
-            }
-            case ACTION_SELECTED, ACTION -> {
-                //this.unselectUnit();
-                yield playerCurrentState;
-            }
-            // TODO
-        };*/
     }
 
     /**
@@ -198,8 +146,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * is called when the player couldn't attack an ennemy (he has another chance to do sth)
      */
     public void canSelectActionAgain() {
-        this.getOwnerArea().setViewCandidate(this);
-        this.playerCurrentState = States.ACTION_SELECTION;
+        getOwnerArea().setViewCandidate(this);
+        playerCurrentState = States.ACTION_SELECTION;
     }
 
     /**
@@ -211,11 +159,6 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void enterArea(Area area, DiscreteCoordinates position) {
         super.enterArea(area, position);
-        /*units.forEach(unit -> unit.enterArea(
-                area,
-                new DiscreteCoordinates((int) unit.getPosition().x, (int) unit.getPosition().y)
-            )
-        );*/
     }
 
     /**
@@ -261,7 +204,8 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @return the sprite name
      */
     protected String getSpriteName() {
-        if (this.faction == Faction.ALLY) return "icwars/allyCursor";
+        if (this.faction == Faction.ALLY)
+            return "icwars/allyCursor";
         else return "icwars/enemyCursor";
     }
 
@@ -271,9 +215,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * @return true if the arraylist of units is empty
      */
     public boolean isDefeated() {
-        /*System.out.println(this.getSpriteName() +" Unit size "+ units.size());
-        System.out.println(this.getSpriteName() +units.isEmpty());*/
-        return this.units.isEmpty();
+        return units.isEmpty();
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean isNotDefeated() {
+        return !isDefeated();
     }
 
     /**
@@ -336,6 +287,10 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void startTurn() {
         this.playerCurrentState = States.NORMAL;
         this.getOwnerArea().setViewCandidate(this);
+        this.units = units
+            .stream()
+            .filter(Unit::isAlive)
+            .collect(Collectors.toCollection(ArrayList::new));
         units.forEach(unit -> unit.setIsAlreadyMoved(false));
     }
 
@@ -418,7 +373,23 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
      * than the sprite of other  units
      */
     private void drawOpacityOfUnits() {
-        this.units.forEach(unit -> unit.sprite.setAlpha(unit.hasAlreadyMoved ? 0.1f : 1.0f));
+        units.forEach(unit -> unit.sprite.setAlpha(unit.hasAlreadyMoved ? 0.1f : 1.0f));
+    }
+
+    /**
+     * TODO
+     */
+    protected boolean enterWasReleased() {
+        return EnterWasReleased;
+    }
+
+    /**
+     * TODO
+     *
+     * @param enterWasReleased
+     */
+    protected void setEnterWasReleased(boolean enterWasReleased) {
+        EnterWasReleased = enterWasReleased;
     }
 
     /**
