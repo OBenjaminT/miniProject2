@@ -85,7 +85,7 @@ public class Tank extends Unit {
     }
 
     @Override
-    public Attack getAttackAction(){
+    public Attack getAttackAction() {
         return this.Tankattack;
     }
 }

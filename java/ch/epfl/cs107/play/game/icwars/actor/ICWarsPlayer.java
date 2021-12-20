@@ -113,17 +113,16 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         super.update(deltaTime);
         // removing all the units that have hp below zero from the units list of the player and unregister this unit form the ownerArea
         ArrayList<Unit> newUnits = new ArrayList<>();
-        for(int i =0; i<units.size();++i){
-            if(units.get(i).isDead()){
+        for (int i = 0; i < units.size(); ++i) {
+            if (units.get(i).isDead()) {
                 units.get(i).leaveArea();
                 //this.getOwnerArea().unregisterActor(units.get(i));//idk why but I have to remove it twice maybe because we are registering the units twice
                 this.getOwnerArea().fillUnits();
-            }
-            else{
+            } else {
                 newUnits.add(units.get(i));
             }
         }
-        units=newUnits;
+        units = newUnits;
 /*        units.stream()
             .filter(Unit::isDead)
             .forEach(unit -> {

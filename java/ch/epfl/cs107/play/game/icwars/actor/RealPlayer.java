@@ -50,7 +50,7 @@ public class RealPlayer extends ICWarsPlayer {
     public RealPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
         this.sprite = new Sprite(this.getSpriteName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
-        this.playerGUI=new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
+        this.playerGUI = new ICWarsPlayerGUI(this.getOwnerArea().getCameraScaleFactor(), this);
     }
 
 
@@ -75,7 +75,7 @@ public class RealPlayer extends ICWarsPlayer {
             case NORMAL -> {
                 this.getOwnerArea().setViewCandidate(this);
                 //TODO improve this
-                if(ActionToExecute !=null) {
+                if (ActionToExecute != null) {
                     if (ActionToExecute instanceof Attack)
                         ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(true);
                 }
@@ -122,7 +122,8 @@ public class RealPlayer extends ICWarsPlayer {
                 /*if(keyboard.get(Keyboard.A).isReleased()) System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");*/
                 ActionToExecute.doAction(deltaTime, this, keyboard);
                 //TODO improve this
-                if(ActionToExecute instanceof Attack) ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(false);
+                if (ActionToExecute instanceof Attack)
+                    ((Attack) ActionToExecute).IndexOfUnitToAttackCanBeSetToZero(false);
                 yield playerCurrentState;
             }
             // TODO

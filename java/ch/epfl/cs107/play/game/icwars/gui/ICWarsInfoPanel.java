@@ -7,9 +7,9 @@ import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
-import ch.epfl.cs107.play.math.*;
 import ch.epfl.cs107.play.math.Polygon;
 import ch.epfl.cs107.play.math.Shape;
+import ch.epfl.cs107.play.math.*;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.*;
@@ -18,26 +18,24 @@ import java.awt.*;
 public class ICWarsInfoPanel implements Graphics {
 
     private final float fontSize;
-
-    private ICWarsBehavior.ICWarsCellType cellType;
-    private Unit unit;
-
     /// Sprite and text graphics line
     private final ShapeGraphics cellDetailsBackground, unitDetailsBackground;
     private final TextGraphics cellTypeText, cellDefenseText;
     private final TextGraphics unitNameText, unitHealthText, unitDamageText;
     private final ImageGraphics woodSprite, plainSprite, citySprite, mountSprite, riverSprite, roadSprite;
+    private ICWarsBehavior.ICWarsCellType cellType;
+    private Unit unit;
 
     /**
      * Default Dialog Constructor
      */
     public ICWarsInfoPanel(float cameraScaleFactor) {
-        final float height = cameraScaleFactor/4;
-        final float width = cameraScaleFactor/8;
+        final float height = cameraScaleFactor / 4;
+        final float width = cameraScaleFactor / 8;
 
-        fontSize = cameraScaleFactor/ICWarsPlayerGUI.FONT_SIZE;
+        fontSize = cameraScaleFactor / ICWarsPlayerGUI.FONT_SIZE;
 
-        Shape rect = new Polygon(0,0, 0,height, width,height, width,0);
+        Shape rect = new Polygon(0, 0, 0, height, width, height, width, 0);
         cellDetailsBackground = new ShapeGraphics(rect, Color.DARK_GRAY, Color.BLACK, 0f, .8f, 3000f);
         unitDetailsBackground = new ShapeGraphics(rect, Color.DARK_GRAY, Color.BLACK, 0f, .8f, 3000f);
 
@@ -50,27 +48,26 @@ public class ICWarsInfoPanel implements Graphics {
         riverSprite = new ImageGraphics(ResourcePath.getSprite("icwars/river"), 1f, 1f, null, anchor, 1f, 3001f);
 
         cellTypeText = new TextGraphics("", fontSize, Color.WHITE, null, 0.0f,
-                false, false, new Vector(0, -0.3f),
-                TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
+            false, false, new Vector(0, -0.3f),
+            TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
 
         cellDefenseText = new TextGraphics("", fontSize, Color.WHITE, null, 0.0f,
-                false, false, new Vector(0, -2.5f*fontSize-0.7f),
-                TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
+            false, false, new Vector(0, -2.5f * fontSize - 0.7f),
+            TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
 
 
         unitNameText = new TextGraphics("", fontSize, Color.WHITE, null, 0.0f,
-                false, false, new Vector(0, -0.3f),
-                TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
+            false, false, new Vector(0, -0.3f),
+            TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
 
         unitHealthText = new TextGraphics("", fontSize, Color.WHITE, null, 0.0f,
-                false, false, new Vector(0, -1.25f*fontSize-0.5f),
-                TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
+            false, false, new Vector(0, -1.25f * fontSize - 0.5f),
+            TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
 
         unitDamageText = new TextGraphics("", fontSize, Color.WHITE, null, 0.0f,
-                false, false, new Vector(0, -2.5f*fontSize-0.4f),
-                TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
+            false, false, new Vector(0, -2.5f * fontSize - 0.4f),
+            TextAlign.Horizontal.LEFT, TextAlign.Vertical.MIDDLE, 1.0f, 3001f);
     }
-
 
 
     public void setCurrentCell(ICWarsBehavior.ICWarsCellType cellType) {
@@ -83,23 +80,23 @@ public class ICWarsInfoPanel implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-    	// Compute width, height and anchor
-		float width = canvas.getXScale();
-		float height = canvas.getYScale();
+        // Compute width, height and anchor
+        float width = canvas.getXScale();
+        float height = canvas.getYScale();
 
-		if (cellType != null)
-		    drawCellDetails(canvas, height, width);
-		if (unit != null)
-		drawUnitDetails(canvas, height, width);
+        if (cellType != null)
+            drawCellDetails(canvas, height, width);
+        if (unit != null)
+            drawUnitDetails(canvas, height, width);
     }
 
     private void drawCellDetails(Canvas canvas, float height, float width) {
-        final Transform transform = Transform.I.translated(canvas.getPosition().add(3*width/8, -height/2));
+        final Transform transform = Transform.I.translated(canvas.getPosition().add(3 * width / 8, -height / 2));
         cellDetailsBackground.setRelativeTransform(transform);
         cellDetailsBackground.draw(canvas);
 
 
-        final Transform textTransform = Transform.I.translated(canvas.getPosition().add(3*width/8+.1f, -height/4));
+        final Transform textTransform = Transform.I.translated(canvas.getPosition().add(3 * width / 8 + .1f, -height / 4));
 
         cellTypeText.setRelativeTransform(textTransform);
         cellTypeText.setText(cellType.typeToString());
@@ -109,7 +106,7 @@ public class ICWarsInfoPanel implements Graphics {
         cellDefenseText.setRelativeTransform(textTransform);
         cellDefenseText.draw(canvas);
 
-        final Transform spriteTransform = Transform.I.translated(canvas.getPosition().add(3*width/8, -13*height/32));
+        final Transform spriteTransform = Transform.I.translated(canvas.getPosition().add(3 * width / 8, -13 * height / 32));
 
         switch (cellType) {
             case WOOD:
@@ -140,17 +137,17 @@ public class ICWarsInfoPanel implements Graphics {
     }
 
     private void drawUnitDetails(Canvas canvas, float height, float width) {
-        final Transform transform = Transform.I.translated(canvas.getPosition().add(width/4, -height/2));
+        final Transform transform = Transform.I.translated(canvas.getPosition().add(width / 4, -height / 2));
         unitDetailsBackground.setRelativeTransform(transform);
         unitDetailsBackground.draw(canvas);
 
-        final Transform nameTransform = Transform.I.translated(canvas.getPosition().add(width/4+.1f, -height/4));
+        final Transform nameTransform = Transform.I.translated(canvas.getPosition().add(width / 4 + .1f, -height / 4));
 
         unitNameText.setRelativeTransform(nameTransform);
         unitNameText.setText(unit.getName());
         unitNameText.draw(canvas);
 
-        final Transform characteristicsTransform = Transform.I.translated(canvas.getPosition().add(width/4+.1f, -height/4));
+        final Transform characteristicsTransform = Transform.I.translated(canvas.getPosition().add(width / 4 + .1f, -height / 4));
 
         unitHealthText.setRelativeTransform(characteristicsTransform);
         unitHealthText.setText("HP: " + unit.getHp());

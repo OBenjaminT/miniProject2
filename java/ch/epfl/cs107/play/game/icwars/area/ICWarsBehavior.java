@@ -91,7 +91,7 @@ public class ICWarsBehavior extends AreaBehavior {
 
         public String typeToString() {
             String typeString = "";
-            typeString += this.toType(this.type);
+            typeString += toType(this.type);
             return typeString;
         }
     }

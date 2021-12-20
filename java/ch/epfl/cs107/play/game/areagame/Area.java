@@ -32,81 +32,68 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
     /**
      * TODO
      */
+    ArrayList<Unit> UnitsList;
+    /**
+     * TODO
+     */
     private Window window;
 
+    // Camera Parameter
     /**
      * TODO
      */
     private FileSystem fileSystem;
-
-    // Camera Parameter
-
     /**
      * TODO
      */
     private Actor viewCandidate;
 
+    /// List of Actors inside the area
     /**
      * TODO
      */
     private Vector viewCenter;
 
-    /// List of Actors inside the area
-
+    /// List of Actors we want to register/unregistered from the area for next update iteration
     /**
      * TODO
      */
     private List<Actor> actors;
-
-    /// List of Actors we want to register/unregistered from the area for next update iteration
-
     /**
      * TODO
      */
     private List<Actor> registeredActors;
 
+    /// Sublist of actor (interactors) inside the area
     /**
      * TODO
      */
     private List<Actor> unregisteredActors;
-
-    /// Sublist of actor (interactors) inside the area
-
     /**
      * TODO
      */
     private List<Interactor> interactors;
-
     /**
      * TODO
      */
     private Map<Interactable, List<DiscreteCoordinates>> interactablesToEnter;
 
+    /// The behavior Map
     /**
      * TODO
      */
     private Map<Interactable, List<DiscreteCoordinates>> interactablesToLeave;
 
-    /// The behavior Map
-
+    /// pause mechanics and menu to display. May be null - start indicate if area already begins, paused indicate if we
+    // display the pause menu
     /**
      * TODO
      */
     private AreaBehavior areaBehavior;
-
-    /// pause mechanics and menu to display. May be null - start indicate if area already begins, paused indicate if we
-    // display the pause menu
-
     /**
      * TODO
      */
     private boolean started;
-
-    /**
-     * TODO
-     */
-    ArrayList<Unit> UnitsList;
-
     /**
      * TODO
      */
@@ -557,8 +544,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         return paused;
     }
 
-    public void  fillUnits(){
-        this.UnitsList=this.getUnits();
+    public void fillUnits() {
+        this.UnitsList = this.getUnits();
     }
 
 
@@ -569,8 +556,8 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
      */
     private ArrayList<Unit> getUnits() {
         ArrayList<Unit> myUnits = new ArrayList<>();
-        for(Actor actor : actors){
-            if(actor instanceof Unit && !myUnits.contains(actor)){
+        for (Actor actor : actors) {
+            if (actor instanceof Unit && !myUnits.contains(actor)) {
                 myUnits.add((Unit) actor);
             }
         }
@@ -593,11 +580,11 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         ArrayList<Unit> units = getUnits();
         ArrayList<Unit> yo = new ArrayList<>();//tester to see what Units are added
         ArrayList<Integer> IndexList = new ArrayList<>();
-        for(int i=0; i<units.size();++i){
+        for (int i = 0; i < units.size(); ++i) {
             Unit unit = units.get(i);
-            if(range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y))){
+            if (range.nodeExists(new DiscreteCoordinates((int) units.get(i).getPosition().x, (int) units.get(i).getPosition().y))) {
                 ICWarsActor.Faction bruh = unit.faction;
-                if(unit.faction!=faction){
+                if (unit.faction != faction) {
                     yo.add(unit);
                     IndexList.add(i);
                 }
@@ -635,35 +622,35 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
 
     /**
      * @param IndexOfAttackableEnemies the indexes of the attackable ennemy units
-     * @param damage the damage of the attacking unit
-     * Among the attacakble ennemy units, the one with the lowest health is found and attacked
+     * @param damage                   the damage of the attacking unit
+     *                                 Among the attacakble ennemy units, the one with the lowest health is found and attacked
      * @return the index of the ennemie to attack in the IndexOfAttackableEnemies list
      */
-    public int attackEnnemyWithLowestHealth(ArrayList<Integer>IndexOfAttackableEnemies, int damage){
-        Unit ennemyWithLowestHealth=this.getUnits().get(IndexOfAttackableEnemies.get(0));
+    public int attackEnnemyWithLowestHealth(ArrayList<Integer> IndexOfAttackableEnemies, int damage) {
+        Unit ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(0));
         int lowestHelath = this.getUnits().get(IndexOfAttackableEnemies.get(0)).getHp();
-        int indexOfUnitToAttack=0;
-        for(int i =0; i< IndexOfAttackableEnemies.size();++i) {
-                if (this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp() < lowestHelath) {
-                    ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(i));
-                    lowestHelath = ennemyWithLowestHealth.getHp();
-                    indexOfUnitToAttack = i;
-                }
+        int indexOfUnitToAttack = 0;
+        for (int i = 0; i < IndexOfAttackableEnemies.size(); ++i) {
+            if (this.getUnits().get(IndexOfAttackableEnemies.get(i)).getHp() < lowestHelath) {
+                ennemyWithLowestHealth = this.getUnits().get(IndexOfAttackableEnemies.get(i));
+                lowestHelath = ennemyWithLowestHealth.getHp();
+                indexOfUnitToAttack = i;
+            }
         }
         ennemyWithLowestHealth.takeDamage(damage);
         return indexOfUnitToAttack;
     }
 
     /**
-     * @param faction the faction of the attacking unit
+     * @param faction       the faction of the attacking unit
      * @param attackingUnit the attacking unit
-     * finds the ennemy unit and the calls moveTowarsClosestEnnemy(ennemyUnits) on the attacking unit
+     *                      finds the ennemy unit and the calls moveTowarsClosestEnnemy(ennemyUnits) on the attacking unit
      */
-    public void moveUnitTowardsClosestEnnemy(ICWarsActor.Faction faction, Unit attackingUnit){
+    public void moveUnitTowardsClosestEnnemy(ICWarsActor.Faction faction, Unit attackingUnit) {
         ArrayList<Unit> units = getUnits();
         ArrayList<Unit> ennemyUnits = new ArrayList<>();
-        for(Unit unit : units){
-            if(unit.faction!=faction){
+        for (Unit unit : units) {
+            if (unit.faction != faction) {
                 ennemyUnits.add(unit);
             }
         }

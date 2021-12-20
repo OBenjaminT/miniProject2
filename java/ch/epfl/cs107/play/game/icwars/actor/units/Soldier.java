@@ -60,7 +60,7 @@ public class Soldier extends Unit {
         this.actions.add(SoldierAttack);
     }
 
-/*    *//**
+    /*    *//**
      * TODO
      *
      * @param areaInteractionVisitor (AreaInteractionVisitor) : the visitor
@@ -81,7 +81,7 @@ public class Soldier extends Unit {
     }
 
     @Override
-    public Attack getAttackAction(){
+    public Attack getAttackAction() {
         return this.SoldierAttack;
     }
 

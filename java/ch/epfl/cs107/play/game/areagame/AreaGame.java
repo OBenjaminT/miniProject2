@@ -106,10 +106,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
      * @param a if  the area a is in areas, return its index in areas
      */
     protected final int getIndexOfArea(Area a) {
-        if(areas.contains(a)){
+        if (areas.contains(a)) {
             return areas.indexOf(a);
-        }
-        else{
+        } else {
             return -1;
         }
     }

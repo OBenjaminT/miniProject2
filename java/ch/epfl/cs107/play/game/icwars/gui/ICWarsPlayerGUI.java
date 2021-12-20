@@ -34,27 +34,6 @@ public class ICWarsPlayerGUI implements Graphics {
      * TODO
      */
     float cameraScaleFactor;
-
-    /**
-     * TODO
-     */
-    private int NumberOfStarsOfCurrentCell;
-
-    /**
-     * TODO
-     */
-    private ICWarsBehavior.ICWarsCellType TypeOfCurrentCell;
-
-    /**
-     * TODO
-     */
-    private Unit unitOnCell;
-
-    /**
-     * TODO
-     */
-    ICWarsInfoPanel infoPanel;
-
     /**
      * TODO
      *
@@ -62,7 +41,23 @@ public class ICWarsPlayerGUI implements Graphics {
      * @param player
      */
 
-    private ICWarsActionsPanel actionsPanel;
+    private final ICWarsActionsPanel actionsPanel;
+    /**
+     * TODO
+     */
+    private int NumberOfStarsOfCurrentCell;
+    /**
+     * TODO
+     */
+    private ICWarsBehavior.ICWarsCellType TypeOfCurrentCell;
+    /**
+     * TODO
+     */
+    private Unit unitOnCell;
+    /**
+     * TODO
+     */
+    ICWarsInfoPanel infoPanel;
 
     /**
      * TODO

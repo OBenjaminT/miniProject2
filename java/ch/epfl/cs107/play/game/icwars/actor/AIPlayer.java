@@ -6,12 +6,12 @@ import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
-public class AIPlayer extends ICWarsPlayer{
+public class AIPlayer extends ICWarsPlayer {
 
-    private Attack attack;
     float waitForValue;
     float counter;
     boolean counting;
+    private Attack attack;
 
     /**
      * TODO
@@ -24,9 +24,9 @@ public class AIPlayer extends ICWarsPlayer{
     public AIPlayer(Area area, DiscreteCoordinates position, Faction faction, Unit... units) {
         super(area, position, faction, units);
         this.sprite = new Sprite(this.getSpriteName(), 1.5f, 1.5f, this, null, new Vector(-0.25f, -0.25f));
-        this.counter=0.f;
-        counting=false;
-        waitForValue=100000000.0f;
+        this.counter = 0.f;
+        counting = false;
+        waitForValue = 100000000.0f;
     }
 
     public void update(float deltaTime) {
@@ -35,8 +35,8 @@ public class AIPlayer extends ICWarsPlayer{
             case NORMAL -> {
                 this.getOwnerArea().setViewCandidate(this);
                 //TODO improve this
-                if(attack !=null) {
-                        attack.IndexOfUnitToAttackCanBeSetToZero(true);
+                if (attack != null) {
+                    attack.IndexOfUnitToAttackCanBeSetToZero(true);
                 }
                 yield States.ACTION;
             }
@@ -45,7 +45,7 @@ public class AIPlayer extends ICWarsPlayer{
             }
             case ACTION -> {
                 this.makeAllUnitAttack(deltaTime);
-                yield  States.IDLE;
+                yield States.IDLE;
             }
             // TODO
         };
@@ -54,16 +54,16 @@ public class AIPlayer extends ICWarsPlayer{
 
     /**
      * @param dt passed to doAutoAction method
-     * makes sure that all the unit perform an autoAttack
+     *           makes sure that all the unit perform an autoAttack
      */
-    private void makeAllUnitAttack(float dt){
-        for(Unit unit : units){
+    private void makeAllUnitAttack(float dt) {
+        for (Unit unit : units) {
             //ask the unit to to the position change so that it doesn t have to share its coordinates
             unit.changePositionOfAiPlayer(this);
-            this.counting=true;
+            this.counting = true;
             waitFor(waitForValue, dt);
             attack = unit.getAttackAction();
-            if(this.attack!=null){
+            if (this.attack != null) {
                 attack.doAutoAction(dt, this);
             }
         }
@@ -71,21 +71,22 @@ public class AIPlayer extends ICWarsPlayer{
 
     /**
      * Ensures that value time elapsed before returning true
-     * @param dt elapsed time
+     *
+     * @param dt    elapsed time
      * @param value waiting time (in seconds )
      * @return true if value seconds has elapsed , false otherwise
      */
-    private boolean waitFor ( float value , float dt) {
-        if ( counting ) {
+    private boolean waitFor(float value, float dt) {
+        if (counting) {
             counter += dt;
-            if ( counter > value ) {
-                counting = false ;
+            if (counter > value) {
+                counting = false;
                 return true;
             }
         } else {
             counter = 0f;
             counting = true;
         }
-        return false ;
+        return false;
     }
 }
