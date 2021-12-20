@@ -85,7 +85,7 @@ public class ICWarsActionsPanel implements Graphics {
                 actionsText[i] = text;
             });
         actionsText[0] = new TextGraphics(
-            "actions.get(i).getName()",
+            actions.get(0).getName(),
             fontSize,
             Color.WHITE,
             null,

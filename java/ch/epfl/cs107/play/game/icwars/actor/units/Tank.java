@@ -65,6 +65,7 @@ public class Tank extends Unit {
         this.actions.add(Tankwait);
         this.Tankattack = new Attack(this, this.getOwnerArea());
         this.actions.add(Tankattack);
+
     }
 
     @Override
