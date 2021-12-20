@@ -57,6 +57,7 @@ public class Level1 extends ICWarsArea {
                     ICWarsActor.Faction.ALLY
                 )})
             );
+            case NEUTRAL -> null;
             case ENEMY -> new ArrayList<>(List.of(new Unit[]{
                 new Tank(
                     this,
@@ -82,6 +83,7 @@ public class Level1 extends ICWarsArea {
         return switch (faction) {
             case ALLY -> new DiscreteCoordinates(0, 0);
             case ENEMY -> new DiscreteCoordinates(7, 4);
+            default -> null ;
         };
     }
 }

@@ -14,6 +14,10 @@ import java.util.List;
  * TODO
  */
 public abstract class ICWarsArea extends Area {
+
+    public ICWarsArea(){
+
+    }
     /**
      * Create the area by adding it all actors. Called by {@link #begin(Window, FileSystem)}.
      * <p>
@@ -68,8 +72,10 @@ public abstract class ICWarsArea extends Area {
 
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
+            ICWarsBehavior icWarsBehavior = new ICWarsBehavior(window, getTitle());
             setBehavior(new ICWarsBehavior(window, getTitle()));
             createArea();
+            icWarsBehavior.registerCities(this);
             return true;
         } else return false;
     }

@@ -559,5 +559,18 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         public void interactWith(ICWarsBehavior.ICWarsCell icWarsCell) {
             unit.setNumberOfStarsOfCurrentCell(icWarsCell.getNumberOfStars());
         }
+
+        /**
+         * TODO
+         * <p>
+         * Implements {@link ICWarsInteractionVisitor}.
+         *
+         * @param city
+         */
+        @Override
+        public void interactWith(City city) {
+            city.takeCity(this.unit.faction);
+            System.out.println("yo");
+        }
     }
 }

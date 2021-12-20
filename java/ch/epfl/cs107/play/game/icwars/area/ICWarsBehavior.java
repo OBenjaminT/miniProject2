@@ -1,9 +1,13 @@
 package ch.epfl.cs107.play.game.icwars.area;
 
+import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.actor.City;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.Arrays;
@@ -69,6 +73,7 @@ public class ICWarsBehavior extends AreaBehavior {
             this.numberOfStars = numberOfStars;
         }
 
+
         /**
          * TODO
          *
@@ -95,6 +100,20 @@ public class ICWarsBehavior extends AreaBehavior {
 
         public String typeToString() {
             return String.valueOf(toType(this.type));
+        }
+    }
+
+    /**
+     * @param area
+     */
+    public void registerCities (Area area){
+        for(int x = 0; x<this.getWidth();++x){
+            for(int y = 0; y<this.getHeight();++y){
+                Cell cell = this.getCell(x,y);
+                if(((ICWarsCell) cell).getType().typeToString().equals("CITY")){
+                    area.registerActor(new City(area, new DiscreteCoordinates(x,y), ICWarsActor.Faction.NEUTRAL));
+                }
+            }
         }
     }
 

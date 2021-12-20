@@ -566,7 +566,6 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
         this.UnitsList = this.getUnits();
     }
 
-
     /**
      * TODO
      *

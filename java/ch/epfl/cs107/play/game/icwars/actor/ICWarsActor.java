@@ -67,25 +67,27 @@ abstract public class ICWarsActor extends MovableAreaEntity {
         /**
          * TODO
          */
-        ALLY(true),
+        ALLY,
+
+        NEUTRAL,
 
         /**
          * TODO
          */
-        ENEMY(false);
+        ENEMY;
 
         /**
          * TODO
          */
-        final boolean isAlly;
+        //final boolean isAlly;
 
         /**
          * TODO
          *
          * @param isAlly
          */
-        Faction(boolean isAlly) {
+       /* Faction(boolean isAlly) {
             this.isAlly = isAlly;
-        }
+        }*/
     }
 }
