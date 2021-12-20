@@ -574,7 +574,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     protected void updateHP(){
         if(this.hasTakenACity) {
             this.setHp(City.HPgivenToUnit + this.current_HP);
-            System.out.println("hp en plus");
         }
     }
 

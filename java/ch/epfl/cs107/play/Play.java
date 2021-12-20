@@ -19,12 +19,12 @@ public class Play {
     /**
      * The game window width in pixels.
      */
-    public static final int WINDOW_WIDTH = 600;//400
+    public static final int WINDOW_WIDTH = 550;//400
 
     /**
      * The game window height in pixels.
      */
-    public static final int WINDOW_HEIGHT = 500;//300
+    public static final int WINDOW_HEIGHT = 550;//300
 
     /**
      * One second in nanoseconds. A constant.
