@@ -26,5 +26,7 @@ public class TakeCity extends Action{
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         this.unit.takeCity();
+        this.unit.setIsAlreadyMoved(true);
+        player.setStateToNormal();
     }
 }

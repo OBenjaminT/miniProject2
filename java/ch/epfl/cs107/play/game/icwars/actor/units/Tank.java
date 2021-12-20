@@ -3,10 +3,14 @@ package ch.epfl.cs107.play.game.icwars.actor.units;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
+import ch.epfl.cs107.play.game.icwars.actor.actions.TakeCity;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Wait;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
+
+import java.util.ArrayList;
 
 /**
  * TODO
@@ -65,11 +69,21 @@ public class Tank extends Unit {
 
     @Override
     public void update(float deltaTime) {
+        //if the unit is on a city add to actions takeCity if there is no takeCity in actions already
         if(this.isOnACity){
-            //add to actions takeCity if there is no takeCity in actions already
+            boolean contTainsAttack=false;
+            for(Action action: actions){
+                if(action instanceof TakeCity) contTainsAttack=true;
+            }
+            if(!contTainsAttack) actions.add(new TakeCity(this, this.getOwnerArea()));
         }
         else{
             //remove all the takeCity actions from the actions list
+            ArrayList<Action> newActions = new ArrayList<>();
+            for (Action action : actions) {
+                if (!(action instanceof TakeCity)) newActions.add(action);
+            }
+            this.actions=newActions;
         }
         super.update(deltaTime);
     }
