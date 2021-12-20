@@ -118,7 +118,12 @@ strictly followed the instructions, you can just say that
 - the doAutoAction for the actions (especially for the attack explain how moveUnitTowardsClosestEnemy works, see the
   comments for the algorithm that moves the unit)
     
-    
+ ## Part 4 (extensions):   
+ For the extension we decided to implement the suggested features related to cities. First we created a class City that extends ICWarsActor and implements Interactable. The major method there is the draw since the sprite color is adapted to the current faction of the city.
+ When an area is created, cities are generated automaticaly on the cell with the appropriate ICWarsCellType. To do so, in the begin method of ICWarsArea we call the registerCities method on its icWarsBehavior. This method checks the ICWarsCellType of each cell of the area and creates a new city if the string of the type equals city.
+Cities can be taken by units, which changes the faction of the city. To do so, we made units able to interact with a city when they share the same cell. The way the interaction is handled is similar to what was asked for part 2. The interaction itself consists to inform the unit that he is on a city (boolean isOnACity) and give him the city (City cityOnCell). We created an update method both in Soldier and Tank that does the same thing. We could have created this update in units to avoid copying code but it deels with the units actions and it is written in the instructions that actions can t be defined at the level of abstraction of Unit. The update method simply checks if the unit is on a city and if it is the case, adds an action TakeCity (explained later) to the list of available actions for the unit. If the unit isn't on a city, the TakeCity action of the unit is removed from the actions list of the unit if it is there. 
+When placing a unit on a city, the player can make his unit do the action TakeCity with keyboard button T. The city's faction is then set to the one of the unit. 
+Finally, at the end of a round ICwars calls updatePlayersUnitsHP on each of the alive players. This method calls updateHP on each of the player's unit which increases the unit's HP by a static constant defined in City. 
     
     
     
