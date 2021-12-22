@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.gui.NightPannel;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -14,6 +15,15 @@ import java.util.List;
  * TODO
  */
 public abstract class ICWarsArea extends Area {
+
+    protected boolean night;
+    public boolean isNight(){
+        return night;
+    }
+
+    public void setNight(boolean night){
+        this.night=night;
+    }
 
     public ICWarsArea(){
 
@@ -54,6 +64,7 @@ public abstract class ICWarsArea extends Area {
         return 10.f;
     }
 
+
     /**
      * Start the area's simulation by:
      * <ul>
@@ -76,6 +87,8 @@ public abstract class ICWarsArea extends Area {
             setBehavior(new ICWarsBehavior(window, getTitle()));
             createArea();
             icWarsBehavior.registerCities(this);
+            night=false;
+            this.registerActor(new NightPannel(this));
             return true;
         } else return false;
     }

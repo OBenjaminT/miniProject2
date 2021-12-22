@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Action;
 import ch.epfl.cs107.play.game.icwars.actor.actions.Attack;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -43,6 +44,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      * The cumulative vertical and horizontal distance that the {@link Unit} can move in one turn.
      */
     protected int radius;
+
+    protected int effectiveRadius;
     /**
      * The damage this {@link Unit} deals when it {@link #attack(int) attacks}.
      */
@@ -146,6 +149,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         super(area, position, faction);
         this.repair = repair;
         this.radius = radius;
+        this.effectiveRadius=radius;
         this.maxHP = maxHP; // maxHP *must* be set before current_HP
         this.setHp(current_HP);
         this.damage = damage;
@@ -248,11 +252,11 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         this.range = new ICWarsRange();
         int widthIndex = this.getOwnerArea().getWidth() - 1;
         int heightIndex = this.getOwnerArea().getHeight() - 1;
-        IntStream.rangeClosed(-radius, radius)
+        IntStream.rangeClosed(-effectiveRadius, effectiveRadius)
             .map(x -> x + this.getCurrentMainCellCoordinates().x)
             .filter(x -> x <= widthIndex)
             .filter(x -> x >= 0)
-            .forEach(x -> IntStream.rangeClosed(-radius, radius)
+            .forEach(x -> IntStream.rangeClosed(-effectiveRadius, effectiveRadius)
                 .map(y -> y + this.getCurrentMainCellCoordinates().y)
                 .filter(y -> y <= heightIndex)
                 .filter(y -> y >= 0)
@@ -566,6 +570,21 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         super.onLeaving(coordinates);
         this.isOnACity=false;
         cityOnCell=null;
+    }
+
+    /**
+     * when it s night, the radius of the unit is divided by two
+     * the Unit's range is also updated
+     */
+    @Override
+    public void update(float deltaTime) {
+        if(((ICWarsArea)this.getOwnerArea()).isNight()){
+            this.effectiveRadius=radius-1;
+        }
+        else{
+            this.effectiveRadius=radius;
+        }
+        this.completeUnitsRange();
     }
 
     /**

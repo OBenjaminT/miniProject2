@@ -29,6 +29,10 @@ public class ICWars extends AreaGame {
      */
     private Keyboard keyboard;
 
+    private final int durationNightDayCycle =2;
+
+    private int numberOfRoundsInCurrentArea;
+
 
     /**
      * Start the {@link ICWars} game. Can fail (return {@code false}).
@@ -49,6 +53,7 @@ public class ICWars extends AreaGame {
         // TODO comments
 
         if (super.begin(window, fileSystem)) {
+            numberOfRoundsInCurrentArea=0;
             keyboard = window.getKeyboard();
 
             resetAreas();
@@ -152,6 +157,7 @@ public class ICWars extends AreaGame {
         processKeyboardInput();
         gameState = switch (gameState) {
             case INIT -> {
+                numberOfRoundsInCurrentArea=0;
                 PlayersWaitingForCurrentTurn.addAll(
                     players.stream()
                         .filter(ICWarsPlayer::isNotDefeated) // add only non-defeated players
@@ -193,6 +199,8 @@ public class ICWars extends AreaGame {
                 if (PlayersWaitingForNextTurn.size() != 1) {
                     PlayersWaitingForCurrentTurn.addAll(PlayersWaitingForNextTurn);
                     this.updatePlayersUnitsHP();
+                    ++numberOfRoundsInCurrentArea;
+                    if(numberOfRoundsInCurrentArea%durationNightDayCycle==0) ((ICWarsArea)this.currentArea).setNight(!((ICWarsArea)currentArea).isNight());
                     yield States.CHOOSE_PLAYER;
                 } else yield States.END;
             }
