@@ -9,8 +9,7 @@ where to move the unit, the player can move his cursor to the position within th
 initiates the move. A panel is then displayed in the top right corner where the available actions offered by the
 selected unit are displayed. The player can then press either A or W:
 
-- By pressing the A button on the keyboard the player can make his selected unit attack enemies. If no enemies are in an
-  attackable range, the player can choose an action again. Else, a pointer is displayed next to the enemy unit to attack
+- By pressing the A button on the keyboard the player can make his selected unit attacks enemies. If the player wishes his unit to do another action instead, he can press tab. If he stills decide to attack, if no enemies are in an attackable range, the player can choose an action again. Else, a pointer is displayed next to the enemy unit to attack
   and the player can choose which enemy to attack with the arrows buttons. When the pointer is next to the enemy the
   player wants to attack, the ENTER button will trigger the attack. If the attacked enemy is dead, he disappears from
   the map. After the attack, the player can continue playing with other units.
