@@ -13,18 +13,31 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.awt.*;
 
 public class NightPannel implements Graphics, Actor {
+    /**
+     * the area in which the NightPannel is registered as an actor
+     */
     ICWarsArea area;
-    private ShapeGraphics background;
+    /**
+     * the filter that will be applied to the area if it's in night mode
+     */
+    private ShapeGraphics filter;
 
+    /**
+     * @param canvas target, not null
+     *  if the area is in night mode, a dark filter is applied
+     */
     @Override
     public void draw(Canvas canvas) {
         if(this.area.isNight()){
             Shape rect = new Polygon(0, 0, 0, area.getCameraScaleFactor(), area.getCameraScaleFactor(), area.getCameraScaleFactor(), area.getCameraScaleFactor(), 0);
-            background = new ShapeGraphics(rect, Color.DARK_GRAY, Color.BLACK, 0f, 0.7f, 3000f);
-            background.draw(canvas);
+            filter = new ShapeGraphics(rect, Color.DARK_GRAY, Color.BLACK, 0f, 0.7f, 3000f);
+            filter.draw(canvas);
         }
     }
 
+    /**
+     * @param area is given to this.area
+     */
     public NightPannel(ICWarsArea area){
         this.area=area;
     }

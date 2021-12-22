@@ -28,9 +28,13 @@ public class ICWars extends AreaGame {
      * The {@link Keyboard} used to interact with the {@link ICWars} game.
      */
     private Keyboard keyboard;
-
+    /**
+     * how many turns a night or a day lasts
+     */
     private final int durationNightDayCycle =2;
-
+    /**
+     * how many turns have occured in the game
+     */
     private int numberOfRoundsInCurrentArea;
 
 

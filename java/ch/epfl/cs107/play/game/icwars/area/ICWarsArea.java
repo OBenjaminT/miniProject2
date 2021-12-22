@@ -15,12 +15,19 @@ import java.util.List;
  * TODO
  */
 public abstract class ICWarsArea extends Area {
-
+    /**
+     * true if the area is in night mode, false otherwise
+     */
     protected boolean night;
+    /**
+     * tells if the area is in night mode
+     */
     public boolean isNight(){
         return night;
     }
-
+    /**
+     * sets the attribute night to the given value
+     */
     public void setNight(boolean night){
         this.night=night;
     }

@@ -44,7 +44,9 @@ abstract public class Unit extends ICWarsActor implements Interactor {
      * The cumulative vertical and horizontal distance that the {@link Unit} can move in one turn.
      */
     protected int radius;
-
+    /**
+     * the effectiveRadius of the unit, which depends on day/night mode of the ownerArea
+     */
     protected int effectiveRadius;
     /**
      * The damage this {@link Unit} deals when it {@link #attack(int) attacks}.
@@ -573,7 +575,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     /**
-     * when it s night, the radius of the unit is divided by two
+     * when it s night, the radius of the unit is decreased
      * the Unit's range is also updated
      */
     @Override
