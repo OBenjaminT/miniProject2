@@ -264,10 +264,10 @@ abstract public class Unit extends ICWarsActor implements Interactor {
                 .filter(y -> y >= 0)
                 .forEach(y -> range.addNode(
                     new DiscreteCoordinates(x, y), // NodeCoordinates
-                    x > 0, // hasLeftNeighbour
-                    y > 0, // hasTopNeighbour
-                    x < widthIndex, // hasRightNeighbour
-                    y < heightIndex // hasUnderNeighbour
+                    x >= 0, // hasLeftNeighbour
+                    y >= 0, // hasTopNeighbour
+                    x <= widthIndex, // hasRightNeighbour
+                    y <= heightIndex // hasUnderNeighbour
                 )));
     }
 
