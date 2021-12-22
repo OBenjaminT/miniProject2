@@ -2,7 +2,7 @@
 
 ### General usage
 
-The player can move its cursor thanks to the arrows buttons. Information about the cell the cursor is on is provided in
+The player can move his cursor thanks to the arrows buttons. Information about the cell the cursor is on is provided in
 the bottom left corner. When the cursor is on an ally unit (colored in blue) the player can press ENTER to select the
 unit. A white area then appears on the screen which symbolises the range within which the unit can be moved. To chose
 where to move the unit, the player can move his cursor to the position within the range and then press ENTER, which
@@ -13,16 +13,21 @@ selected unit are displayed. The player can then press either A or W:
   attackable range, the player can choose an action again. Else, a pointer is displayed next to the enemy unit to attack
   and the player can choose which enemy to attack with the arrows buttons. When the pointer is next to the enemy the
   player wants to attack, the ENTER button will trigger the attack. If the attacked enemy is dead, he disappears from
-  the map. After the attack, the player can continue playing with other units
+  the map. After the attack, the player can continue playing with other units.
 - By pressing the W button, the selected unit does nothing and the player can continue playing with other units.
 
-Units can only do one action per round and units that were already used are transparent and can't be selected. If the
-player wants to stop his round, he can press TAB and the opponent starts playing.
+Units can only do one action per turn and units that were already used are transparent and can't be selected. If the
+player wants to stop his turn, he can press TAB and the opponent starts playing.
 
 ### Other buttons
 
--the N button allows the player to change levels. If the player is in the last level and presses N, the game stops -the
-R button allows the player to restart the game at the first level
+-the N button allows the player to change levels. If the player is in the last level and presses N, the game stops.
+-the R button allows the player to restart the game at the first level.
+-when the player moves a unit on a city, a new action is offered by the unit. The player can press and the selected unit takes the city, which becomes an ally. (Units that have taken a city during a turn receive HP at the end of the turn). 
+
+### Night/day cycle
+If the area appears with a dark filter, it is the night and the unit's range is reduced. 
+
 
 ## Development method
 
